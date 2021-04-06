@@ -67,24 +67,29 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
   Position _currentPosition;
+  Completer<GoogleMapController> _controller = Completer();
+
+  void initState() {
+    super.initState();
+    _determinePosition();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Location"),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            _buildGoogleMap(
+                context, _currentPosition.latitude, _currentPosition.longitude),
             if (_currentPosition != null)
               Text(
-                  "LAT: ${_currentPosition.latitude}, LNG: ${_currentPosition.longitude}"),
+                  "위도: ${_currentPosition.latitude}, 경도: ${_currentPosition.longitude}"),
             FlatButton(
               child: Text("Get location"),
               onPressed: () {
-                _getCurrentLocation();
+                _determinePosition();
               },
             ),
           ],
@@ -93,25 +98,14 @@ class _LoadingScreenState extends State<LoadingScreen> {
     );
   }
 
-  _getCurrentLocation() {
-    Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.best,
-            forceAndroidLocationManager: true)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  Future<Position> _determinePosition() async {
+  // Get User location after check service enablement and permission
+  Future<void> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
     // Test if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    print("service : " + serviceEnabled.toString());
     if (!serviceEnabled) {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
@@ -120,6 +114,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
     }
 
     permission = await Geolocator.checkPermission();
+    print("permission : " + permission.toString());
+
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.deniedForever) {
@@ -140,13 +136,29 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    _currentPosition = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high)
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
         .then((Position position) {
       setState(() {
         _currentPosition = position;
       });
+    }).catchError((e) {
+      print(e);
     });
-    return _currentPosition;
+    //return _currentPosition;
   }
 }
+
+Widget _buildGoogleMap(
+        BuildContext context, double latitude, double longitude) =>
+    SizedBox(
+        width: MediaQuery.of(context).size.width - 10,
+        height: MediaQuery.of(context).size.height / 2,
+        child: GoogleMap(
+          mapType: MapType.normal,
+          initialCameraPosition: CameraPosition(
+            target: LatLng(latitude, longitude),
+            zoom: 15,
+          ),
+        ));
