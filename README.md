@@ -57,11 +57,9 @@ dependencies:
 </br>
 
 2. Dependencies(At ios/Runner/AppDelegate.swift above GeneratedPluginRegistrant.register(with: self))
-<pre>
-<code>
+~~~Swift
 GMSServices.provideAPIKEY("{Your Google Map API_KEY from Google Cloud Platform}")
-</code>
-</pre>
+~~~
 </br>
 
 3. install
