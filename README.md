@@ -39,6 +39,13 @@ flutter pub get
 ~~~
 or save file at your IDE. (It will automatically install it)
 </br>
+
+4. Permission(At AndroidManifest.xml above application)
+~~~xml
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+~~~
+</br>
 </br>
 
  ### IOS
