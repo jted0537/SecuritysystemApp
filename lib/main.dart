@@ -66,31 +66,44 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  @override
-  void initState() {
-    //객체가 트리에 삽입 될 때 호출
-    // TODO: implement initState
-    super.initState();
-
-    var x = _determinePosition();
-    x.then((value) => print(value.latitude));
-    print("1111111111");
-  }
+  Position _currentPosition;
 
   @override
   Widget build(BuildContext context) {
-    var y;
-
-    _determinePosition().then((value) => print(value));
-    print(y);
-    return MaterialApp(
-      title: "Flutter APP",
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("1"),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Location"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            if (_currentPosition != null)
+              Text(
+                  "LAT: ${_currentPosition.latitude}, LNG: ${_currentPosition.longitude}"),
+            FlatButton(
+              child: Text("Get location"),
+              onPressed: () {
+                _getCurrentLocation();
+              },
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  _getCurrentLocation() {
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+    }).catchError((e) {
+      print(e);
+    });
   }
 
   Future<Position> _determinePosition() async {
@@ -127,6 +140,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
+    _currentPosition = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+    });
+    return _currentPosition;
   }
 }
