@@ -29,12 +29,12 @@ dependencies:
 2. Dependencies(At android/app/src/main/AndroidManifest.xml above activity)
 <pre>
 <code>
----
-  <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="{Your Google Map API_KEY from Google Cloud Platform"
-            />
----
+"
+     <meta-data>   
+     android:name="com.google.android.geo.API_KEY"
+     android:value="{Your Google Map API_KEY from Google Cloud Platform}"
+     />
+     "
 </code>
 </pre>
 </br>
@@ -63,7 +63,7 @@ dependencies:
 2. Dependencies(At ios/Runner/AppDelegate.swift above GeneratedPluginRegistrant.register(with: self))
 <pre>
 <code>
-GMSServices.provideAPIKEY("AIzaSyA-jQCTyzQRnx2ymEnZI_yqa60gLyfB14k")
+GMSServices.provideAPIKEY("{Your Google Map API_KEY from Google Cloud Platform}")
 </code>
 </pre>
 </br>
