@@ -7,12 +7,12 @@ Google Map에 표시해준다.
 -------------------------------------------
 Before add packages, you should make API_KEY for Google map first.
 
-You can do this task at [Google cloude platform](https://console.cloud.google.com/)
+You can do this task at [Google cloud platform](https://console.cloud.google.com/)
 
 After make your own project at platform, Choose API & Service Menu</br>,
 and choose "Maps SDK for Android" or "Maps SDK for ios"
 
-Alright! now you can start add google map packages to your own project!
+Alright! now you can start "add google map packages & geoloactor" to your own project!
 
 ### Android
 
@@ -63,3 +63,11 @@ flutter pub get
 or save file at your IDE. (It will automatically install it)
 </br>
 </br>
+
+
+## Import
+--------------------------------------------
+~~~dart
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geolocator/geolocator.dart';
+~~~

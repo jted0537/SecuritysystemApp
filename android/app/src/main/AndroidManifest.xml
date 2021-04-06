@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.security_system">
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
    <application
         android:label="security_system"
         android:icon="@mipmap/ic_launcher">
@@ -7,6 +9,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA-jQCTyzQRnx2ymEnZI_yqa60gLyfB14k"
             /> <!-- for google map API_KEY-->
+          
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
