@@ -47,26 +47,28 @@ class _LoadingScreenState extends State<LoadingScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             if (_currentPosition != null)
-              // SizedBox(
-              //     width: MediaQuery.of(context).size.width - 10,
-              //     height: MediaQuery.of(context).size.height / 2,
-              //     child: GoogleMap(
-              //       mapType: MapType.normal,
-              //       initialCameraPosition: CameraPosition(
-              //         target: LatLng(_currentPosition.latitude,
-              //             _currentPosition.longitude),
-              //         zoom: 15,
-              //       ),
-              //       markers: _createMarker(
-              //           _currentPosition.latitude, _currentPosition.longitude),
-              //     )),
-              if (_currentPosition != null)
-                Text(
-                    "위도: ${_currentPosition.latitude}, 경도: ${_currentPosition.longitude}"),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width - 20,
+                  height: MediaQuery.of(context).size.height / 2,
+                  child: GoogleMap(
+                    mapType: MapType.normal,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(_currentPosition.latitude,
+                          _currentPosition.longitude),
+                      zoom: 15,
+                    ),
+                    markers: _createMarker(
+                        _currentPosition.latitude, _currentPosition.longitude),
+                  )),
+            if (_currentPosition != null)
+              Text(
+                  "위도: ${_currentPosition.latitude}, 경도: ${_currentPosition.longitude}"),
             FlatButton(
               child: Text("Get location"),
-              onPressed: () {
-                _determinePosition();
+              onPressed: () async {
+                await Geolocator.getCurrentPosition()
+                    .then((position) => _currentPosition = position);
+                setState(() {});
               },
             ),
           ],
@@ -102,7 +104,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   // Get User location after check service enablement and permission
-  Future<void> _determinePosition() async {
+  Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -128,17 +130,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       }
     }
 
-    Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.best,
-            forceAndroidLocationManager: true)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-    }).catchError((e) {
-      print(e);
-    });
-    //return _currentPosition;
+    return await Geolocator.getCurrentPosition();
   }
 }
 
