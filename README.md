@@ -27,14 +27,14 @@ dependencies:
 2. Dependencies (At android/app/src/main/AndroidManifest.xml above activity)
 ~~~xml
  <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="{Your Google Map API_KEY from Google Cloud Platform"
-            /> 
+      android:name="com.google.android.geo.API_KEY"
+      android:value="{Your Google Map API_KEY from Google Cloud Platform"
+      /> 
 ~~~
 </br>
 
 3. install (At terminal)
-~~~
+~~~Linux
 flutter pub get
 ~~~
 or save file at your IDE. (It will automatically install it)
