@@ -39,6 +39,7 @@ flutter pub get
 ~~~
 or save file at your IDE. (It will automatically install it)
 </br>
+</br>
 
 4. Permission(At AndroidManifest.xml above application)
 ~~~xml
