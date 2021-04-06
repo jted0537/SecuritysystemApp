@@ -29,10 +29,10 @@ dependencies:
 2. Dependencies(At android/app/src/main/AndroidManifest.xml above activity)
 <pre>
 <code>
- <meta-data
+ \<meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="{Your Google Map API_KEY from Google Cloud Platform"
-            /> 
+            \/> 
 </code>
 </pre>
 </br>
