@@ -11,7 +11,7 @@ class CheckPointViewModel {
     print(response.statusCode);
     if (response.statusCode == 200) {
       String responseBody = utf8.decode(response.bodyBytes);
-      return jsonDecode(responseBody);
+      return jsonDecode(responseBody) as List;
     } else {
       throw Exception("failed");
     }

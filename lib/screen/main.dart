@@ -17,7 +17,8 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  List<dynamic> checkpoints = [];
+  List<CheckPoint> checkpoints = [];
+  List<dynamic> checkpointsjson = [];
   final CheckPointViewModel viewModel = CheckPointViewModel();
 
   BitmapDescriptor pinLocationIcon;
@@ -39,9 +40,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
     var tmp = await viewModel.fetchCheckPoint();
     print(tmp);
     setState(() {
-      checkpoints = tmp;
+      checkpointsjson = tmp;
     });
-    print(checkpoints[0]);
+    checkpoints = checkpointsjson
+        .map((checkpoint) => CheckPoint.fromJson(checkpoint))
+        .toList();
+    print(checkpoints[0].checkPointId);
   }
 
   @override
