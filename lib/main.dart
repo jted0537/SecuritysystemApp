@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 void main() => runApp(SecureApp());
 
@@ -13,12 +14,31 @@ class SecureApp extends StatelessWidget {
   }
 }
 
+// Login Page State
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
+// Login Page
 class _LoginScreenState extends State<LoginScreen> {
+  // employee ID Contoller
+  final TextEditingController idController = TextEditingController();
+  // Phone number Controller
+  final TextEditingController numberController = TextEditingController();
+  // Deault nation: Bangladesh
+  PhoneNumber number = PhoneNumber(isoCode: 'BD');
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool isVerify = false;
+
+  // Dispose controller method
+  @override
+  void dispose() {
+    idController.dispose();
+    numberController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,8 +46,9 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            // Logo Image
             Padding(
-              padding: const EdgeInsets.only(top: 200.0, bottom: 200.0),
+              padding: const EdgeInsets.only(top: 100.0, bottom: 100.0),
               child: Center(
                 child: Container(
                     width: 200,
@@ -36,104 +57,139 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 150, width: 150)),
               ),
             ),
-            Padding(
-                padding: const EdgeInsets.only(
-                    left: 15.0, right: 15.0, top: 10, bottom: 0),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(' Employee ID',
+
+            // If not verify ID/phone number
+            if (!this.isVerify)
+              // Textfeild, verification button
+              Padding(
+                  padding: const EdgeInsets.only(
+                      left: 15.0, right: 15.0, top: 10, bottom: 0),
+                  child: Column(
+                    children: [
+                      // Employee ID textfield part
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(' Employee ID',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            )),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      TextField(
+                          controller: idController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12.0)),
+                            ),
+                            hintText: '0172345678',
+                          )),
+                      SizedBox(
+                        height: 20,
+                      ),
+
+                      // Phone number textfield part
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          ' Enter Phone Number',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                          )),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    TextField(
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Form(
+                        key: formKey,
+                        child: InternationalPhoneNumberInput(
+                          onInputChanged: (PhoneNumber number) {
+                            print(number);
+                            this.number = number;
+                          },
+                          selectorConfig: SelectorConfig(
+                            selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                          ),
                           hintText: '0172345678',
-                          enabledBorder: OutlineInputBorder(
+                          ignoreBlank: false,
+                          autoValidateMode: AutovalidateMode.onUserInteraction,
+                          initialValue: number,
+                          textFieldController: numberController,
+                          formatInput: false,
+                          inputBorder: OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(12.0)),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                            borderSide:
-                                BorderSide(color: Colors.black, width: 2),
-                          ),
-                        )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        ' Enter Phone Number',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    TextField(
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: '0172345678',
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12.0)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                            borderSide:
-                                BorderSide(color: Colors.black, width: 2),
-                          ),
-                        )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: 50.0,
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          primary: Colors.black,
-                          backgroundColor: Colors.grey,
-                        ),
-                        child: Text('NEXT'),
-                        onPressed: () {
-                          print('2222');
-                        },
+                      SizedBox(
+                        height: 20,
                       ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: 50.0,
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          primary: Colors.black,
-                          backgroundColor: Colors.grey,
+
+                      // Verification Buttons(NEXT, EXIT)
+                      // NEXT BUTTON(Go to local authentication)
+                      Container(
+                        width: double.infinity,
+                        height: 50.0,
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12.0)),
+                            ),
+                            primary: Colors.black,
+                            backgroundColor: Colors.grey,
+                          ),
+                          child: Text('NEXT'),
+                          onPressed: () {
+                            setState(() {
+                              this.isVerify = true;
+                            });
+                            formKey.currentState.validate();
+                            print(idController.text);
+                            print(number);
+                          },
                         ),
-                        child: Text('EXIT'),
-                        onPressed: () {
-                          SystemNavigator.pop();
-                        },
                       ),
-                    ),
-                  ],
-                )),
+                      SizedBox(
+                        height: 20,
+                      ),
+
+                      // EXIT BUTTON(Exit program)
+                      Container(
+                        width: double.infinity,
+                        height: 50.0,
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12.0))),
+                            primary: Colors.black,
+                            backgroundColor: Colors.grey,
+                          ),
+                          child: Text('EXIT'),
+                          onPressed: () {
+                            // Application Exit
+                            dispose();
+                            SystemNavigator.pop();
+                          },
+                        ),
+                      ),
+                    ],
+                  ))
+            // If verified
+            else
+              TextButton(
+                  onPressed: () {
+                    setState(() {
+                      this.isVerify = false;
+                    });
+                  },
+                  child: Text('Back'))
           ],
         ),
       ),
