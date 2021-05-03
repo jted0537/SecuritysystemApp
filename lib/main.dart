@@ -244,7 +244,7 @@ class LogoImage extends StatelessWidget {
             width: 200,
             height: 150,
             child:
-                Image.asset('images/CVGM-Azonix.png', height: 150, width: 150)),
+                Image.asset('images/CVGM_logo.png', height: 150, width: 150)),
       ),
     );
   }
