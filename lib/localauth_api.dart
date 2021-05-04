@@ -19,6 +19,25 @@ class _LocalAuthState extends State<LocalAuth> {
     if (isAuthenticated) {
       print("Finger print access success");
       Navigator.pushNamed(context, '/rl');
+    } else {
+      // If device has no authentication information, alert message pop
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: Text("Authentication Failed"),
+            content:
+                Text("You should update device biometrics and security first"),
+            actions: [
+              TextButton(
+                child: Text("Close"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -31,7 +50,7 @@ class _LocalAuthState extends State<LocalAuth> {
           child: Column(
             children: [
               Container(
-                height: 20.0,
+                height: 50.0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -98,7 +117,9 @@ class LocalAuthApi {
 
   static Future<bool> authenticate() async {
     final isAvailable = await hasBiometrics();
-    if (!isAvailable) return false;
+    if (!isAvailable) {
+      return false;
+    }
 
     try {
       return await _auth.authenticate(

@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 20.0,
+                        height: 50.0,
                       ),
                       // Logo Image
                       rokkhiLogoImage(),
