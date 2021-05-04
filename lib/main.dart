@@ -40,6 +40,29 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool isVerify = false;
 
+  // Textfield UI Design
+  InputDecoration textfeildDesign() {
+    return InputDecoration(
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.redAccent, width: 0.4),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey, width: 0.4),
+      ),
+      hintText: '0172345678',
+    );
+  }
+
+  // Button UI Desing
+  ButtonStyle buttonStyle(Color foregroundColor, Color backgroundColor) {
+    return OutlinedButton.styleFrom(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(3.0))),
+      primary: foregroundColor,
+      backgroundColor: backgroundColor,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,30 +74,26 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 children: [
                   // Logo Image
-                  LogoImage(),
+                  logoImage(),
                   SizedBox(
                     height: 10,
                   ),
                   // Employee ID textfield part
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(' Employee ID',
+                    child: Text('Employee ID',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                          fontWeight: defalutFont,
                         )),
                   ),
                   SizedBox(
-                    height: 15,
+                    height: 5,
                   ),
                   TextField(
-                      controller: idController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        ),
-                        hintText: '0172345678',
-                      )),
+                    controller: idController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: textfeildDesign(),
+                  ),
                   SizedBox(
                     height: 20,
                   ),
@@ -83,14 +102,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      ' Enter Phone Number',
+                      'Enter Phone Number',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: defalutFont,
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 15,
+                    height: 5,
                   ),
                   Form(
                     key: formKey,
@@ -100,17 +119,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         this.number = number;
                       },
                       selectorConfig: SelectorConfig(
-                        selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                      ),
+                          //selectorType: PhoneInputSelectorType.DIALOG,
+                          //selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                          ),
                       hintText: '0172345678',
                       ignoreBlank: false,
-                      autoValidateMode: AutovalidateMode.onUserInteraction,
+                      autoValidateMode: AutovalidateMode.disabled,
                       initialValue: number,
                       textFieldController: numberController,
                       formatInput: false,
-                      inputBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                      ),
+                      inputDecoration: textfeildDesign(),
                     ),
                   ),
                   SizedBox(
@@ -123,13 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     height: 50.0,
                     child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        ),
-                        primary: Colors.black,
-                        backgroundColor: Colors.grey[300],
-                      ),
+                      style: buttonStyle(Colors.white, Colors.redAccent),
                       child: Text('NEXT'),
                       onPressed: () {
                         formKey.currentState.validate();
@@ -149,13 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     height: 50.0,
                     child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0))),
-                        primary: Colors.black,
-                        backgroundColor: Colors.grey[300],
-                      ),
+                      style: buttonStyle(Colors.black, Colors.white),
                       child: Text('EXIT'),
                       onPressed: () {
                         // Application Exit(dispose controller and pop)
@@ -199,7 +205,7 @@ class _LocalAuthState extends State<LocalAuth> {
               const EdgeInsets.only(left: 15.0, right: 15.0, top: 0, bottom: 0),
           child: Column(
             children: [
-              LogoImage(),
+              logoImage(),
               OutlinedButton(
                 // For 'Submit your fingerprint button
                 child: Padding(
@@ -207,13 +213,16 @@ class _LocalAuthState extends State<LocalAuth> {
                   child: Column(
                     children: [
                       Image.asset('images/FingerPrint.png',
-                          height: 100, width: 100),
+                          height: 70, width: 70),
                       SizedBox(
                         height: 50,
                       ),
                       Text(
                         'Submit your fingerprint',
-                        style: TextStyle(color: Colors.black, fontSize: 18.0),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18.0,
+                            fontWeight: defalutFont),
                       ),
                     ],
                   ),
@@ -234,18 +243,16 @@ class _LocalAuthState extends State<LocalAuth> {
 }
 
 // Widget For Logo Image
-class LogoImage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 100.0, bottom: 100.0),
-      child: Center(
-        child: Container(
-            width: 200,
-            height: 150,
-            child:
-                Image.asset('images/CVGM_logo.png', height: 150, width: 150)),
-      ),
-    );
-  }
+Widget logoImage() {
+  return Padding(
+    padding: const EdgeInsets.only(top: 100.0, bottom: 100.0),
+    child: Center(
+      child: Container(
+          width: 200,
+          height: 150,
+          child: Image.asset('images/Rokkhi_LOGO.png')),
+    ),
+  );
 }
+
+FontWeight defalutFont = FontWeight.w400;
