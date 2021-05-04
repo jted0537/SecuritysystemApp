@@ -13,12 +13,21 @@ class _RouteListState extends State<RouteList> {
       onWillPop: () async => false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        // appBar: AppBar(
-        //   leading: shahidulLogoImage(),
-        //   toolbarHeight: 100.0,
-        //   elevation: 0.0,
-        // ),
-        body: logoAppBar(),
+        body: Column(
+          children: [
+            logoAppBar(),
+            Text('place'),
+            OutlinedButton(
+                style: buttonStyle(Colors.grey, Colors.white),
+                child: Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    child: Text('EXIT')),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                }),
+          ],
+        ),
       ),
     );
   }

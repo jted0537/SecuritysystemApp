@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // Widget For Rokkhi LOGO
 Widget rokkhiLogoImage() {
   return Padding(
-    padding: const EdgeInsets.only(top: 190.0, bottom: 165.0),
+    padding: const EdgeInsets.only(top: 150.0, bottom: 165.0),
     child: Center(
       child: Image.asset('images/Rokkhi_LOGO.png'),
     ),
@@ -55,7 +55,7 @@ InputDecoration textfeildDesign() {
 ButtonStyle buttonStyle(Color foregroundColor, Color backgroundColor) {
   return OutlinedButton.styleFrom(
     shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(3.0))),
+        borderRadius: BorderRadius.all(Radius.circular(4.0))),
     primary: foregroundColor,
     backgroundColor: backgroundColor,
   );

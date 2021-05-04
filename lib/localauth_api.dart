@@ -26,42 +26,59 @@ class _LocalAuthState extends State<LocalAuth> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          rokkhiLogoImage(),
-          SizedBox(
-            height: 20.0,
-          ),
-          OutlinedButton(
-            // For 'Submit your fingerprint button
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(60, 50, 60, 60),
-              child: Column(
-                children: [
-                  Image.asset('images/FingerPrint.png', height: 70, width: 70),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Text(
-                    'Submit your fingerprint',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18.0,
-                        fontWeight: defalutFont),
-                  ),
-                ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: 20.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.clear_outlined),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            onPressed: () {
-              authentication();
-            },
-            style: OutlinedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              rokkhiLogoImage(),
+              SizedBox(
+                height: 20.0,
               ),
-            ),
+              OutlinedButton(
+                // For 'Submit your fingerprint button
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(60, 50, 60, 60),
+                  child: Column(
+                    children: [
+                      Image.asset('images/FingerPrint.png',
+                          height: 70, width: 70),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Text(
+                        'Submit your fingerprint',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18.0,
+                            fontWeight: defalutFont),
+                      ),
+                    ],
+                  ),
+                ),
+                onPressed: () {
+                  authentication();
+                },
+                style: OutlinedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
