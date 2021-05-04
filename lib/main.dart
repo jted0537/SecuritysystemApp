@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:security_system/localauth_api.dart';
-import 'package:security_system/guardmanage.dart';
+import 'package:security_system/routeList.dart';
 import 'package:security_system/preferences.dart';
 
 void main() => runApp(SecureApp());
@@ -15,10 +15,11 @@ class SecureApp extends StatelessWidget {
       routes: {
         '/': (context) => LoginScreen(),
         '/la': (context) => LocalAuth(),
-        '/gm': (context) => GuardManage(),
+        '/rl': (context) => RouteList(),
       },
       title: 'CVGM',
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(primaryColor: Colors.white),
       //home: LoginScreen(),
     );
   }
@@ -52,11 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 children: [
                   // Logo Image
-                  logoImage(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  // Employee ID textfield part
+                  rokkhiLogoImage(),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text('Employee ID',
@@ -73,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: textfeildDesign(),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
 
                   // Phone number textfield part
@@ -97,9 +94,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         this.number = number;
                       },
                       selectorConfig: SelectorConfig(
-                          //selectorType: PhoneInputSelectorType.DIALOG,
-                          //selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                          ),
+                        selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                        showFlags: false,
+                        trailingSpace: false,
+                      ),
                       hintText: '0172345678',
                       ignoreBlank: false,
                       autoValidateMode: AutovalidateMode.disabled,
@@ -117,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   // NEXT BUTTON(Go to local authentication)
                   Container(
                     width: double.infinity,
-                    height: 50.0,
+                    height: 55.0,
                     child: OutlinedButton(
                       style: buttonStyle(Colors.white, rokkhiColor),
                       child: Text('NEXT'),
@@ -131,13 +129,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: 15,
+                    height: 8,
                   ),
 
                   // EXIT BUTTON(Exit program)
                   Container(
                     width: double.infinity,
-                    height: 50.0,
+                    height: 55.0,
                     child: OutlinedButton(
                       style: buttonStyle(Colors.black, Colors.white),
                       child: Text('EXIT'),
@@ -150,6 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                   ),
+                  // Employee ID textfield part
                 ],
               ))),
     );

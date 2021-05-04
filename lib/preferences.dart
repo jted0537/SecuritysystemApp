@@ -1,15 +1,38 @@
 import 'package:flutter/material.dart';
 
 //------------------------------------------------Widget--------------------------------------------------------------
-// Widget For Logo Image
-Widget logoImage() {
+// Widget For Rokkhi LOGO
+Widget rokkhiLogoImage() {
   return Padding(
-    padding: const EdgeInsets.only(top: 100.0, bottom: 100.0),
+    padding: const EdgeInsets.only(top: 190.0, bottom: 165.0),
     child: Center(
-      child: Container(
-          width: 200,
-          height: 150,
-          child: Image.asset('images/Rokkhi_LOGO.png')),
+      child: Image.asset('images/Rokkhi_LOGO.png'),
+    ),
+  );
+}
+
+// Widget For Shahidul LOGO
+Widget shahidulLogoImage() {
+  return Image.asset('images/Shahidul_Bari_LOGO.png');
+}
+
+Widget logoAppBar() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Image.asset(
+          'images/Shahidul_Bari_LOGO.png',
+          height: 120,
+          width: 100,
+        ),
+        Image.asset(
+          'images/Rokkhi_LOGO.png',
+          height: 70,
+          width: 70,
+        ),
+      ],
     ),
   );
 }

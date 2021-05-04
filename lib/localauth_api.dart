@@ -18,7 +18,7 @@ class _LocalAuthState extends State<LocalAuth> {
     final isAuthenticated = await LocalAuthApi.authenticate();
     if (isAuthenticated) {
       print("Finger print access success");
-      Navigator.pushNamed(context, '/gm');
+      Navigator.pushNamed(context, '/rl');
     }
   }
 
@@ -26,44 +26,43 @@ class _LocalAuthState extends State<LocalAuth> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-          padding:
-              const EdgeInsets.only(left: 15.0, right: 15.0, top: 0, bottom: 0),
-          child: Column(
-            children: [
-              logoImage(),
-              OutlinedButton(
-                // For 'Submit your fingerprint button
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(60, 50, 60, 60),
-                  child: Column(
-                    children: [
-                      Image.asset('images/FingerPrint.png',
-                          height: 70, width: 70),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      Text(
-                        'Submit your fingerprint',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.0,
-                            fontWeight: defalutFont),
-                      ),
-                    ],
+      body: Column(
+        children: [
+          rokkhiLogoImage(),
+          SizedBox(
+            height: 20.0,
+          ),
+          OutlinedButton(
+            // For 'Submit your fingerprint button
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(60, 50, 60, 60),
+              child: Column(
+                children: [
+                  Image.asset('images/FingerPrint.png', height: 70, width: 70),
+                  SizedBox(
+                    height: 50,
                   ),
-                ),
-                onPressed: () {
-                  authentication();
-                },
-                style: OutlinedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  Text(
+                    'Submit your fingerprint',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18.0,
+                        fontWeight: defalutFont),
                   ),
-                ),
+                ],
               ),
-            ],
-          )),
+            ),
+            onPressed: () {
+              authentication();
+            },
+            style: OutlinedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
