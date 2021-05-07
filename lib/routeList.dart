@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:security_system/preferences.dart';
+import 'package:dio/dio.dart';
 
 class RouteList extends StatefulWidget {
   @override
   _RouteListState createState() => _RouteListState();
+}
+
+void getHttp() async {
+  try {
+    var response = await Dio().get('https://www.google.com/');
+    print(response);
+  } catch (e) {
+    print(e);
+  }
 }
 
 class _RouteListState extends State<RouteList> {
@@ -26,6 +36,12 @@ class _RouteListState extends State<RouteList> {
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
                 }),
+            TextButton(
+              child: Text("11111"),
+              onPressed: () {
+                getHttp();
+              },
+            ),
           ],
         ),
       ),
