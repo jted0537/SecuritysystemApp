@@ -101,6 +101,7 @@ class _LocalAuthState extends State<LocalAuth> {
   }
 }
 
+// Authentication part
 class LocalAuthApi {
   static final _auth = LocalAuthentication();
 

@@ -16,24 +16,22 @@ Widget shahidulLogoImage() {
   return Image.asset('images/Shahidul_Bari_LOGO.png');
 }
 
+// Widget For Custom Appbar
 Widget logoAppBar() {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Image.asset(
-          'images/Shahidul_Bari_LOGO.png',
-          height: 120,
-          width: 100,
-        ),
-        Image.asset(
-          'images/Rokkhi_LOGO.png',
-          height: 70,
-          width: 70,
-        ),
-      ],
-    ),
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Image.asset(
+        'images/Shahidul_Bari_LOGO.png',
+        height: 80,
+        width: 100,
+      ),
+      Image.asset(
+        'images/Rokkhi_LOGO.png',
+        height: 80,
+        width: 60,
+      ),
+    ],
   );
 }
 

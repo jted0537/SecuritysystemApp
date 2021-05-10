@@ -4,6 +4,7 @@ import 'package:security_system/views/login/localauthApi.dart';
 import 'package:security_system/views/appointedRoute/appointedRouteMenu.dart';
 import 'package:security_system/views/login/loginView.dart';
 
+// Application Start
 void main() => runApp(SecureApp());
 
 class SecureApp extends StatelessWidget {
@@ -12,6 +13,7 @@ class SecureApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: {
+        // For Navigator
         '/': (context) => LoginScreen(),
         '/la': (context) => LocalAuth(),
         '/arm': (context) => AppointedRouteMenu(),
