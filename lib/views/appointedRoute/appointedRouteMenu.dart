@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:security_system/extensions/preferences.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'dart:math' as math;
 
 class AppointedRouteMenu extends StatefulWidget {
@@ -20,11 +21,37 @@ void getHttp() async {
 class _AppointedRouteMenuState extends State<AppointedRouteMenu> {
   DateTime now;
   DateTime date;
+  String formattedDate;
+  bool isDutyTime;
+
+  Widget _dutyTimeWidget(bool isDutyTime) {
+    if (!isDutyTime)
+      return Text(
+        'Not Assigned Yet',
+        style: TextStyle(
+          color: Colors.grey,
+          fontWeight: defaultFontWeight,
+          decoration: TextDecoration.underline,
+        ),
+      );
+    else
+      return Text(
+        'This is your duty time',
+        style: TextStyle(
+          color: Colors.grey,
+          fontWeight: defaultFontWeight,
+          decoration: TextDecoration.underline,
+        ),
+      );
+  }
+
   @override
   void initState() {
     super.initState();
     now = DateTime.now();
     date = DateTime(now.year, now.month, now.day);
+    formattedDate = DateFormat('dd/MM/yyyy').format(now);
+    this.isDutyTime = false;
   }
 
   @override
@@ -49,21 +76,20 @@ class _AppointedRouteMenuState extends State<AppointedRouteMenu> {
                       child: Column(
                         children: [
                           Image.asset('images/marker.png',
-                              height: 30.0, width: 30.0),
+                              height: 25.0, width: 25.0),
                           SizedBox(
                             height: 5.0,
                           ),
-                          Text(
-                            'Appointed Route',
-                            style: TextStyle(
+                          Text('Appointed Route',
+                              style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 18.0,
-                                fontWeight: defalutFont),
-                          ),
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.w700,
+                              )),
                           SizedBox(
                             height: 5.0,
                           ),
-                          Text('Not Assigned Yet'),
+                          _dutyTimeWidget(this.isDutyTime),
                         ],
                       ),
                       onPressed: () {
@@ -87,31 +113,48 @@ class _AppointedRouteMenuState extends State<AppointedRouteMenu> {
                         color: Colors.grey[300],
                         strokeWidth: 2.0,
                         gap: 3.0,
+                        isDutyTime: this.isDutyTime,
                       )),
                   SizedBox(
                     height: 20.0,
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        'Checkpoints',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.0,
-                            fontWeight: defalutFont),
-                      ),
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Text(
-                        '${date.day}/${date.month.}/${date.year}',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 13.0,
+                  // Checkpoints
+                  Container(
+                    width: double.infinity,
+                    child: Row(
+                      children: [
+                        Text('Checkpoints',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        SizedBox(
+                          width: 10.0,
                         ),
-                      ),
-                    ],
+                        Text(
+                          formattedDate,
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 13.0,
+                          ),
+                        ),
+                        Spacer(),
+                        TextButton(
+                          child: Text(
+                            'See All',
+                            style: TextStyle(color: rokkhiColor),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
                   ),
+                  Divider(
+                    thickness: 0.6,
+                    color: Colors.black,
+                  ),
+
                   // EXIT Button
                   OutlinedButton(
                       style: buttonStyle(Colors.grey, Colors.white),

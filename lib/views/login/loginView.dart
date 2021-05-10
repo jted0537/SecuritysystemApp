@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         alignment: Alignment.centerLeft,
                         child: Text('Employee ID',
                             style: TextStyle(
-                              fontWeight: defalutFont,
+                              fontWeight: defaultFontWeight,
                             )),
                       ),
                       SizedBox(
@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           'Enter Phone Number',
                           style: TextStyle(
-                            fontWeight: defalutFont,
+                            fontWeight: defaultFontWeight,
                           ),
                         ),
                       ),

@@ -79,7 +79,7 @@ class _LocalAuthState extends State<LocalAuth> {
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 18.0,
-                          fontWeight: defalutFont),
+                          fontWeight: defaultFontWeight),
                     ),
                   ],
                 ),

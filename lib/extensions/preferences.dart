@@ -62,5 +62,5 @@ ButtonStyle buttonStyle(Color foregroundColor, Color backgroundColor) {
 }
 
 //------------------------------------------------Design--------------------------------------------------------------
-FontWeight defalutFont = FontWeight.w400;
+FontWeight defaultFontWeight = FontWeight.w400;
 Color rokkhiColor = Colors.red;
