@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:security_system/appointedroute.dart';
 import 'package:security_system/localauth_api.dart';
 import 'package:security_system/routeList.dart';
 import 'package:security_system/preferences.dart';
@@ -16,6 +17,7 @@ class SecureApp extends StatelessWidget {
         '/': (context) => LoginScreen(),
         '/la': (context) => LocalAuth(),
         '/rl': (context) => RouteList(),
+        '/ad': (context) => AppointedRoute(),
       },
       title: 'CVGM',
       debugShowCheckedModeBanner: false,

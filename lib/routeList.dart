@@ -39,7 +39,8 @@ class _RouteListState extends State<RouteList> {
             TextButton(
               child: Text("11111"),
               onPressed: () {
-                getHttp();
+                //getHttp();
+                Navigator.pushNamed(context, '/ad');
               },
             ),
           ],
