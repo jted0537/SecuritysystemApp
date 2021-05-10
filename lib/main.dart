@@ -4,7 +4,7 @@ import 'package:security_system/views/login/localauthApi.dart';
 import 'package:security_system/views/appointedRoute/appointedRouteMenu.dart';
 import 'package:security_system/views/login/loginView.dart';
 
-// Application Start
+// Application Entry Point
 void main() => runApp(SecureApp());
 
 class SecureApp extends StatelessWidget {
