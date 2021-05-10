@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // Widget For Rokkhi LOGO
 Widget rokkhiLogoImage() {
   return Padding(
-    padding: const EdgeInsets.only(top: 120.0, bottom: 165.0),
+    padding: const EdgeInsets.only(top: 95.0, bottom: 145.0),
     child: Center(
       child: Image.asset('images/Rokkhi_LOGO.png'),
     ),

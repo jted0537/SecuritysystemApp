@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:local_auth/local_auth.dart';
-import 'package:security_system/preferences.dart';
+import 'package:security_system/extensions/preferences.dart';
 
 // Local Authentication (iOS: Face ID, Android: Finger print)
 class LocalAuth extends StatefulWidget {
@@ -18,7 +18,7 @@ class _LocalAuthState extends State<LocalAuth> {
     final isAuthenticated = await LocalAuthApi.authenticate();
     if (isAuthenticated) {
       print("Finger print access success");
-      Navigator.pushNamed(context, '/rl');
+      Navigator.pushNamed(context, '/arm');
     } else {
       // If device has no authentication information, alert message pop
       showDialog(
@@ -67,29 +67,27 @@ class _LocalAuthState extends State<LocalAuth> {
               ),
               OutlinedButton(
                 // For 'Submit your fingerprint button
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(60, 50, 60, 60),
-                  child: Column(
-                    children: [
-                      Image.asset('images/FingerPrint.png',
-                          height: 70, width: 70),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      Text(
-                        'Submit your fingerprint',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.0,
-                            fontWeight: defalutFont),
-                      ),
-                    ],
-                  ),
+                child: Column(
+                  children: [
+                    Image.asset('images/FingerPrint.png',
+                        height: 70, width: 70),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                      'Submit your fingerprint',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18.0,
+                          fontWeight: defalutFont),
+                    ),
+                  ],
                 ),
                 onPressed: () {
                   authentication();
                 },
                 style: OutlinedButton.styleFrom(
+                  padding: EdgeInsets.fromLTRB(60, 50, 60, 60),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   ),
