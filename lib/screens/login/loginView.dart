@@ -104,7 +104,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () {
                             formKey.currentState.validate();
                             print(idController.text);
-                            print(number);
+                            print(numberController.text);
+
                             // Push local Auth page
                             Navigator.pushNamed(context, '/la');
                           },

@@ -52,10 +52,7 @@ class _AppointedRouteMenuState extends State<AppointedRouteMenu> {
       onWillPop: () async => false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        body:
-            // Appbar
-
-            Padding(
+        body: Padding(
           padding: EdgeInsets.all(15.0),
           child: Column(
             children: [

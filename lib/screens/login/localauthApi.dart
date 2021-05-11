@@ -47,7 +47,7 @@ class _LocalAuthState extends State<LocalAuth> {
           // return object of type Dialog
           return AlertDialog(
             title: Text("Authentication Failed"),
-            content: Text("Device has no biometric authentication function."),
+            content: Text("Device has no biometric authentication functions."),
             actions: [
               TextButton(
                 child: Text("Close"),
@@ -84,8 +84,8 @@ class _LocalAuthState extends State<LocalAuth> {
               SizedBox(
                 height: 20.0,
               ),
+              // For 'Submit your fingerprint button
               OutlinedButton(
-                // For 'Submit your fingerprint button
                 child: Column(
                   children: [
                     Image.asset('images/FingerPrint.png',
