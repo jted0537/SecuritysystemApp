@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // Widget For Rokkhi LOGO
 Widget rokkhiLogoImage() {
   return Padding(
-    padding: const EdgeInsets.only(top: 95.0, bottom: 145.0),
+    padding: const EdgeInsets.only(top: 90.0, bottom: 140.0),
     child: Center(
       child: Image.asset('images/Rokkhi_LOGO.png'),
     ),
@@ -13,7 +13,7 @@ Widget rokkhiLogoImage() {
 
 // Widget For Shahidul LOGO
 Widget shahidulLogoImage() {
-  return Image.asset('images/Shahidul_Bari_LOGO.png');
+  return Image.asset('images/ShahidulBari_LOGO.png');
 }
 
 // Widget For Custom Appbar
@@ -22,7 +22,7 @@ Widget logoAppBar() {
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       Image.asset(
-        'images/Shahidul_Bari_LOGO.png',
+        'images/ShahidulBari_LOGO.png',
         height: 80,
         width: 100,
       ),
