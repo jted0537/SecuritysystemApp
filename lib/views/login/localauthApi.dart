@@ -16,11 +16,12 @@ class _LocalAuthState extends State<LocalAuth> {
   void authentication() async {
     // This is main part of authentication
     final isAuthenticated = await LocalAuthApi.authenticate();
-    if (isAuthenticated) {
+    if (isAuthenticated == 4) {
+      // Biometric authentication success
       print("Finger print access success");
       Navigator.pushNamed(context, '/arm');
-    } else {
-      // If device has no authentication information, alert message pop
+    } else if (isAuthenticated == 2) {
+      // If device has no biometric authentication information, alert message pop
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -29,6 +30,24 @@ class _LocalAuthState extends State<LocalAuth> {
             title: Text("Authentication Failed"),
             content:
                 Text("You should update device biometrics and security first"),
+            actions: [
+              TextButton(
+                child: Text("Close"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+    } else if (isAuthenticated == 1) {
+      // If device has no biometric auth function
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: Text("Authentication Failed"),
+            content: Text("Device has no biometric authentication function."),
             actions: [
               TextButton(
                 child: Text("Close"),
@@ -114,21 +133,30 @@ class LocalAuthApi {
     }
   }
 
-  static Future<bool> authenticate() async {
-    final isAvailable = await hasBiometrics();
+  static Future<int> authenticate() async {
+    final isAvailable = await _auth.canCheckBiometrics;
+    var result;
     if (!isAvailable) {
-      return false;
+      // If device has no biometric authentication function
+      return 1;
     }
-
     try {
-      return await _auth.authenticate(
+      result = await _auth.authenticate(
         localizedReason: 'Scan Fingerprint to Authenticate',
         useErrorDialogs: true,
-        stickyAuth: true,
+        stickyAuth: false,
+        biometricOnly: true, // Only use biometric
       );
+      if (result) {
+        // Authentiation success
+        return 4;
+      }
     } on PlatformException catch (e) {
+      // Device has biometric authentication function, but there are no registered informations
       print(e);
-      return false;
+      return 2;
     }
+    // If user just cancel authentication
+    return 3;
   }
 }
