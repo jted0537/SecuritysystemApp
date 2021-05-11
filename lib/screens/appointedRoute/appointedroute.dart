@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:security_system/extensions/preferences.dart';
+import 'package:security_system/components/preferences.dart';
 
 class AppointedRoute extends StatefulWidget {
   @override

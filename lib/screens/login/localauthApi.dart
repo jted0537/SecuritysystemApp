@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:local_auth/local_auth.dart';
-import 'package:security_system/extensions/preferences.dart';
+import 'package:security_system/components/preferences.dart';
 
 // Local Authentication (iOS: Face ID, Android: Finger print)
 class LocalAuth extends StatefulWidget {

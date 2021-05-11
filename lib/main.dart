@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:security_system/views/appointedRoute/appointedroute.dart';
-import 'package:security_system/views/login/localauthApi.dart';
-import 'package:security_system/views/appointedRoute/appointedRouteMenu.dart';
-import 'package:security_system/views/login/loginView.dart';
+import 'package:security_system/screens/appointedRoute/appointedroute.dart';
+import 'package:security_system/screens/login/localauthApi.dart';
+import 'package:security_system/screens/appointedRoute/appointedRouteMenu.dart';
+import 'package:security_system/screens/login/loginView.dart';
 
 // Application Entry Point
 void main() => runApp(SecureApp());

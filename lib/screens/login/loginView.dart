@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:security_system/extensions/preferences.dart';
+import 'package:security_system/components/preferences.dart';
 
 // Login Page
 class LoginScreen extends StatefulWidget {
