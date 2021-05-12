@@ -19,13 +19,16 @@ class _LoginScreenState extends State<LoginScreen> {
   // Deault nation: Bangladesh
   PhoneNumber number = PhoneNumber(isoCode: 'BD');
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isVerify = false;
+  bool isLoading = false;
 
   final UserViewModel userModel = UserViewModel();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _scaffoldKey,
         backgroundColor: Colors.white,
         body: SafeArea(
           child: SingleChildScrollView(
@@ -96,7 +99,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 20,
                       ),
 
-                      // Verification Buttons(NEXT, EXIT)
                       // NEXT BUTTON(Go to local authentication)
                       Container(
                         width: double.infinity,
@@ -105,7 +107,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: buttonStyle(Colors.white, rokkhiColor),
                           child: Text('NEXT'),
                           onPressed: () async {
-                            formKey.currentState.validate();
+                            //formKey.currentState.validate();
+                            // showDialog(
+                            //   context: context,
+                            //   builder: (BuildContext context) {
+                            //     // return object of type Dialog
+                            //     return
+                            //   },
+                            // );
+                            setState(() {
+                              isLoading = true;
+                            });
                             print(idController.text);
                             print(number.toString());
                             var a = await this.userModel.fetchUser(
@@ -116,7 +128,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               print('fail');
                             }
                             // Push local Auth page
-                            //Navigator.pushNamed(context, '/la');
+                            setState(() {
+                              isLoading = false;
+                            });
+                            Navigator.pop(context);
+                            Navigator.pushNamed(context, '/la');
                           },
                         ),
                       ),
@@ -140,7 +156,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                         ),
                       ),
-                      // Employee ID textfield part
                     ],
                   ))),
         ));

@@ -18,7 +18,7 @@ class _LocalAuthState extends State<LocalAuth> {
     final isAuthenticated = await LocalAuthApi.authenticate();
     if (isAuthenticated == 4) {
       // Biometric authentication success
-      print("Finger print access success");
+      //print ("Finger print access success");
       Navigator.pushNamed(context, '/arm');
     } else if (isAuthenticated == 2) {
       // If device has no biometric authentication information, alert message pop
