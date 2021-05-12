@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:security_system/components/preferences.dart';
+import 'package:security_system/viewmodels/UserViewModel.dart';
 
 // Login Page
 class LoginScreen extends StatefulWidget {
@@ -19,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
   PhoneNumber number = PhoneNumber(isoCode: 'BD');
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool isVerify = false;
+
+  final UserViewModel userModel = UserViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -101,13 +104,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: OutlinedButton(
                           style: buttonStyle(Colors.white, rokkhiColor),
                           child: Text('NEXT'),
-                          onPressed: () {
+                          onPressed: () async {
                             formKey.currentState.validate();
                             print(idController.text);
-                            print(numberController.text);
-
+                            print(number.toString());
+                            var a = await this.userModel.fetchUser(
+                                idController.text, number.toString());
+                            if (a) {
+                              print('123123123');
+                            } else {
+                              print('fail');
+                            }
                             // Push local Auth page
-                            Navigator.pushNamed(context, '/la');
+                            //Navigator.pushNamed(context, '/la');
                           },
                         ),
                       ),
