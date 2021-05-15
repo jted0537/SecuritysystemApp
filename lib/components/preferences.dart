@@ -9,8 +9,8 @@ Widget rokkhiLogoImage() {
     child: Center(
       child: Image.asset(
         'images/Rokkhi_LOGO.png',
-        height: 100.0,
-        width: 120.0,
+        height: 70.0,
+        width: 110.0,
       ),
     ),
   );

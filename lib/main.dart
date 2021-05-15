@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:security_system/views/appointedRoute/inDutyRoute.dart';
+import 'package:security_system/views/patrollingGuard/inDutyRoute.dart';
 import 'package:security_system/views/login/localauthApi.dart';
-import 'package:security_system/views/appointedRoute/outDutyRoute.dart';
+import 'package:security_system/views/patrollingGuard/outDutyRoute.dart';
 import 'package:security_system/views/login/loginView.dart';
+import 'package:security_system/models/guard.dart';
 
+Guard loginGuard;
 // Application Entry Point
 void main() => runApp(SecureApp());
 
@@ -16,8 +18,8 @@ class SecureApp extends StatelessWidget {
         // For Navigator
         '/': (context) => LoginScreen(),
         '/localAuth': (context) => LocalAuth(),
-        '/arm': (context) => OutDutyRoute(),
-        '/ad': (context) => InDutyRoute(),
+        '/a': (context) => OutDutyRoute(),
+        '/b': (context) => InDutyRoute(),
       },
       title: 'CVGM',
       debugShowCheckedModeBanner: false,

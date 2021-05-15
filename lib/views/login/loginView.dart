@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final GuardViewModel guardViewModel = GuardViewModel();
 
   // Alert Dialog when user failed to login.
-  void loginFailed() {
+  void loginFailedDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   // Pop Dialog
-  void hideOpenDialog() {
+  void hideLoadingDialog() {
     Navigator.pop(context);
   }
 
@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Container(
             height: double.infinity,
             child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
                 child: Column(
                   children: [
                     SizedBox(
@@ -170,14 +170,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           print(number.toString());
                           if (await this.guardViewModel.fetchUser(
                               idController.text, number.toString())) {
-                            // Pop logging in dialog
-                            hideOpenDialog();
+                            // Success to login
+                            hideLoadingDialog();
                             // Push local Auth page
                             Navigator.pushNamed(context, '/localAuth');
                           } else {
-                            hideOpenDialog();
-                            loginFailed();
+                            // Fail to login
+                            hideLoadingDialog();
+                            loginFailedDialog();
                           }
+                          // hideLoadingDialog();
+                          // Navigator.pushNamed(context, '/localAuth');
                         },
                       ),
                     ),
