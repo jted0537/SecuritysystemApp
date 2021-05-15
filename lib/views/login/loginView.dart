@@ -2,7 +2,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:security_system/components/preferences.dart';
-import 'package:security_system/viewmodels/UserViewModel.dart';
+import 'package:security_system/viewmodels/GuardViewModel.dart';
+import 'package:security_system/models/guard.dart';
+
+Guard loginGuard;
 
 // Login Page
 class LoginScreen extends StatefulWidget {
@@ -173,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.pushNamed(context, '/localAuth');
                           } else {
                             hideOpenDialog();
-                            Navigator.pushNamed(context, '/localAuth');
+                            loginFailed();
                           }
                         },
                       ),

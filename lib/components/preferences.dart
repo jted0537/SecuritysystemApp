@@ -5,9 +5,13 @@ import 'dart:math' as math;
 // Widget For Rokkhi LOGO
 Widget rokkhiLogoImage() {
   return Padding(
-    padding: const EdgeInsets.only(top: 90.0, bottom: 140.0),
+    padding: const EdgeInsets.only(top: 90.0, bottom: 130.0),
     child: Center(
-      child: Image.asset('images/Rokkhi_LOGO.png'),
+      child: Image.asset(
+        'images/Rokkhi_LOGO.png',
+        height: 100.0,
+        width: 120.0,
+      ),
     ),
   );
 }

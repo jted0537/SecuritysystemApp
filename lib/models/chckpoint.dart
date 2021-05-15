@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:convert';
-
 class CheckPoint {
   final String checkPointId;
   final double latitude;
