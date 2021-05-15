@@ -15,14 +15,33 @@ class _LoginScreenState extends State<LoginScreen> {
   // employee ID Contoller
   final TextEditingController idController = TextEditingController();
   // Phone number Controller
-  final TextEditingController numberController = TextEditingController();
+  //final TextEditingController numberController = TextEditingController();
   // Deault nation: Bangladesh
   PhoneNumber number = PhoneNumber(isoCode: 'BD');
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool isVerify = false;
   bool isLoading = false;
 
-  final UserViewModel userModel = UserViewModel();
+  final GuardViewModel guardViewModel = GuardViewModel();
+
+  // Alert Dialog when user failed to login.
+  void loginFailed() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Login Failed"),
+          content: Text("Incorrect Employee ID or Phone number."),
+          actions: [
+            TextButton(
+              child: Text("Close"),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   // Logging in Dialog
   void showLoadingIndicator() {
@@ -125,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ignoreBlank: false,
                         autoValidateMode: AutovalidateMode.disabled,
                         initialValue: number,
-                        textFieldController: numberController,
+                        //textFieldController: numberController,
                         formatInput: false,
                         inputDecoration: textfeildDesign(),
                       ),
@@ -144,26 +163,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () async {
                           // Show logging in dialog
                           showLoadingIndicator();
-                          setState(() {
-                            isLoading = true;
-                          });
                           print(idController.text);
                           print(number.toString());
-                          var a = await this
-                              .userModel
-                              .fetchUser(idController.text, number.toString());
-                          if (a) {
-                            print('123123123');
+                          if (await this.guardViewModel.fetchUser(
+                              idController.text, number.toString())) {
+                            // Pop logging in dialog
+                            hideOpenDialog();
+                            // Push local Auth page
+                            Navigator.pushNamed(context, '/localAuth');
                           } else {
-                            print('fail');
+                            hideOpenDialog();
+                            Navigator.pushNamed(context, '/localAuth');
                           }
-                          // Push local Auth page
-                          setState(() {
-                            isLoading = false;
-                          });
-                          // Pop logging in dialog
-                          hideOpenDialog();
-                          Navigator.pushNamed(context, '/la');
                         },
                       ),
                     ),
@@ -181,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           // Application Exit(dispose controller and pop)
                           this.idController.dispose();
-                          this.numberController.dispose();
+                          //this.numberController.dispose();
                           super.dispose();
                           SystemNavigator.pop();
                         },

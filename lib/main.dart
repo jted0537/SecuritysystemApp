@@ -15,7 +15,7 @@ class SecureApp extends StatelessWidget {
       routes: {
         // For Navigator
         '/': (context) => LoginScreen(),
-        '/la': (context) => LocalAuth(),
+        '/localAuth': (context) => LocalAuth(),
         '/arm': (context) => OutDutyRoute(),
         '/ad': (context) => InDutyRoute(),
       },
