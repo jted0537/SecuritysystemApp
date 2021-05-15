@@ -5,8 +5,9 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
    <application
-        android:label="CVGM"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Rokkhi"
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA-jQCTyzQRnx2ymEnZI_yqa60gLyfB14k"

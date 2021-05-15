@@ -5,7 +5,7 @@ import 'package:security_system/views/login/loginView.dart';
 
 class GuardViewModel {
   Future<bool> fetchUser(String id, String number) async {
-    var url = Uri.parse('https://cc1dc96ca9d3.ngrok.io/app_connection/$id/');
+    var url = Uri.parse('http://158.247.211.173:8080/app_connection/$id/');
     var response = await http.post(
       url,
       body: {
