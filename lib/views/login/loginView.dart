@@ -19,145 +19,177 @@ class _LoginScreenState extends State<LoginScreen> {
   // Deault nation: Bangladesh
   PhoneNumber number = PhoneNumber(isoCode: 'BD');
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isVerify = false;
   bool isLoading = false;
 
   final UserViewModel userModel = UserViewModel();
 
+  // Logging in Dialog
+  void showLoadingIndicator() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(
+                width: 30,
+                height: 30,
+                child: CircularProgressIndicator(),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text("Please wait",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
+                  )),
+              Text('Logging in...'),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // Pop Dialog
+  void hideOpenDialog() {
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
         backgroundColor: Colors.white,
         body: SafeArea(
-          child: SingleChildScrollView(
-              child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15.0, right: 15.0, top: 0, bottom: 0),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 50.0,
-                      ),
-                      // Logo Image
-                      rokkhiLogoImage(),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('Employee ID',
-                            style: TextStyle(
-                              fontWeight: defaultFontWeight,
-                            )),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      TextField(
-                        controller: idController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: textfeildDesign(),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-
-                      // Phone number textfield part
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Enter Phone Number',
+          child: Container(
+            height: double.infinity,
+            child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 50.0,
+                    ),
+                    // Logo Image
+                    rokkhiLogoImage(),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Employee ID',
                           style: TextStyle(
                             fontWeight: defaultFontWeight,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Form(
-                        key: formKey,
-                        child: InternationalPhoneNumberInput(
-                          onInputChanged: (PhoneNumber number) {
-                            print(number);
-                            this.number = number;
-                          },
-                          selectorConfig: SelectorConfig(
-                            selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                            showFlags: false,
-                            trailingSpace: false,
-                          ),
-                          hintText: '0172345678',
-                          ignoreBlank: false,
-                          autoValidateMode: AutovalidateMode.disabled,
-                          initialValue: number,
-                          textFieldController: numberController,
-                          formatInput: false,
-                          inputDecoration: textfeildDesign(),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
+                          )),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    TextField(
+                      controller: idController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: textfeildDesign(),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
 
-                      // NEXT BUTTON(Go to local authentication)
-                      Container(
-                        width: double.infinity,
-                        height: 55.0,
-                        child: OutlinedButton(
-                          style: buttonStyle(Colors.white, rokkhiColor),
-                          child: Text('NEXT'),
-                          onPressed: () async {
-                            //formKey.currentState.validate();
-                            // showDialog(
-                            //   context: context,
-                            //   builder: (BuildContext context) {
-                            //     // return object of type Dialog
-                            //     return
-                            //   },
-                            // );
-                            setState(() {
-                              isLoading = true;
-                            });
-                            print(idController.text);
-                            print(number.toString());
-                            var a = await this.userModel.fetchUser(
-                                idController.text, number.toString());
-                            if (a) {
-                              print('123123123');
-                            } else {
-                              print('fail');
-                            }
-                            // Push local Auth page
-                            setState(() {
-                              isLoading = false;
-                            });
-                            Navigator.pop(context);
-                            Navigator.pushNamed(context, '/la');
-                          },
+                    // Phone number textfield part
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Enter Phone Number',
+                        style: TextStyle(
+                          fontWeight: defaultFontWeight,
                         ),
                       ),
-                      SizedBox(
-                        height: 8,
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Form(
+                      key: formKey,
+                      child: InternationalPhoneNumberInput(
+                        onInputChanged: (PhoneNumber number) {
+                          print(number);
+                          this.number = number;
+                        },
+                        selectorConfig: SelectorConfig(
+                          selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                          showFlags: false,
+                          trailingSpace: false,
+                        ),
+                        hintText: '0172345678',
+                        ignoreBlank: false,
+                        autoValidateMode: AutovalidateMode.disabled,
+                        initialValue: number,
+                        textFieldController: numberController,
+                        formatInput: false,
+                        inputDecoration: textfeildDesign(),
                       ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
 
-                      // EXIT BUTTON(Exit program)
-                      Container(
-                        width: double.infinity,
-                        height: 55.0,
-                        child: OutlinedButton(
-                          style: buttonStyle(Colors.black, Colors.white),
-                          child: Text('EXIT'),
-                          onPressed: () {
-                            // Application Exit(dispose controller and pop)
-                            this.idController.dispose();
-                            this.numberController.dispose();
-                            super.dispose();
-                            SystemNavigator.pop();
-                          },
-                        ),
+                    // NEXT BUTTON(Go to local authentication)
+                    Container(
+                      width: double.infinity,
+                      height: 55.0,
+                      child: OutlinedButton(
+                        style: buttonStyle(Colors.white, rokkhiColor),
+                        child: Text('NEXT'),
+                        onPressed: () async {
+                          // Show logging in dialog
+                          showLoadingIndicator();
+                          setState(() {
+                            isLoading = true;
+                          });
+                          print(idController.text);
+                          print(number.toString());
+                          var a = await this
+                              .userModel
+                              .fetchUser(idController.text, number.toString());
+                          if (a) {
+                            print('123123123');
+                          } else {
+                            print('fail');
+                          }
+                          // Push local Auth page
+                          setState(() {
+                            isLoading = false;
+                          });
+                          // Pop logging in dialog
+                          hideOpenDialog();
+                          Navigator.pushNamed(context, '/la');
+                        },
                       ),
-                    ],
-                  ))),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+
+                    // EXIT BUTTON(Exit program)
+                    Container(
+                      width: double.infinity,
+                      height: 55.0,
+                      child: OutlinedButton(
+                        style: buttonStyle(Colors.black, Colors.white),
+                        child: Text('EXIT'),
+                        onPressed: () {
+                          // Application Exit(dispose controller and pop)
+                          this.idController.dispose();
+                          this.numberController.dispose();
+                          super.dispose();
+                          SystemNavigator.pop();
+                        },
+                      ),
+                    ),
+                  ],
+                )),
+          ),
         ));
   }
 }

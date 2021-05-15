@@ -6,8 +6,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class UserViewModel {
-  //var url = Uri.parse('https://my-json-server.typicode.com/jted0537/JSON_test/user');
-
   Future<bool> fetchUser(String id, String number) async {
     var bytes = utf8.encode("$id:$number");
     var credentials = base64.encode(bytes);
@@ -15,13 +13,13 @@ class UserViewModel {
       "Accept": "application/json",
       "Authorization": "Basic $credentials"
     };
-    var url = Uri.parse(
-        'https://my-json-server.typicode.com/jted0537/JSON_test/user');
+    var url = Uri.parse('https://884428985cc7.ngrok.io/app_connection/$id/');
+    print(url);
     var response = await http.post(
       url,
       body: {
         "id": id,
-        "number": number,
+        "phone_number": number,
       },
     );
     if (response.statusCode == 200) {
