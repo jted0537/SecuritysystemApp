@@ -76,6 +76,7 @@ class _LocalAuthState extends State<LocalAuth> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(
             children: [
               Container(

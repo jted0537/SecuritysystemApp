@@ -22,19 +22,40 @@ Widget shahidulLogoImage() {
 }
 
 // Widget For Custom Appbar
-Widget logoAppBar() {
+Widget logoAppBar(String guardName, String type) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      Image.asset(
-        'images/ShahidulBari_LOGO.png',
-        height: 80,
-        width: 100,
+      Row(
+        children: [
+          Image.asset(
+            'images/Shield_LOGO.png',
+            height: 25,
+            width: 25,
+          ),
+          SizedBox(
+            width: 5.0,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(guardName),
+              if (type == 'patrol')
+                Text('Patrolling Guard',
+                    style: TextStyle(
+                        fontSize: 10.0,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.grey))
+              else
+                Text('Stationary Guard'),
+            ],
+          ),
+        ],
       ),
       Image.asset(
         'images/Rokkhi_LOGO.png',
-        height: 80,
-        width: 60,
+        //height: 90,
+        width: 70,
       ),
     ],
   );

@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:security_system/components/preferences.dart';
 import 'package:security_system/viewmodels/GuardViewModel.dart';
-import 'package:security_system/models/guard.dart';
-
-Guard loginGuard;
 
 // Login Page
 class LoginScreen extends StatefulWidget {

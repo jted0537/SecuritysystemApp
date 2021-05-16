@@ -1,19 +1,3 @@
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-
-class User {
-  final String id;
-  final PhoneNumber number;
-
-  User({this.id, this.number});
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'],
-      number: json['number'],
-    );
-  }
-}
-
 class Guard {
   final String guardName;
   final String type;
