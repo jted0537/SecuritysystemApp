@@ -19,9 +19,6 @@ class _LoginScreenState extends State<LoginScreen> {
   // Deault nation: Bangladesh
   PhoneNumber number = PhoneNumber(isoCode: 'BD');
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  bool isVerify = false;
-  bool isLoading = false;
-
   final GuardViewModel guardViewModel = GuardViewModel();
 
   // Alert Dialog when user failed to login.

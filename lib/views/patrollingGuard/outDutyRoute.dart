@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:security_system/components/preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:security_system/main.dart';
-import 'package:security_system/views/login/loginView.dart';
 
 // AppointedRouteMenu
 class OutDutyRoute extends StatefulWidget {

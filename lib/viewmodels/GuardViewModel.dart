@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:security_system/main.dart';
 import 'dart:convert';
-import 'package:security_system/models/guard.dart';
+import 'package:security_system/models/Guard.dart';
 
 class GuardViewModel {
   Future<bool> fetchUser(String id, String number) async {

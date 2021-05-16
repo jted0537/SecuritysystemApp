@@ -3,7 +3,7 @@ import 'package:security_system/views/patrollingGuard/inDutyRoute.dart';
 import 'package:security_system/views/login/localauthApi.dart';
 import 'package:security_system/views/patrollingGuard/outDutyRoute.dart';
 import 'package:security_system/views/login/loginView.dart';
-import 'package:security_system/models/guard.dart';
+import 'package:security_system/models/Guard.dart';
 
 Guard loginGuard;
 // Application Entry Point
