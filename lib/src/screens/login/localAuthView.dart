@@ -2,8 +2,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:local_auth/local_auth.dart';
-import 'package:security_system/components/preferences.dart';
+import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/main.dart';
+import 'package:security_system/src/viewmodels/GuardViewModel.dart';
 
 // Local Authentication (iOS: Face ID, Android: Finger print)
 class LocalAuth extends StatefulWidget {
@@ -17,12 +18,14 @@ class _LocalAuthState extends State<LocalAuth> {
   void authentication() async {
     // This is main part of authentication
     final isAuthenticated = await LocalAuthApi.authenticate();
+
     if (isAuthenticated == 4) {
       // Biometric authentication success
-      if (loginGuard.type == 'patrol') // If guard is patrolling guard
+      if (loginGuardViewModel.loginGuard.type ==
+          'patrol') // If guard is patrolling guard
         Navigator.pushNamed(context, '/a');
-      else if (loginGuard.type == 'station') // If guard is stationary guard
-        Navigator.pushNamed(context, 'b');
+      else // If guard is stationary guard
+        Navigator.pushNamed(context, '/b');
     } else if (isAuthenticated == 2) {
       // If device has no biometric authentication information, alert message pop
       showDialog(

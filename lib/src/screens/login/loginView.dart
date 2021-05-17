@@ -1,8 +1,8 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:security_system/components/preferences.dart';
-import 'package:security_system/viewmodels/GuardViewModel.dart';
+import 'package:security_system/src/components/preferences.dart';
+import 'package:security_system/main.dart';
 
 // Login Page
 class LoginScreen extends StatefulWidget {
@@ -19,7 +19,6 @@ class _LoginScreenState extends State<LoginScreen> {
   // Deault nation: Bangladesh
   PhoneNumber number = PhoneNumber(isoCode: 'BD');
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final GuardViewModel guardViewModel = GuardViewModel();
 
   // Alert Dialog when user failed to login.
   void loginFailedDialog() {
@@ -79,6 +78,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //final loginGuardViewModel =
+    //    Provider.of<GuardViewModel>(context, listen: true);
+
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -162,10 +164,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           showLoadingIndicator();
                           print(idController.text);
                           print(number.toString());
-                          if (await this.guardViewModel.fetchUser(
+                          if (await loginGuardViewModel.fetchGuard(
                               idController.text, number.toString())) {
                             // Success to login
                             hideLoadingDialog();
+                            print(loginGuardViewModel.guardName);
                             // Push local Auth page
                             Navigator.pushNamed(context, '/localAuth');
                           } else {
@@ -173,8 +176,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             hideLoadingDialog();
                             loginFailedDialog();
                           }
-                          // hideLoadingDialog();
-                          // Navigator.pushNamed(context, '/localAuth');
                         },
                       ),
                     ),

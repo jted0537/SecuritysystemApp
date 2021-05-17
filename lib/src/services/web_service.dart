@@ -1,10 +1,9 @@
+import 'package:security_system/src/models/guard.dart';
 import 'package:http/http.dart' as http;
-import 'package:security_system/main.dart';
 import 'dart:convert';
-import 'package:security_system/models/Guard.dart';
 
-class GuardViewModel {
-  Future<bool> fetchUser(String id, String number) async {
+class WebService {
+  Future<Guard> fetchGuard(String id, String number) async {
     var url = Uri.parse('http://158.247.211.173:80/app_connection/$id/');
     var response = await http.post(
       url,
@@ -16,11 +15,9 @@ class GuardViewModel {
     if (response.statusCode == 200) {
       print(response.body);
       final parsed = await json.decode(response.body);
-      loginGuard = Guard.fromJson(parsed);
-      print(loginGuard.type);
-      return true;
+      return Guard.fromJson(parsed);
     } else {
-      return false;
+      throw Exception("Unable to perform request!");
     }
   }
 }

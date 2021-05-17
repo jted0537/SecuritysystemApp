@@ -61,7 +61,8 @@ Widget logoAppBar(String guardName, String type) {
   );
 }
 
-Widget patrolLogo() {
+// Widget for patrol logo
+Widget patrolLogo(String guardName, String type) {
   return Padding(
     padding: EdgeInsets.all(15.0),
     child: Column(
@@ -71,19 +72,44 @@ Widget patrolLogo() {
             child: Image.asset(
               'images/Rokkhi_LOGO.png',
               height: 50,
-              width: 80,
+              width: 70,
             )),
         Row(
           children: [
-            // Image.asset(
-            //   'images/ShahidulBari_LOGO.png',
-            //   height: 40,
-            // ),
-            Text('11'),
+            Image.asset(
+              'images/Shield_LOGO.png',
+              height: 35,
+              width: 35,
+            ),
+            SizedBox(
+              width: 5.0,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(guardName,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17.0,
+                    )),
+                if (type == 'patrol')
+                  Text('Patrolling Guard',
+                      style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.grey))
+                else
+                  Text('Stationary Guard',
+                      style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.grey)),
+              ],
+            ),
             Spacer(),
             Image.asset(
               'images/Patrol_LOGO.png',
-              height: 150,
+              width: 150,
             ),
           ],
         ),

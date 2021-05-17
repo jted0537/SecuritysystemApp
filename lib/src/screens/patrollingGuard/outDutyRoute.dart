@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:security_system/components/preferences.dart';
+import 'package:security_system/src/components/preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:security_system/main.dart';
+import 'package:security_system/src/viewmodels/GuardViewModel.dart';
 
 // AppointedRouteMenu
 class OutDutyRoute extends StatefulWidget {
@@ -59,7 +60,8 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
               padding: EdgeInsets.all(15.0),
               child: Column(
                 children: [
-                  logoAppBar(loginGuard.guardName, loginGuard.type),
+                  logoAppBar(
+                      loginGuardViewModel.guardName, loginGuardViewModel.type),
                   SizedBox(
                     height: 20.0,
                   ),
