@@ -168,7 +168,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               idController.text, number.toString())) {
                             // Success to login
                             hideLoadingDialog();
-                            print(loginGuardViewModel.guardName);
                             // Push local Auth page
                             Navigator.pushNamed(context, '/localAuth');
                           } else {
