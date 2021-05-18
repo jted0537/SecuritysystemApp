@@ -11,17 +11,17 @@ class LocalAuth extends StatefulWidget {
   _LocalAuthState createState() => _LocalAuthState();
 }
 
+// Type of Biometric authentication result
 enum BioMetricLogin { Success, NoBioMetricInfo, DeviceNotProvide, Cancel }
 
 // Local Authentication State
 class _LocalAuthState extends State<LocalAuth> {
   // Doing local authentication method
   void authentication() async {
-    // This is main part of authentication
     final isAuthenticated = await LocalAuthApi.authenticate();
 
     if (isAuthenticated == BioMetricLogin.Success) {
-      // Biometric authentication success
+      // If Biometric authentication success
       if (loginGuardViewModel.loginGuard.type ==
           'patrol') // If guard is patrolling guard
         Navigator.pushNamed(context, '/a');
@@ -29,48 +29,17 @@ class _LocalAuthState extends State<LocalAuth> {
         Navigator.pushNamed(context, '/b');
     } else if (isAuthenticated == BioMetricLogin.NoBioMetricInfo) {
       // If device has no biometric authentication information, alert message pop
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          // return object of type Dialog
-          return AlertDialog(
-            title: Text("Authentication Failed"),
-            content:
-                Text("You should update device biometrics and security first"),
-            actions: [
-              TextButton(
-                child: Text("Close"),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          );
-        },
-      );
+      noBioMetricInfoDialog(context);
     } else if (isAuthenticated == BioMetricLogin.DeviceNotProvide) {
       // If device has no biometric auth function
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          // return object of type Dialog
-          return AlertDialog(
-            title: Text("Authentication Failed"),
-            content: Text("Device has no biometric authentication functions."),
-            actions: [
-              TextButton(
-                child: Text("Close"),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          );
-        },
-      );
+      notProvideBioMetricDialog(context);
     }
   }
 
   @override
   void initState() {
     super.initState();
-    // Immediate authentication
+    // Immediate authentication when login success
     authentication();
   }
 
@@ -79,26 +48,20 @@ class _LocalAuthState extends State<LocalAuth> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
+        // Use SingleChildScrollView and Column Widget for same look with login screen
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 15.0),
+          padding: EdgeInsets.symmetric(horizontal: 5.0),
           child: Column(
             children: [
               Container(
                 height: 50.0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.clear_outlined),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                ),
+                child: topRightDismissButton(context),
               ),
               rokkhiLogoImage(),
               SizedBox(
                 height: 20.0,
               ),
+
               // For 'Submit your fingerprint button
               OutlinedButton(
                 child: Column(

@@ -20,71 +20,13 @@ class _LoginScreenState extends State<LoginScreen> {
   PhoneNumber number = PhoneNumber(isoCode: 'BD');
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  // Alert Dialog when user failed to login.
-  void loginFailedDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Login Failed"),
-          content: Text("Incorrect Employee ID or Phone number."),
-          actions: [
-            TextButton(
-              child: Text("Close"),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  // Logging in Dialog
-  void showLoadingIndicator() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              SizedBox(
-                width: 30,
-                height: 30,
-                child: CircularProgressIndicator(),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Text("Please wait",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                  )),
-              Text('Logging in...'),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  // Pop Dialog
-  void hideLoadingDialog() {
-    Navigator.pop(context);
-  }
-
   @override
   Widget build(BuildContext context) {
-    //final loginGuardViewModel =
-    //    Provider.of<GuardViewModel>(context, listen: true);
-
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Container(
+            // Use Container -> SingleChildScrollView -> Column for scrollable full screen
             height: double.infinity,
             child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 15.0),
@@ -161,19 +103,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text('NEXT'),
                         onPressed: () async {
                           // Show logging in dialog
-                          showLoadingIndicator();
+                          showLoadingDialog(context);
                           print(idController.text);
                           print(number.toString());
                           if (await loginGuardViewModel.fetchGuard(
                               idController.text, number.toString())) {
                             // Success to login
-                            hideLoadingDialog();
-                            // Push local Auth page
+                            hideLoadingDialog(context);
+                            // Navigate to local Auth screen
                             Navigator.pushNamed(context, '/localAuth');
                           } else {
                             // Fail to login
-                            hideLoadingDialog();
-                            loginFailedDialog();
+                            hideLoadingDialog(context);
+                            loginFailedDialog(context);
                           }
                         },
                       ),

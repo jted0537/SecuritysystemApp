@@ -39,15 +39,22 @@ Widget logoAppBar(String guardName, String type) {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(guardName),
+              Text(
+                guardName,
+                style: TextStyle(fontWeight: titleFontWeight),
+              ),
               if (type == 'patrol')
                 Text('Patrolling Guard',
                     style: TextStyle(
                         fontSize: 10.0,
-                        fontWeight: FontWeight.w300,
+                        fontWeight: defaultFontWeight,
                         color: Colors.grey))
               else
-                Text('Stationary Guard'),
+                Text('Stationary Guard',
+                    style: TextStyle(
+                        fontSize: 10.0,
+                        fontWeight: defaultFontWeight,
+                        color: Colors.grey)),
             ],
           ),
         ],
@@ -89,20 +96,20 @@ Widget patrolLogo(String guardName, String type) {
               children: [
                 Text(guardName,
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: titleFontWeight,
                       fontSize: 17.0,
                     )),
                 if (type == 'patrol')
                   Text('Patrolling Guard',
                       style: TextStyle(
                           fontSize: 14.0,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: defaultFontWeight,
                           color: Colors.grey))
                 else
                   Text('Stationary Guard',
                       style: TextStyle(
                           fontSize: 14.0,
-                          fontWeight: FontWeight.w300,
+                          fontWeight: defaultFontWeight,
                           color: Colors.grey)),
               ],
             ),
@@ -115,6 +122,21 @@ Widget patrolLogo(String guardName, String type) {
         ),
       ],
     ),
+  );
+}
+
+Widget topRightDismissButton(BuildContext context) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      IconButton(
+        icon: Icon(
+          Icons.clear_sharp,
+          size: 35.0,
+        ),
+        onPressed: () => Navigator.pop(context),
+      ),
+    ],
   );
 }
 
@@ -143,6 +165,7 @@ ButtonStyle buttonStyle(Color foregroundColor, Color backgroundColor) {
 }
 
 //------------------------------------------------Design
+FontWeight titleFontWeight = FontWeight.bold;
 FontWeight defaultFontWeight = FontWeight.w400;
 Color rokkhiColor = Colors.red;
 
@@ -273,4 +296,101 @@ class DashRectPainter extends CustomPainter {
   bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
   }
+}
+
+//------------------------------------Show Dialogs
+// Alert Dialog when user failed to login.
+void loginFailedDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Login Failed"),
+        content: Text("Incorrect Employee ID or Phone number."),
+        actions: [
+          TextButton(
+            child: Text("Close"),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+// Logging in Dialog
+void showLoadingDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            SizedBox(
+              width: 30,
+              height: 30,
+              child: CircularProgressIndicator(),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text("Please wait",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                )),
+            Text('Logging in...'),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+// Pop Dialog
+void hideLoadingDialog(BuildContext context) {
+  Navigator.pop(context);
+}
+
+// If device has no biometric authentication information
+void noBioMetricInfoDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      // return object of type Dialog
+      return AlertDialog(
+        title: Text("Authentication Failed"),
+        content: Text("You should update device biometrics and security first"),
+        actions: [
+          TextButton(
+            child: Text("Close"),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+// If device has no function for Biometric authentication
+void notProvideBioMetricDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      // return object of type Dialog
+      return AlertDialog(
+        title: Text("Authentication Failed"),
+        content: Text("Device has no biometric authentication functions."),
+        actions: [
+          TextButton(
+            child: Text("Close"),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      );
+    },
+  );
 }

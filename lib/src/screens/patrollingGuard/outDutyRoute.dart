@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:security_system/main.dart';
-import 'package:security_system/src/viewmodels/GuardViewModel.dart';
 
 // AppointedRouteMenu
 class OutDutyRoute extends StatefulWidget {
@@ -41,6 +40,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
   @override
   void initState() {
     super.initState();
+    // Calculate current time
     now = DateTime.now();
     date = DateTime(now.year, now.month, now.day);
     formattedDate = DateFormat('dd/MM/yyyy').format(now);
@@ -141,7 +141,28 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                             'See All',
                             style: TextStyle(color: rokkhiColor),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30.0),
+                                      topRight: Radius.circular(30.0)),
+                                ),
+                                isScrollControlled: true,
+                                builder: (context) => Container(
+                                      height: 400.0,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 15.0, horizontal: 10.0),
+                                        child: Column(
+                                          children: [
+                                            topRightDismissButton(context),
+                                          ],
+                                        ),
+                                      ),
+                                    ));
+                          },
                         ),
                       ],
                     ),
