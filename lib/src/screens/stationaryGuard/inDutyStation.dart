@@ -10,26 +10,30 @@ class InDutyStation extends StatefulWidget {
 class _InDutyStationState extends State<InDutyStation> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[150],
-      body: SafeArea(
-        child: CustomScrollView(
-          // Using CustomScrollView and Silver for using expanded scroll view
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Column(
-                children: [
-                  // Company Logo Images (Rokkhi, Guard name, Patrol image)
-                  patrolLogo(
-                      loginGuardViewModel.guardName, loginGuardViewModel.type),
+    // Using WillPopScope for block the return with device back button
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: Colors.grey[150],
+        body: SafeArea(
+          child: CustomScrollView(
+            // Using CustomScrollView and Silver for using expanded scroll view
+            slivers: [
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Column(
+                  children: [
+                    // Company Logo Images (Rokkhi, Guard name, Patrol image)
+                    patrolLogo(loginGuardViewModel.guardName,
+                        loginGuardViewModel.type),
 
-                  // Widgets in cornerRadiusBox
-                  _inCornerRadiusBox(context),
-                ],
+                    // Widgets in cornerRadiusBox
+                    _inCornerRadiusBox(context),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -92,6 +96,7 @@ class _InDutyStationState extends State<InDutyStation> {
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                       )),
+                  Spacer(),
                   TextButton(
                     child: Text(
                       'See All',

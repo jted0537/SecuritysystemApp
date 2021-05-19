@@ -49,7 +49,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
 
   @override
   Widget build(BuildContext context) {
-    // Using WillPopScope for never return with device back button
+    // Using WillPopScope for block the return with device back button
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
