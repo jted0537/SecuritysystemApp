@@ -22,11 +22,12 @@ class _LocalAuthState extends State<LocalAuth> {
 
     if (isAuthenticated == BioMetricLogin.Success) {
       // If Biometric authentication success
-      if (loginGuardViewModel.loginGuard.type ==
-          'patrol') // If guard is patrolling guard
-        Navigator.pushNamed(context, '/outDutyRoute');
-      else // If guard is stationary guard
-        Navigator.pushNamed(context, '/inDutyStation');
+      // Navigate to outDutyRoute(Patrolling) / inDutyStation(Stationary)
+      Navigator.pushNamed(
+          context,
+          loginGuardViewModel.loginGuard.type == 'patrol'
+              ? '/outDutyRoute'
+              : '/inDutyStation');
     } else if (isAuthenticated == BioMetricLogin.NoBioMetricInfo) {
       // If device has no biometric authentication information, alert message pop
       noBioMetricInfoDialog(context);
@@ -58,9 +59,7 @@ class _LocalAuthState extends State<LocalAuth> {
                 child: topRightDismissButton(context),
               ),
               rokkhiLogoImage(),
-              SizedBox(
-                height: 20.0,
-              ),
+              SizedBox(height: 20.0),
 
               // For 'Submit your fingerprint button
               OutlinedButton(
@@ -68,9 +67,7 @@ class _LocalAuthState extends State<LocalAuth> {
                   children: [
                     Image.asset('images/FingerPrint.png',
                         height: 70, width: 70),
-                    SizedBox(
-                      height: 30,
-                    ),
+                    SizedBox(height: 30),
                     Text(
                       'Submit your fingerprint',
                       style: TextStyle(
