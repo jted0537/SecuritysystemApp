@@ -43,7 +43,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
     // Calculate current time
     now = DateTime.now();
     date = DateTime(now.year, now.month, now.day);
-    formattedDate = DateFormat('dd/MM/yyyy').format(now);
+    formattedDate = DateFormat('dd.MM.yyyy').format(now);
     this.isDutyTime = false;
   }
 
@@ -64,29 +64,23 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                   // Logo App Bar
                   logoAppBar(
                       loginGuardViewModel.guardName, loginGuardViewModel.type),
-                  SizedBox(
-                    height: 20.0,
-                  ),
+                  SizedBox(height: 20.0),
                   // Appointed Route Button
                   Container(
                     width: double.infinity,
                     child: OutlinedButton(
                       child: Column(
                         children: [
-                          Image.asset('images/marker.png',
+                          Image.asset('images/marker/marker.png',
                               height: 25.0, width: 25.0),
-                          SizedBox(
-                            height: 5.0,
-                          ),
+                          SizedBox(height: 5.0),
                           Text('Appointed Route',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 17.0,
                                 fontWeight: titleFontWeight,
                               )),
-                          SizedBox(
-                            height: 5.0,
-                          ),
+                          SizedBox(height: 5.0),
                           _dutyTimeWidget(this.isDutyTime),
                         ],
                       ),
@@ -101,9 +95,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
+                  SizedBox(height: 20.0),
                   // Dashed Rectangle Box
                   Container(
                       width: double.infinity,
@@ -114,9 +106,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                         gap: 3.0,
                         isDutyTime: this.isDutyTime,
                       )),
-                  SizedBox(
-                    height: 20.0,
-                  ),
+                  SizedBox(height: 20.0),
                   // Checkpoints List
                   Row(
                     children: [
@@ -126,9 +116,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                           )),
-                      SizedBox(
-                        width: 10.0,
-                      ),
+                      SizedBox(width: 10.0),
                       Text(
                         formattedDate,
                         style: TextStyle(
@@ -164,4 +152,29 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
       ),
     );
   }
+}
+
+// Bottom sheet for Appointed route
+void routeModalBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0)),
+      ),
+      isScrollControlled: true,
+      builder: (context) => SingleChildScrollView(
+            child: Container(
+              height: 400.0,
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                child: Column(
+                  children: [
+                    topRightDismissButton(context),
+                  ],
+                ),
+              ),
+            ),
+          ));
 }

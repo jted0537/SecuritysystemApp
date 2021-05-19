@@ -26,7 +26,6 @@ class _InDutyStationState extends State<InDutyStation> {
                     // Company Logo Images (Rokkhi, Guard name, Patrol image)
                     patrolLogo(loginGuardViewModel.guardName,
                         loginGuardViewModel.type),
-
                     // Widgets in cornerRadiusBox
                     _inCornerRadiusBox(context),
                   ],
@@ -38,87 +37,173 @@ class _InDutyStationState extends State<InDutyStation> {
       ),
     );
   }
+}
 
-  Widget _inCornerRadiusBox(BuildContext context) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.grey[300],
-                  offset: Offset(0, 0),
-                  blurRadius: 3.0,
-                  spreadRadius: 0.3),
-            ],
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(50.0),
-            )),
-        child: Padding(
-          padding: EdgeInsets.all(15.0),
-          child: Column(
-            children: [
-              // Appointed Route Widget
-              SizedBox(
-                height: 10.0,
-              ),
-              Image.asset('images/marker.png', height: 25.0, width: 25.0),
-              SizedBox(
-                height: 10.0,
-              ),
-              Text('Appointed Station',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 17.0,
-                    fontWeight: titleFontWeight,
-                  )),
-              SizedBox(
-                height: 5.0,
-              ),
-              Text(
-                'This is your duty time',
+// For each attendance
+Widget _temp(bool isComplete) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Row(
+      children: [
+        Column(
+          children: [
+            Text(' 12:12 am',
                 style: TextStyle(
-                  color: Colors.grey,
-                  fontWeight: defaultFontWeight,
-                  decoration: TextDecoration.underline,
-                ),
+                  color: Colors.black,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                )),
+            Text(
+              '00.00.0000',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 13.0,
               ),
-              SizedBox(
-                height: 25.0,
-              ),
+            ),
+          ],
+        ),
+        Spacer(),
+        Image.asset(
+          isComplete
+              ? 'images/complete_LOGO.png'
+              : 'images/notComplete_LOGO.png',
+          width: 45.0,
+        ),
+      ],
+    ),
+  );
+}
 
-              // Latest Attendance List
-              Row(
-                children: [
-                  Text('Latest Attendance',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                      )),
-                  Spacer(),
-                  TextButton(
-                    child: Text(
-                      'See All',
-                      style: TextStyle(color: rokkhiColor),
-                    ),
-                    onPressed: () {
-                      // Show checkpoints list with bottomsheet
-                      routeModalBottomSheet(context);
-                    },
-                  ),
-                ],
-              ),
-              Divider(
-                thickness: 1.0,
+// Widget for Latest Attendance list(with or not See all button)
+Widget _latestAttendance(BuildContext context, bool saButton) {
+  return Column(
+    children: [
+      Row(
+        children: [
+          Text('Latest Attendance',
+              style: TextStyle(
                 color: Colors.black,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              )),
+          Spacer(),
+          if (saButton)
+            TextButton(
+              child: Text(
+                'See All',
+                style: TextStyle(color: rokkhiColor),
               ),
-              // EXIT button
-              exitButton(context, 2),
-            ],
-          ),
+              onPressed: () {
+                // Show checkpoints list with bottomsheet
+                showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30.0),
+                          topRight: Radius.circular(30.0)),
+                    ),
+                    isScrollControlled: true,
+                    builder: (context) => SingleChildScrollView(
+                          child: Container(
+                            height: 400.0,
+                            child: SingleChildScrollView(
+                              padding: EdgeInsets.all(15.0),
+                              child: Column(
+                                children: [
+                                  topRightDismissButton(context),
+                                  _latestAttendance(context, false),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ));
+              },
+            ),
+        ],
+      ),
+      Divider(
+        thickness: 1.0,
+        color: Colors.black,
+      ),
+      for (int i = 0; i < 10; i++)
+        Column(
+          children: [
+            _temp(i % 2 == 0),
+            Divider(
+              thickness: 1.0,
+            ),
+          ],
+        ),
+    ],
+  );
+}
+
+// Widgets in cornerRadiusBox
+Widget _inCornerRadiusBox(BuildContext context) {
+  return Expanded(
+    child: Container(
+      decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey[300],
+                offset: Offset(0, 0),
+                blurRadius: 3.0,
+                spreadRadius: 0.3),
+          ],
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(50.0),
+          )),
+      child: Padding(
+        padding: EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            // Appointed Route
+            SizedBox(height: 10.0),
+            Image.asset('images/marker.png', height: 25.0, width: 25.0),
+            SizedBox(height: 10.0),
+            Text('Appointed Station',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 17.0,
+                  fontWeight: titleFontWeight,
+                )),
+            SizedBox(height: 5.0),
+            Text(
+              'Place where Station should be',
+              style: TextStyle(
+                color: Colors.grey,
+                fontWeight: defaultFontWeight,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+            SizedBox(height: 20.0),
+
+            // Address
+            Text('Address',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 17.0,
+                  fontWeight: titleFontWeight,
+                )),
+            Text(
+              'Place where address should be',
+              style: TextStyle(
+                color: Colors.grey,
+                fontWeight: defaultFontWeight,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+            SizedBox(height: 20.0),
+
+            // Latest Attendance list
+            _latestAttendance(context, true),
+            // EXIT button
+            exitButton(context, 2),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
 }

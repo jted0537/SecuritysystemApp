@@ -14,8 +14,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   // employee ID Contoller
   final TextEditingController idController = TextEditingController();
-  // Phone number Controller
-  //final TextEditingController numberController = TextEditingController();
   // Deault nation: Bangladesh
   PhoneNumber number = PhoneNumber(isoCode: 'BD');
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -32,9 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 15.0),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 50.0,
-                    ),
+                    SizedBox(height: 50.0),
                     // Logo Image
                     rokkhiLogoImage(),
                     Align(
@@ -44,17 +40,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontWeight: defaultFontWeight,
                           )),
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
+                    SizedBox(height: 5),
                     TextField(
                       controller: idController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: textfeildDesign(),
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
+                    SizedBox(height: 15),
 
                     // Phone number textfield part
                     Align(
@@ -66,9 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
+                    SizedBox(height: 5),
                     Form(
                       key: formKey,
                       child: InternationalPhoneNumberInput(
@@ -90,9 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         inputDecoration: textfeildDesign(),
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    SizedBox(height: 20),
 
                     // NEXT BUTTON(Go to local authentication)
                     Container(
@@ -120,9 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                     ),
-                    SizedBox(
-                      height: 8,
-                    ),
+                    SizedBox(height: 8),
 
                     // EXIT BUTTON(Exit program)
                     Container(
@@ -134,7 +120,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           // Application Exit(dispose controller and pop)
                           this.idController.dispose();
-                          //this.numberController.dispose();
                           super.dispose();
                           SystemNavigator.pop();
                         },
