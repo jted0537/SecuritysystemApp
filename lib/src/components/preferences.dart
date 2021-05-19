@@ -1,29 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-//------------------------------------------------Functions
-void routeModalBottomSheet(BuildContext context) {
-  showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0)),
-      ),
-      isScrollControlled: true,
-      builder: (context) => Container(
-            height: 400.0,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-              child: Column(
-                children: [
-                  topRightDismissButton(context),
-                ],
-              ),
-            ),
-          ));
-}
-
 //------------------------------------------------Widget
 // Widget For Rokkhi LOGO
 Widget rokkhiLogoImage() {
@@ -153,11 +130,15 @@ Widget topRightDismissButton(BuildContext context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
-      IconButton(
-        icon: Icon(
-          Icons.clear_sharp,
-          size: 35.0,
+      TextButton(
+        child: Image.asset(
+          'images/Dismiss_LOGO.png',
+          width: 22.0,
         ),
+        // Icon(
+        //   Icons.clear,
+        //   size: 35.0,
+        // ),
         onPressed: () => Navigator.pop(context),
       ),
     ],
