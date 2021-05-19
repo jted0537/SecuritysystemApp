@@ -49,6 +49,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
 
   @override
   Widget build(BuildContext context) {
+    // Using WillPopScope for never return with device back button
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -60,6 +61,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
               padding: EdgeInsets.all(15.0),
               child: Column(
                 children: [
+                  // Logo App Bar
                   logoAppBar(
                       loginGuardViewModel.guardName, loginGuardViewModel.type),
                   SizedBox(
@@ -80,7 +82,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 17.0,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: titleFontWeight,
                               )),
                           SizedBox(
                             height: 5.0,
@@ -89,7 +91,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                         ],
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/b');
+                        Navigator.pushNamed(context, '/inDutyRoute');
                       },
                       style: OutlinedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 40.0),
@@ -102,6 +104,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                   SizedBox(
                     height: 20.0,
                   ),
+                  // Dashed Rectangle Box
                   Container(
                       width: double.infinity,
                       color: Colors.black12,
@@ -114,74 +117,45 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                   SizedBox(
                     height: 20.0,
                   ),
-                  // Checkpoints
-                  Container(
-                    width: double.infinity,
-                    child: Row(
-                      children: [
-                        Text('Checkpoints',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            )),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Text(
-                          formattedDate,
+                  // Checkpoints List
+                  Row(
+                    children: [
+                      Text('Checkpoints',
                           style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 13.0,
-                          ),
+                            color: Colors.black,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          )),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Text(
+                        formattedDate,
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 13.0,
                         ),
-                        Spacer(),
-                        TextButton(
-                          child: Text(
-                            'See All',
-                            style: TextStyle(color: rokkhiColor),
-                          ),
-                          onPressed: () {
-                            showModalBottomSheet(
-                                context: context,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(30.0),
-                                      topRight: Radius.circular(30.0)),
-                                ),
-                                isScrollControlled: true,
-                                builder: (context) => Container(
-                                      height: 400.0,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 15.0, horizontal: 10.0),
-                                        child: Column(
-                                          children: [
-                                            topRightDismissButton(context),
-                                          ],
-                                        ),
-                                      ),
-                                    ));
-                          },
+                      ),
+                      Spacer(),
+                      TextButton(
+                        child: Text(
+                          'See All',
+                          style: TextStyle(color: rokkhiColor),
                         ),
-                      ],
-                    ),
+                        onPressed: () {
+                          // Show checkpoints list with bottomsheet
+                          routeModalBottomSheet(context);
+                        },
+                      ),
+                    ],
                   ),
                   Divider(
-                    thickness: 0.6,
+                    thickness: 1.0,
                     color: Colors.black,
                   ),
 
                   // EXIT Button
-                  OutlinedButton(
-                      style: buttonStyle(Colors.grey, Colors.white),
-                      child: Padding(
-                          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                          child: Text('EXIT')),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                      }),
+                  exitButton(context, 2),
                 ],
               ),
             ),

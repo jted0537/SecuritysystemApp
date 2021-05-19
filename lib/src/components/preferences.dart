@@ -1,6 +1,29 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+//------------------------------------------------Functions
+void routeModalBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0)),
+      ),
+      isScrollControlled: true,
+      builder: (context) => Container(
+            height: 400.0,
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+              child: Column(
+                children: [
+                  topRightDismissButton(context),
+                ],
+              ),
+            ),
+          ));
+}
+
 //------------------------------------------------Widget
 // Widget For Rokkhi LOGO
 Widget rokkhiLogoImage() {
@@ -68,10 +91,10 @@ Widget logoAppBar(String guardName, String type) {
   );
 }
 
-// Widget for patrol logo
+// Widget for patrol logo (Rokkhi, Guard (name,type), Patrol image)
 Widget patrolLogo(String guardName, String type) {
   return Padding(
-    padding: EdgeInsets.all(15.0),
+    padding: EdgeInsets.fromLTRB(15.0, 10.0, 30.0, 0.0),
     child: Column(
       children: [
         Align(
@@ -79,7 +102,7 @@ Widget patrolLogo(String guardName, String type) {
             child: Image.asset(
               'images/Rokkhi_LOGO.png',
               height: 50,
-              width: 70,
+              width: 80,
             )),
         Row(
           children: [
@@ -116,7 +139,7 @@ Widget patrolLogo(String guardName, String type) {
             Spacer(),
             Image.asset(
               'images/Patrol_LOGO.png',
-              width: 150,
+              width: 140,
             ),
           ],
         ),
@@ -125,6 +148,7 @@ Widget patrolLogo(String guardName, String type) {
   );
 }
 
+// Widget for topRight dismiss button
 Widget topRightDismissButton(BuildContext context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.end,
@@ -138,6 +162,20 @@ Widget topRightDismissButton(BuildContext context) {
       ),
     ],
   );
+}
+
+// Widget for exit button, It will pop navigate (count) times
+Widget exitButton(BuildContext context, int count) {
+  // EXIT Button
+  return OutlinedButton(
+      style: buttonStyle(Colors.grey, Colors.white),
+      child: Padding(
+          padding: EdgeInsets.fromLTRB(20, 0, 20, 0), child: Text('EXIT')),
+      onPressed: () {
+        for (var a = 0; a < count; a++) {
+          Navigator.of(context).pop();
+        }
+      });
 }
 
 //------------------------------------------------Style

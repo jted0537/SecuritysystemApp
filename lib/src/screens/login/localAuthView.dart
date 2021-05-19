@@ -24,9 +24,9 @@ class _LocalAuthState extends State<LocalAuth> {
       // If Biometric authentication success
       if (loginGuardViewModel.loginGuard.type ==
           'patrol') // If guard is patrolling guard
-        Navigator.pushNamed(context, '/a');
+        Navigator.pushNamed(context, '/outDutyRoute');
       else // If guard is stationary guard
-        Navigator.pushNamed(context, '/b');
+        Navigator.pushNamed(context, '/inDutyStation');
     } else if (isAuthenticated == BioMetricLogin.NoBioMetricInfo) {
       // If device has no biometric authentication information, alert message pop
       noBioMetricInfoDialog(context);
@@ -69,13 +69,13 @@ class _LocalAuthState extends State<LocalAuth> {
                     Image.asset('images/FingerPrint.png',
                         height: 70, width: 70),
                     SizedBox(
-                      height: 50,
+                      height: 30,
                     ),
                     Text(
                       'Submit your fingerprint',
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 18.0,
+                          fontSize: 15.0,
                           fontWeight: defaultFontWeight),
                     ),
                   ],

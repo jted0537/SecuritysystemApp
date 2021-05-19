@@ -4,6 +4,7 @@ import 'package:security_system/src/screens/login/localAuthView.dart';
 import 'package:security_system/src/screens/patrollingGuard/outDutyRoute.dart';
 import 'package:security_system/src/screens/login/loginView.dart';
 import 'package:security_system/src/viewmodels/GuardViewModel.dart';
+import 'package:security_system/src/screens/stationaryGuard/inDutyStation.dart';
 
 final loginGuardViewModel = GuardViewModel();
 // Application Entry Point
@@ -18,8 +19,10 @@ class SecureApp extends StatelessWidget {
         // For Navigator
         '/': (context) => LoginScreen(),
         '/localAuth': (context) => LocalAuth(),
-        '/a': (context) => OutDutyRoute(),
-        '/b': (context) => InDutyRoute(),
+        '/inDutyRoute': (context) => InDutyRoute(),
+        '/outDutyRoute': (context) => OutDutyRoute(),
+        '/inDutyStation': (context) => InDutyStation(),
+        // TODO '/outDutyStation': (context) => OutDutyStation(),
       },
       title: 'CVGM',
       debugShowCheckedModeBanner: false,

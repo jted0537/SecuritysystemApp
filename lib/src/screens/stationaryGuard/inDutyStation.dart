@@ -1,57 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
-import 'package:intl/intl.dart';
 import 'package:security_system/main.dart';
 
-class InDutyRoute extends StatefulWidget {
+class InDutyStation extends StatefulWidget {
   @override
-  _InDutyRouteState createState() => _InDutyRouteState();
+  _InDutyStationState createState() => _InDutyStationState();
 }
 
-class _InDutyRouteState extends State<InDutyRoute> {
-  DateTime now;
-  DateTime date;
-  String formattedDate;
-  bool isDutyTime;
-  // For CheckPoint button and ViewMap button
-  Widget _outLinedButton(String imageAsset, String type) {
-    return OutlinedButton(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 40.0),
-        child: Column(
-          children: [
-            Image.asset(
-              imageAsset,
-              height: 30.0,
-              width: 30.0,
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Text(
-              type,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 13.0,
-                  fontWeight: defaultFontWeight),
-            ),
-          ],
-        ),
-      ),
-      onPressed: () {},
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // Calculate current time
-    now = DateTime.now();
-    date = DateTime(now.year, now.month, now.day);
-    formattedDate = DateFormat('dd/MM/yyyy').format(now);
-    this.isDutyTime = false;
-  }
-
+class _InDutyStationState extends State<InDutyStation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +35,6 @@ class _InDutyRouteState extends State<InDutyRoute> {
     );
   }
 
-  // Widgets in cornerRadiusBox
   Widget _inCornerRadiusBox(BuildContext context) {
     return Expanded(
       child: Container(
@@ -107,7 +62,7 @@ class _InDutyRouteState extends State<InDutyRoute> {
               SizedBox(
                 height: 10.0,
               ),
-              Text('Appointed Route',
+              Text('Appointed Station',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 17.0,
@@ -128,42 +83,15 @@ class _InDutyRouteState extends State<InDutyRoute> {
                 height: 25.0,
               ),
 
-              // CheckPoint, View Map button
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // CheckPoint Button
-                  _outLinedButton('images/CheckPoint_LOGO.png', 'CheckPoint'),
-                  SizedBox(
-                    width: 5.0,
-                  ),
-                  // ViewMap Button
-                  _outLinedButton('images/ViewMap_LOGO.png', 'View Map'),
-                ],
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              //Checkpoints List
+              // Latest Attendance List
               Row(
                 children: [
-                  Text('Checkpoints',
+                  Text('Latest Attendance',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
                       )),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Text(
-                    formattedDate,
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 13.0,
-                    ),
-                  ),
-                  Spacer(),
                   TextButton(
                     child: Text(
                       'See All',
