@@ -71,7 +71,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                     child: OutlinedButton(
                       child: Column(
                         children: [
-                          Image.asset('images/marker/marker.png',
+                          Image.asset('images/marker.png',
                               height: 25.0, width: 25.0),
                           SizedBox(height: 5.0),
                           Text('Appointed Route',
