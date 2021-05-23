@@ -51,7 +51,7 @@ class _LocalAuthState extends State<LocalAuth> {
       body: SafeArea(
         // Use SingleChildScrollView and Column Widget for same look with login screen
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 5.0),
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(
             children: [
               Container(

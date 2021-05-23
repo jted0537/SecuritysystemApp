@@ -74,71 +74,6 @@ Widget _temp(bool isComplete) {
   );
 }
 
-// Widget for Latest Attendance list(with or not See all button)
-Widget _latestAttendance(BuildContext context, bool saButton) {
-  return Column(
-    children: [
-      Row(
-        children: [
-          Text('Latest Attendance',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              )),
-          Spacer(),
-          if (saButton)
-            TextButton(
-              child: Text(
-                'See All',
-                style: TextStyle(color: rokkhiColor),
-              ),
-              onPressed: () {
-                // Show checkpoints list with bottomsheet
-                showModalBottomSheet(
-                    context: context,
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30.0),
-                          topRight: Radius.circular(30.0)),
-                    ),
-                    isScrollControlled: true,
-                    builder: (context) => SingleChildScrollView(
-                          child: Container(
-                            height: 400.0,
-                            child: SingleChildScrollView(
-                              padding: EdgeInsets.all(15.0),
-                              child: Column(
-                                children: [
-                                  topRightDismissButton(context),
-                                  _latestAttendance(context, false),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ));
-              },
-            ),
-        ],
-      ),
-      Divider(
-        thickness: 1.0,
-        color: Colors.black,
-      ),
-      for (int i = 0; i < 10; i++)
-        Column(
-          children: [
-            _temp(i % 2 == 0),
-            Divider(
-              thickness: 1.0,
-            ),
-          ],
-        ),
-    ],
-  );
-}
-
 // Widgets in cornerRadiusBox
 Widget _inCornerRadiusBox(BuildContext context) {
   return Expanded(
@@ -205,5 +140,70 @@ Widget _inCornerRadiusBox(BuildContext context) {
         ),
       ),
     ),
+  );
+}
+
+// Widget for Latest Attendance list(with or not See all button)
+Widget _latestAttendance(BuildContext context, bool saButton) {
+  return Column(
+    children: [
+      Row(
+        children: [
+          Text('Latest Attendance',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              )),
+          Spacer(),
+          if (saButton)
+            TextButton(
+              child: Text(
+                'See All',
+                style: TextStyle(color: rokkhiColor),
+              ),
+              onPressed: () {
+                // Show checkpoints list with bottomsheet
+                showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30.0),
+                          topRight: Radius.circular(30.0)),
+                    ),
+                    isScrollControlled: true,
+                    builder: (context) => SingleChildScrollView(
+                          child: Container(
+                            height: 400.0,
+                            child: SingleChildScrollView(
+                              padding: EdgeInsets.all(15.0),
+                              child: Column(
+                                children: [
+                                  topRightDismissButton(context),
+                                  _latestAttendance(context, false),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ));
+              },
+            ),
+        ],
+      ),
+      Divider(
+        thickness: 1.0,
+        color: Colors.black,
+      ),
+      for (int i = 0; i < 10; i++)
+        Column(
+          children: [
+            _temp(i % 2 == 0),
+            Divider(
+              thickness: 1.0,
+            ),
+          ],
+        ),
+    ],
   );
 }

@@ -130,16 +130,15 @@ Widget topRightDismissButton(BuildContext context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.end,
     children: [
-      TextButton(
-        child: Image.asset(
-          'images/Dismiss_LOGO.png',
-          width: 22.0,
+      Container(
+        width: 40.0,
+        child: TextButton(
+          child: Image.asset(
+            'images/Dismiss_LOGO.png',
+            width: 22.0,
+          ),
+          onPressed: () => Navigator.pop(context),
         ),
-        // Icon(
-        //   Icons.clear,
-        //   size: 35.0,
-        // ),
-        onPressed: () => Navigator.pop(context),
       ),
     ],
   );
