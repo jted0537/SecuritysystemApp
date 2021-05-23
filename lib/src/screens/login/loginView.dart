@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
@@ -96,10 +98,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           print(number.toString());
                           if (await loginGuardViewModel.fetchGuard(
                               idController.text, number.toString())) {
-                            // Success to login
-                            hideLoadingDialog(context);
-                            // Navigate to local Auth screen
-                            Navigator.pushNamed(context, '/localAuth');
+                            if (await loginRouteViewModel
+                                .fetchRoute(idController.text)) {
+                              print('answer : ' +
+                                  loginRouteViewModel
+                                      .loginRoute.checkpoints[0].latitude
+                                      .toString());
+                              // Success to login
+                              hideLoadingDialog(context);
+                              // Navigate to local Auth screen
+                              Navigator.pushNamed(context, '/localAuth');
+                            } else
+                              print('err');
                           } else {
                             // Fail to login
                             hideLoadingDialog(context);

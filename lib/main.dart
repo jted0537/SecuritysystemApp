@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:security_system/src/screens/patrollingGuard/inDutyRoute.dart';
 import 'package:security_system/src/screens/login/localAuthView.dart';
 import 'package:security_system/src/screens/patrollingGuard/outDutyRoute.dart';
-import 'package:security_system/src/screens/login/loginView.dart';
-import 'package:security_system/src/viewmodels/GuardViewModel.dart';
 import 'package:security_system/src/screens/stationaryGuard/inDutyStation.dart';
+import 'package:security_system/src/screens/login/loginView.dart';
+import 'package:security_system/src/viewmodels/guardViewModel.dart';
+import 'package:security_system/src/viewmodels/routeViewModel.dart';
 
 final loginGuardViewModel = GuardViewModel();
+final loginRouteViewModel = RouteViewModel();
 // Application Entry Point
 void main() => runApp(SecureApp());
 

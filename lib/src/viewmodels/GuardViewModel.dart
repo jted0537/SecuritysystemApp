@@ -14,7 +14,6 @@ class GuardViewModel {
     } catch (e) {
       return false;
     }
-    //notifyListeners();
   }
 
   String get guardName {
@@ -25,11 +24,19 @@ class GuardViewModel {
     return this.loginGuard.type;
   }
 
-  String get routeId {
-    return this.loginGuard.routeId;
+  String get slotTitle {
+    return this.loginGuard.slotTitle;
   }
 
-  String get stationId {
-    return this.loginGuard.stationId;
+  String get startTime {
+    return this.loginGuard.startTime;
+  }
+
+  String get endTime {
+    return this.loginGuard.endTime;
+  }
+
+  int get frequency {
+    return this.loginGuard.frequency;
   }
 }

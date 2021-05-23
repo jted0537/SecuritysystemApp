@@ -1,14 +1,12 @@
 class CheckPoint {
-  final String checkPointId;
-  final String routeId;
+  final int sequenceNum;
   final double latitude;
   final double longitude;
   final double radius;
   final int frequency;
 
   CheckPoint(
-      {this.checkPointId,
-      this.routeId,
+      {this.sequenceNum,
       this.latitude,
       this.longitude,
       this.radius,
@@ -16,8 +14,7 @@ class CheckPoint {
 
   factory CheckPoint.fromJson(Map<String, dynamic> json) {
     return CheckPoint(
-      checkPointId: json['checkpoint_id'],
-      routeId: json['route_id'],
+      sequenceNum: json['sequence_num'],
       latitude: json['latitude'],
       longitude: json['longitude'],
       radius: json['radius'],
