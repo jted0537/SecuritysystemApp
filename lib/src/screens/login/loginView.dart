@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/main.dart';
+import 'package:connectivity/connectivity.dart';
 
 // Login Page
 class LoginScreen extends StatefulWidget {
@@ -19,6 +18,8 @@ class _LoginScreenState extends State<LoginScreen> {
   // Deault nation: Bangladesh
   PhoneNumber number = PhoneNumber(isoCode: 'BD');
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  // Check internet connection
+  var connectivityResult;
 
   @override
   Widget build(BuildContext context) {
@@ -92,28 +93,37 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: buttonStyle(Colors.white, rokkhiColor),
                         child: Text('NEXT'),
                         onPressed: () async {
-                          // Show logging in dialog
-                          showLoadingDialog(context);
-                          print(idController.text);
-                          print(number.toString());
-                          if (await loginGuardViewModel.fetchGuard(
-                              idController.text, number.toString())) {
-                            if (await loginRouteViewModel
-                                .fetchRoute(idController.text)) {
-                              print('answer : ' +
-                                  loginRouteViewModel
-                                      .loginRoute.checkpoints[0].latitude
-                                      .toString());
-                              // Success to login
-                              hideLoadingDialog(context);
-                              // Navigate to local Auth screen
-                              Navigator.pushNamed(context, '/localAuth');
-                            } else
-                              print('err');
+                          connectivityResult =
+                              await (Connectivity().checkConnectivity());
+                          if (connectivityResult == ConnectivityResult.none) {
+                            // Fail to connect internet
+                            internetConnectionFailedDialog(context);
                           } else {
-                            // Fail to login
-                            hideLoadingDialog(context);
-                            loginFailedDialog(context);
+                            // Success to connect internet
+                            // Show logging in dialog
+                            showLoadingDialog(context);
+                            print(idController.text);
+                            print(number.toString());
+                            print('mobile network or wifi');
+                            if (await loginGuardViewModel.fetchGuard(
+                                idController.text, number.toString())) {
+                              if (await loginRouteViewModel
+                                  .fetchRoute(idController.text)) {
+                                print('answer : ' +
+                                    loginRouteViewModel
+                                        .loginRoute.checkpoints[0].latitude
+                                        .toString());
+                                // Success to login
+                                hideLoadingDialog(context);
+                                // Navigate to local Auth screen
+                                Navigator.pushNamed(context, '/localAuth');
+                              } else
+                                print('err');
+                            } else {
+                              // Fail to login
+                              hideLoadingDialog(context);
+                              loginFailedDialog(context);
+                            }
                           }
                         },
                       ),

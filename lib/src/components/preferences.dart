@@ -336,6 +336,25 @@ void loginFailedDialog(BuildContext context) {
   );
 }
 
+// Alert Dialog when user failed to login.
+void internetConnectionFailedDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("No internet connection"),
+        content: Text("Please check your internet connection and try again."),
+        actions: [
+          TextButton(
+            child: Text("Close"),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 // Logging in Dialog
 void showLoadingDialog(BuildContext context) {
   showDialog(

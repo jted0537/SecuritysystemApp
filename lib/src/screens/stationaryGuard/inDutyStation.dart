@@ -39,41 +39,6 @@ class _InDutyStationState extends State<InDutyStation> {
   }
 }
 
-// For each attendance
-Widget _temp(bool isComplete) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
-    child: Row(
-      children: [
-        Column(
-          children: [
-            Text(' 12:12 am',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                )),
-            Text(
-              '00.00.0000',
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: 13.0,
-              ),
-            ),
-          ],
-        ),
-        Spacer(),
-        Image.asset(
-          isComplete
-              ? 'images/complete_LOGO.png'
-              : 'images/notComplete_LOGO.png',
-          width: 45.0,
-        ),
-      ],
-    ),
-  );
-}
-
 // Widgets in cornerRadiusBox
 Widget _inCornerRadiusBox(BuildContext context) {
   return Expanded(
@@ -205,5 +170,40 @@ Widget _latestAttendance(BuildContext context, bool saButton) {
           ],
         ),
     ],
+  );
+}
+
+// For each attendance
+Widget _temp(bool isComplete) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Row(
+      children: [
+        Column(
+          children: [
+            Text(' 12:12 am',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                )),
+            Text(
+              '00.00.0000',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 13.0,
+              ),
+            ),
+          ],
+        ),
+        Spacer(),
+        Image.asset(
+          isComplete
+              ? 'images/complete_LOGO.png'
+              : 'images/notComplete_LOGO.png',
+          width: 45.0,
+        ),
+      ],
+    ),
   );
 }
