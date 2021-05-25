@@ -10,11 +10,6 @@ class OutDutyRoute extends StatefulWidget {
 }
 
 class _OutDutyRouteState extends State<OutDutyRoute> {
-  DateTime now;
-  DateTime date;
-  String formattedDate;
-  bool isDutyTime;
-
   // It is Duty time or not
   Widget _dutyTimeWidget(bool isDutyTime) {
     if (!isDutyTime)
@@ -35,16 +30,6 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
           decoration: TextDecoration.underline,
         ),
       );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // Calculate current time
-    now = DateTime.now();
-    date = DateTime(now.year, now.month, now.day);
-    formattedDate = DateFormat('dd.MM.yyyy').format(now);
-    this.isDutyTime = false;
   }
 
   @override
@@ -81,7 +66,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                                 fontWeight: titleFontWeight,
                               )),
                           SizedBox(height: 5.0),
-                          _dutyTimeWidget(this.isDutyTime),
+                          //_dutyTimeWidget(this.isDutyTime),
                         ],
                       ),
                       onPressed: () {
@@ -104,7 +89,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                         color: Colors.grey[300],
                         strokeWidth: 2.0,
                         gap: 3.0,
-                        isDutyTime: this.isDutyTime,
+                        //isDutyTime: this.isDutyTime,
                       )),
                   SizedBox(height: 20.0),
                   // Checkpoints List
@@ -141,6 +126,21 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                     thickness: 1.0,
                     color: Colors.black,
                   ),
+                  for (int i = 0;
+                      i < loginRouteViewModel.loginRoute.checkpoints.length;
+                      i++)
+                    Row(
+                      children: [
+                        Text(loginRouteViewModel.loginRoute.routeTitle +
+                            i.toString()),
+                        Spacer(),
+                        Text('0' +
+                            '/' +
+                            loginRouteViewModel
+                                .loginRoute.checkpoints[i].frequency
+                                .toString()),
+                      ],
+                    ),
 
                   // EXIT Button
                   exitButton(context, 2),

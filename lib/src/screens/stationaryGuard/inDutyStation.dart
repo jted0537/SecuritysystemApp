@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/main.dart';
+import 'package:intl/intl.dart';
 
 class InDutyStation extends StatefulWidget {
   @override
@@ -70,8 +71,9 @@ Widget _inCornerRadiusBox(BuildContext context) {
                   fontWeight: titleFontWeight,
                 )),
             SizedBox(height: 5.0),
+            // Station title
             Text(
-              'Place where Station should be',
+              loginStationViewModel.stationTitle,
               style: TextStyle(
                 color: Colors.grey,
                 fontWeight: defaultFontWeight,
@@ -80,7 +82,7 @@ Widget _inCornerRadiusBox(BuildContext context) {
             ),
             SizedBox(height: 20.0),
 
-            // Address
+            // Station Address
             Text('Address',
                 style: TextStyle(
                   color: Colors.black,
@@ -88,7 +90,7 @@ Widget _inCornerRadiusBox(BuildContext context) {
                   fontWeight: titleFontWeight,
                 )),
             Text(
-              'Place where address should be',
+              loginStationViewModel.stationAddress,
               style: TextStyle(
                 color: Colors.grey,
                 fontWeight: defaultFontWeight,
@@ -160,10 +162,10 @@ Widget _latestAttendance(BuildContext context, bool saButton) {
         thickness: 1.0,
         color: Colors.black,
       ),
-      for (int i = 0; i < 10; i++)
+      for (int i = 0; i < loginGuardViewModel.workCount; i++)
         Column(
           children: [
-            _temp(i % 2 == 0),
+            _temp(' 12:12 am', i % 2 == 0),
             Divider(
               thickness: 1.0,
             ),
@@ -174,21 +176,21 @@ Widget _latestAttendance(BuildContext context, bool saButton) {
 }
 
 // For each attendance
-Widget _temp(bool isComplete) {
+Widget _temp(String time, bool isComplete) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 8.0),
     child: Row(
       children: [
         Column(
           children: [
-            Text(' 12:12 am',
+            Text(time,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 )),
             Text(
-              '00.00.0000',
+              formattedDate,
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 13.0,

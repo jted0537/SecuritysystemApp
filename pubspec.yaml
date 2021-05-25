@@ -35,7 +35,7 @@ dependencies:
   provider: ^5.0.0
   http: ^0.13.3
   connectivity: ^3.0.4
-  
+  shared_preferences: ^2.0.5
   # flutter_native_splash: ^1.1.8+4 이거 하고 난다음에 터미널에서 flutter pub run flutter_native_splash:create 실행
 dev_dependencies:
   flutter_test:

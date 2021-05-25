@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:security_system/main.dart';
+import 'package:security_system/src/viewmodels/routeViewModel.dart';
 
 class InDutyRoute extends StatefulWidget {
   @override
@@ -9,21 +10,6 @@ class InDutyRoute extends StatefulWidget {
 }
 
 class _InDutyRouteState extends State<InDutyRoute> {
-  DateTime now;
-  DateTime date;
-  String formattedDate;
-  bool isDutyTime;
-
-  @override
-  void initState() {
-    super.initState();
-    // Calculate current time
-    now = DateTime.now();
-    date = DateTime(now.year, now.month, now.day);
-    formattedDate = DateFormat('dd.MM.yyyy').format(now);
-    this.isDutyTime = false;
-  }
-
   @override
   Widget build(BuildContext context) {
     // Using WillPopScope for block the return with device back button
@@ -197,7 +183,11 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
             ),
 
             // TODO Add Route list
-
+            // Column(
+            //   children: [
+            //     Text(RouteViewModel().loginRoute.routeTitle),
+            //   ],
+            // ),
             // EXIT button
             exitButton(context, 2),
           ],

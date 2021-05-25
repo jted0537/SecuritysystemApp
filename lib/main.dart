@@ -6,9 +6,14 @@ import 'package:security_system/src/screens/stationaryGuard/inDutyStation.dart';
 import 'package:security_system/src/screens/login/loginView.dart';
 import 'package:security_system/src/viewmodels/guardViewModel.dart';
 import 'package:security_system/src/viewmodels/routeViewModel.dart';
+import 'package:security_system/src/viewmodels/stationViewModel.dart';
 
 final loginGuardViewModel = GuardViewModel();
 final loginRouteViewModel = RouteViewModel();
+final loginStationViewModel = StationViewModel();
+DateTime now;
+DateTime date;
+String formattedDate;
 // Application Entry Point
 void main() => runApp(SecureApp());
 

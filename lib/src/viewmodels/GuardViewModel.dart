@@ -4,8 +4,6 @@ import 'package:security_system/src/services/webService.dart';
 class GuardViewModel {
   Guard loginGuard = Guard();
 
-  //GuardViewModel({this.loginGuard});
-
   Future<bool> fetchGuard(String id, String number) async {
     try {
       final results = await WebService().fetchGuard(id, number);
@@ -38,5 +36,15 @@ class GuardViewModel {
 
   int get frequency {
     return this.loginGuard.frequency;
+  }
+
+  int get workCount {
+    final endHour = int.parse(this.loginGuard.endTime.split(':')[0]);
+    final startHour = int.parse(this.loginGuard.startTime.split(':')[0]);
+    final endMinute = int.parse(this.loginGuard.endTime.split(':')[1]);
+    final startMinute = int.parse(this.loginGuard.startTime.split(':')[0]);
+    return ((endHour - startHour) * 60 + (endMinute - startMinute)) ~/
+            this.loginGuard.frequency +
+        1;
   }
 }

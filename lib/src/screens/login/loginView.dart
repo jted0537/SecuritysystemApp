@@ -105,20 +105,28 @@ class _LoginScreenState extends State<LoginScreen> {
                             print(idController.text);
                             print(number.toString());
                             print('mobile network or wifi');
+
                             if (await loginGuardViewModel.fetchGuard(
                                 idController.text, number.toString())) {
-                              if (await loginRouteViewModel
-                                  .fetchRoute(idController.text)) {
-                                print('answer : ' +
-                                    loginRouteViewModel
-                                        .loginRoute.checkpoints[0].latitude
-                                        .toString());
-                                // Success to login
-                                hideLoadingDialog(context);
-                                // Navigate to local Auth screen
-                                Navigator.pushNamed(context, '/localAuth');
-                              } else
-                                print('err');
+                              // if id, number is in server
+                              if (loginGuardViewModel.type == 'patrol') {
+                                // patrolling guard
+                                if (await loginRouteViewModel
+                                    .fetchRoute(idController.text)) {
+                                  // Success to fetch route
+                                  hideLoadingDialog(context);
+                                  Navigator.pushNamed(context, '/localAuth');
+                                }
+                              } else if (loginGuardViewModel.type ==
+                                  'stationary') {
+                                // stationary guard
+                                if (await loginStationViewModel
+                                    .fetchStation(idController.text)) {
+                                  // Success to fetch station
+                                  hideLoadingDialog(context);
+                                  Navigator.pushNamed(context, '/localAuth');
+                                }
+                              }
                             } else {
                               // Fail to login
                               hideLoadingDialog(context);

@@ -1,9 +1,8 @@
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:local_auth/local_auth.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/main.dart';
+import 'package:intl/intl.dart';
+import 'package:security_system/src/services/localAuthService.dart';
 
 // Local Authentication (iOS: Face ID, Android: Finger print)
 class LocalAuth extends StatefulWidget {
@@ -11,14 +10,11 @@ class LocalAuth extends StatefulWidget {
   _LocalAuthState createState() => _LocalAuthState();
 }
 
-// Type of Biometric authentication result
-enum BioMetricLogin { Success, NoBioMetricInfo, DeviceNotProvide, Cancel }
-
 // Local Authentication State
 class _LocalAuthState extends State<LocalAuth> {
   // Doing local authentication method
   void authentication() async {
-    final isAuthenticated = await LocalAuthApi.authenticate();
+    final isAuthenticated = await LocalAuthService.authenticate();
 
     if (isAuthenticated == BioMetricLogin.Success) {
       // If Biometric authentication success
@@ -42,6 +38,9 @@ class _LocalAuthState extends State<LocalAuth> {
     super.initState();
     // Immediate authentication when login success
     authentication();
+    now = DateTime.now();
+    date = DateTime(now.year, now.month, now.day);
+    formattedDate = DateFormat('dd.MM.yyyy').format(now);
   }
 
   @override
@@ -92,46 +91,5 @@ class _LocalAuthState extends State<LocalAuth> {
         ),
       ),
     );
-  }
-}
-
-// Authentication part
-class LocalAuthApi {
-  static final _auth = LocalAuthentication();
-
-  static Future<bool> hasBiometrics() async {
-    try {
-      return await _auth.canCheckBiometrics;
-    } on PlatformException catch (e) {
-      print(e);
-      return false;
-    }
-  }
-
-  static Future<BioMetricLogin> authenticate() async {
-    final isAvailable = await _auth.canCheckBiometrics;
-    var result;
-    if (!isAvailable) {
-      // If device has no biometric authentication function
-      return BioMetricLogin.DeviceNotProvide;
-    }
-    try {
-      result = await _auth.authenticate(
-        localizedReason: 'Scan Fingerprint to Authenticate',
-        useErrorDialogs: true,
-        stickyAuth: false,
-        biometricOnly: true, // Only use biometric
-      );
-      if (result) {
-        // Authentiation success
-        return BioMetricLogin.Success;
-      }
-    } on PlatformException catch (e) {
-      // Device has biometric authentication function, but there are no registered informations
-      print(e);
-      return BioMetricLogin.NoBioMetricInfo;
-    }
-    // If user just cancel authentication
-    return BioMetricLogin.Cancel;
   }
 }
