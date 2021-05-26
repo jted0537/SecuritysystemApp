@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/main.dart';
-import 'package:intl/intl.dart';
 import 'package:security_system/src/services/localAuthService.dart';
 
 // Local Authentication (iOS: Face ID, Android: Finger print)
@@ -38,9 +37,6 @@ class _LocalAuthState extends State<LocalAuth> {
     super.initState();
     // Immediate authentication when login success
     authentication();
-    now = DateTime.now();
-    date = DateTime(now.year, now.month, now.day);
-    formattedDate = DateFormat('dd.MM.yyyy').format(now);
   }
 
   @override

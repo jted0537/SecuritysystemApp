@@ -30,6 +30,22 @@ class GuardViewModel {
     return this.loginGuard.startTime;
   }
 
+  int get startTimeHour {
+    return int.parse(this.loginGuard.startTime.split(':')[0]);
+  }
+
+  int get startTimeMinute {
+    return int.parse(this.loginGuard.startTime.split(':')[1]);
+  }
+
+  int get endTimeHour {
+    return int.parse(this.loginGuard.endTime.split(':')[0]);
+  }
+
+  int get endTimeMinute {
+    return int.parse(this.loginGuard.endTime.split(':')[1]);
+  }
+
   String get endTime {
     return this.loginGuard.endTime;
   }
@@ -39,11 +55,8 @@ class GuardViewModel {
   }
 
   int get workCount {
-    final endHour = int.parse(this.loginGuard.endTime.split(':')[0]);
-    final startHour = int.parse(this.loginGuard.startTime.split(':')[0]);
-    final endMinute = int.parse(this.loginGuard.endTime.split(':')[1]);
-    final startMinute = int.parse(this.loginGuard.startTime.split(':')[0]);
-    return ((endHour - startHour) * 60 + (endMinute - startMinute)) ~/
+    return ((this.endTimeHour - this.startTimeHour) * 60 +
+                (this.endTimeMinute - this.startTimeMinute)) ~/
             this.loginGuard.frequency +
         1;
   }

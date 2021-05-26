@@ -6,7 +6,7 @@ import 'package:security_system/src/models/station.dart';
 
 class WebService {
   Future<Guard> fetchGuard(String id, String number) async {
-    var url = Uri.parse('https://31c483aa6e19.ngrok.io/app_connection/$id/');
+    var url = Uri.parse('https://1a8eb2d907d0.ngrok.io/app_connection/$id/');
     var response = await http.post(
       url,
       body: {
@@ -17,6 +17,7 @@ class WebService {
     if (response.statusCode == 200) {
       var temp = response.body.replaceAll('\\', '');
       var result = temp.split('/');
+      print(result);
       final firstParsed =
           await json.decode(result[0].substring(1, result[0].length));
       final secondParsed =
@@ -29,7 +30,7 @@ class WebService {
 
   Future<Route> fetchRoute(String id) async {
     var url =
-        Uri.parse('https://31c483aa6e19.ngrok.io/app_connection/Route/$id/');
+        Uri.parse('https://1a8eb2d907d0.ngrok.io/app_connection/Route/$id/');
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var result = response.body.replaceAll('\\', '');
@@ -42,7 +43,7 @@ class WebService {
 
   Future<Station> fetchStation(String id) async {
     var url =
-        Uri.parse('https://31c483aa6e19.ngrok.io/app_connection/Station/$id/');
+        Uri.parse('https://1a8eb2d907d0.ngrok.io/app_connection/Station/$id/');
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var result = response.body.replaceAll('\\', '');

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/main.dart';
-import 'package:security_system/src/viewmodels/guardViewModel.dart';
 
 class StationGuardView extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
-import 'package:intl/intl.dart';
 import 'package:security_system/main.dart';
+import 'package:intl/intl.dart';
 
 // AppointedRouteMenu
 class OutDutyRoute extends StatefulWidget {
@@ -10,26 +10,23 @@ class OutDutyRoute extends StatefulWidget {
 }
 
 class _OutDutyRouteState extends State<OutDutyRoute> {
-  // It is Duty time or not
-  Widget _dutyTimeWidget(bool isDutyTime) {
-    if (!isDutyTime)
-      return Text(
-        'Not Assigned Yet',
-        style: TextStyle(
-          color: Colors.grey,
-          fontWeight: defaultFontWeight,
-          decoration: TextDecoration.underline,
-        ),
-      );
+  bool isDutyTime;
+
+  @override
+  void initState() {
+    super.initState();
+    now = DateTime.now();
+    date = DateTime(now.year, now.month, now.day);
+    formattedDate = DateFormat('dd.MM.yyyy').format(now);
+    if (now.hour * 60 + now.minute <
+            loginGuardViewModel.endTimeHour * 60 +
+                loginGuardViewModel.endTimeMinute &&
+        now.hour * 60 + now.minute >
+            loginGuardViewModel.startTimeHour * 60 +
+                loginGuardViewModel.startTimeMinute)
+      this.isDutyTime = true;
     else
-      return Text(
-        'This is your duty time',
-        style: TextStyle(
-          color: Colors.grey,
-          fontWeight: defaultFontWeight,
-          decoration: TextDecoration.underline,
-        ),
-      );
+      this.isDutyTime = false;
   }
 
   @override
@@ -53,30 +50,34 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                   // Appointed Route Button
                   Container(
                     width: double.infinity,
-                    child: OutlinedButton(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
+                        border: Border.all(
+                          color: Colors.grey[200],
+                        )),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 25.0),
                       child: Column(
                         children: [
                           Image.asset('images/marker.png',
                               height: 25.0, width: 25.0),
-                          SizedBox(height: 5.0),
+                          SizedBox(height: 10.0),
                           Text('Appointed Route',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 17.0,
                                 fontWeight: titleFontWeight,
                               )),
-                          SizedBox(height: 5.0),
-                          //_dutyTimeWidget(this.isDutyTime),
+                          SizedBox(height: 10.0),
+                          Text(
+                            loginRouteViewModel.routeTitle,
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontWeight: defaultFontWeight,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
                         ],
-                      ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/inDutyRoute');
-                      },
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 40.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        ),
                       ),
                     ),
                   ),
@@ -89,7 +90,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                         color: Colors.grey[300],
                         strokeWidth: 2.0,
                         gap: 3.0,
-                        //isDutyTime: this.isDutyTime,
+                        isDutyTime: this.isDutyTime,
                       )),
                   SizedBox(height: 20.0),
                   // Checkpoints List

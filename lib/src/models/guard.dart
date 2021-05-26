@@ -5,6 +5,7 @@ class Guard {
   final String startTime;
   final String endTime;
   final int frequency;
+  final bool status;
 
   Guard(
       {this.guardName,
@@ -12,13 +13,15 @@ class Guard {
       this.slotTitle,
       this.startTime,
       this.endTime,
-      this.frequency});
+      this.frequency,
+      this.status});
 
   factory Guard.fromJson(
       Map<String, dynamic> json1, Map<String, dynamic> json2) {
     return Guard(
       guardName: json1['guard_name'],
       type: json1['type'],
+      status: json1['status'],
       slotTitle: json2['slot_title'],
       startTime: json2['start_time'],
       endTime: json2['end_time'],

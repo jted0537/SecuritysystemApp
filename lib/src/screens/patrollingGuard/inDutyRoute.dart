@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
-import 'package:intl/intl.dart';
 import 'package:security_system/main.dart';
-import 'package:security_system/src/viewmodels/routeViewModel.dart';
 
 class InDutyRoute extends StatefulWidget {
   @override
@@ -103,7 +101,7 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
                 )),
             SizedBox(height: 5.0),
             Text(
-              'This is your duty time',
+              loginRouteViewModel.routeTitle,
               style: TextStyle(
                 color: Colors.grey,
                 fontWeight: defaultFontWeight,
@@ -189,7 +187,7 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
             //   ],
             // ),
             // EXIT button
-            exitButton(context, 2),
+            exitButton(context, 1),
           ],
         ),
       ),

@@ -13,4 +13,16 @@ class RouteViewModel {
       return false;
     }
   }
+
+  String get routeId {
+    return this.loginRoute.routeId;
+  }
+
+  String get routeTitle {
+    return this.loginRoute.routeTitle;
+  }
+
+  int get totalCheckPointNum {
+    return this.loginRoute.totalCheckpointNum;
+  }
 }
