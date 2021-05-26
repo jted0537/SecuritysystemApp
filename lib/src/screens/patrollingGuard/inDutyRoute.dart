@@ -26,7 +26,6 @@ class _InDutyRouteState extends State<InDutyRoute> {
                     // Company Logo Images (Rokkhi, Guard name, Patrol image)
                     patrolLogo(loginGuardViewModel.guardName,
                         loginGuardViewModel.type),
-
                     // Widgets in cornerRadiusBox
                     _inCornerRadiusBox(context, formattedDate),
                   ],

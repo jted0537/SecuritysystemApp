@@ -18,6 +18,12 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
     now = DateTime.now();
     date = DateTime(now.year, now.month, now.day);
     formattedDate = DateFormat('dd.MM.yyyy').format(now);
+    print('e_h' + loginGuardViewModel.endTimeHour.toString());
+    print('e_m' + loginGuardViewModel.endTimeMinute.toString());
+    print('s_h' + loginGuardViewModel.startTimeHour.toString());
+    print('s_m' + loginGuardViewModel.startTimeMinute.toString());
+    print('c_h' + now.hour.toString());
+    print('c_m' + now.minute.toString());
     if (now.hour * 60 + now.minute <
             loginGuardViewModel.endTimeHour * 60 +
                 loginGuardViewModel.endTimeMinute &&
