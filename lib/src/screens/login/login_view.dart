@@ -33,6 +33,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 15.0),
                 child: Column(
                   children: [
+                    // DecoratedBox(
+                    //   decoration: BoxDecoration(
+                    //     shape: BoxShape.circle,
+                    //     border: BoxBorder.lerp(a, b, t),
+                    //     color: Colors.redAccent,
+                    //   ),
+                    //   child: Image.asset(
+                    //     'images/notification_LOGO.gif',
+                    //     width: 250.0,
+                    //   ),
+                    // ),
+
                     SizedBox(height: 50.0),
                     // Logo Image
                     rokkhiLogoImage(),
