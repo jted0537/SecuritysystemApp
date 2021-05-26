@@ -1,5 +1,5 @@
 import 'package:security_system/src/models/station.dart';
-import 'package:security_system/src/services/webService.dart';
+import 'package:security_system/src/services/web_service.dart';
 
 class StationViewModel {
   Station loginStation = Station();

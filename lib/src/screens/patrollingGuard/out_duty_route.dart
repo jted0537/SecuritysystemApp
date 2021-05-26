@@ -17,13 +17,6 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
     super.initState();
     now = DateTime.now();
     date = DateTime(now.year, now.month, now.day);
-    formattedDate = DateFormat('dd.MM.yyyy').format(now);
-    print('e_h' + loginGuardViewModel.endTimeHour.toString());
-    print('e_m' + loginGuardViewModel.endTimeMinute.toString());
-    print('s_h' + loginGuardViewModel.startTimeHour.toString());
-    print('s_m' + loginGuardViewModel.startTimeMinute.toString());
-    print('c_h' + now.hour.toString());
-    print('c_m' + now.minute.toString());
     if (now.hour * 60 + now.minute <
             loginGuardViewModel.endTimeHour * 60 +
                 loginGuardViewModel.endTimeMinute &&
@@ -99,56 +92,8 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                         isDutyTime: this.isDutyTime,
                       )),
                   SizedBox(height: 20.0),
-                  // Checkpoints List
-                  Row(
-                    children: [
-                      Text('Checkpoints',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          )),
-                      SizedBox(width: 10.0),
-                      Text(
-                        formattedDate,
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 13.0,
-                        ),
-                      ),
-                      Spacer(),
-                      TextButton(
-                        child: Text(
-                          'See All',
-                          style: TextStyle(color: rokkhiColor),
-                        ),
-                        onPressed: () {
-                          // Show checkpoints list with bottomsheet
-                          routeModalBottomSheet(context);
-                        },
-                      ),
-                    ],
-                  ),
-                  Divider(
-                    thickness: 1.0,
-                    color: Colors.black,
-                  ),
-                  for (int i = 0;
-                      i < loginRouteViewModel.loginRoute.checkpoints.length;
-                      i++)
-                    Row(
-                      children: [
-                        Text(loginRouteViewModel.loginRoute.routeTitle +
-                            i.toString()),
-                        Spacer(),
-                        Text('0' +
-                            '/' +
-                            loginRouteViewModel
-                                .loginRoute.checkpoints[i].frequency
-                                .toString()),
-                      ],
-                    ),
-
+                  _checkPoints(context, true),
+                  SizedBox(height: 10.0),
                   // EXIT Button
                   exitButton(context, 2),
                 ],
@@ -161,27 +106,108 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
   }
 }
 
-// Bottom sheet for Appointed route
-void routeModalBottomSheet(BuildContext context) {
-  showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0)),
-      ),
-      isScrollControlled: true,
-      builder: (context) => SingleChildScrollView(
-            child: Container(
-              height: 400.0,
-              child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-                child: Column(
-                  children: [
-                    topRightDismissButton(context),
-                  ],
-                ),
-              ),
+// Widget for CheckPoints list(with or not 'See all' button)
+Widget _checkPoints(BuildContext context, bool saButton) {
+  return Column(
+    children: [
+      // Checkpoints List
+      Row(
+        children: [
+          Text('Checkpoints',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              )),
+          SizedBox(width: 10.0),
+          Text(
+            formattedDate,
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 13.0,
             ),
-          ));
+          ),
+          Spacer(),
+          // Show see all button?
+          if (saButton)
+            TextButton(
+              child: Text(
+                'See All',
+                style: TextStyle(color: rokkhiColor),
+              ),
+              onPressed: () {
+                // Show checkpoints list with bottomsheet
+                showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30.0),
+                          topRight: Radius.circular(30.0)),
+                    ),
+                    isScrollControlled: true,
+                    builder: (context) => SingleChildScrollView(
+                          child: Container(
+                            height: 400.0,
+                            child: SingleChildScrollView(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 15.0, horizontal: 10.0),
+                              child: Column(
+                                children: [
+                                  topRightDismissButton(context),
+                                  _checkPoints(context, false),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ));
+              },
+            ),
+        ],
+      ),
+      if (!saButton) SizedBox(height: 10.0),
+      Divider(
+        thickness: 1.0,
+        color: Colors.black,
+      ),
+      for (int i = 0; i < loginRouteViewModel.totalCheckPointNum; i++)
+        Column(
+          children: [
+            _temp(
+                loginRouteViewModel.routeTitle,
+                loginRouteViewModel.loginRoute.checkpoints[i].sequenceNum,
+                loginRouteViewModel.loginRoute.checkpoints[i].frequency),
+            Divider(
+              thickness: 1.0,
+            ),
+          ],
+        ),
+    ],
+  );
+}
+
+// For each attendance
+Widget _temp(String routeTitle, int sequenceNum, int frequency) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 13.0),
+    child: Row(
+      children: [
+        Text(routeTitle + ' ' + sequenceNum.toString(),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 15.0,
+              fontWeight: titleFontWeight,
+            )),
+        Spacer(),
+        Text(
+          '0' + ' / ' + frequency.toString(),
+          style: TextStyle(
+            color: Colors.grey,
+            fontSize: 13.0,
+            fontWeight: defaultFontWeight,
+          ),
+        ),
+      ],
+    ),
+  );
 }
