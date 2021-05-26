@@ -88,6 +88,7 @@ Widget _inCornerRadiusBox(BuildContext context) {
                   fontSize: 17.0,
                   fontWeight: titleFontWeight,
                 )),
+            SizedBox(height: 5.0),
             Text(
               loginStationViewModel.stationAddress,
               style: TextStyle(
@@ -131,28 +132,27 @@ Widget _latestAttendance(BuildContext context, bool saButton) {
               onPressed: () {
                 // Show checkpoints list with bottomsheet
                 showModalBottomSheet(
-                    context: context,
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30.0),
-                          topRight: Radius.circular(30.0)),
+                  context: context,
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30.0),
+                        topRight: Radius.circular(30.0)),
+                  ),
+                  isScrollControlled: true,
+                  builder: (context) => Container(
+                    height: 400.0,
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.all(15.0),
+                      child: Column(
+                        children: [
+                          topRightDismissButton(context),
+                          _latestAttendance(context, false),
+                        ],
+                      ),
                     ),
-                    isScrollControlled: true,
-                    builder: (context) => SingleChildScrollView(
-                          child: Container(
-                            height: 400.0,
-                            child: SingleChildScrollView(
-                              padding: EdgeInsets.all(15.0),
-                              child: Column(
-                                children: [
-                                  topRightDismissButton(context),
-                                  _latestAttendance(context, false),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ));
+                  ),
+                );
               },
             ),
         ],
@@ -164,7 +164,7 @@ Widget _latestAttendance(BuildContext context, bool saButton) {
       for (int i = 0; i < loginGuardViewModel.workCount; i++)
         Column(
           children: [
-            _temp(' 12:12 am', i % 2 == 0),
+            _temp(' 12:' + (i * 10).toString() + ' am', i % 2 == 0),
             Divider(
               thickness: 1.0,
             ),

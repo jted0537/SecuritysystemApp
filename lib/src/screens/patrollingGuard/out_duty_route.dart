@@ -17,6 +17,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
     super.initState();
     now = DateTime.now();
     date = DateTime(now.year, now.month, now.day);
+    formattedDate = DateFormat('dd.MM.yyyy').format(now);
     if (now.hour * 60 + now.minute <
             loginGuardViewModel.endTimeHour * 60 +
                 loginGuardViewModel.endTimeMinute &&
@@ -138,29 +139,28 @@ Widget _checkPoints(BuildContext context, bool saButton) {
               onPressed: () {
                 // Show checkpoints list with bottomsheet
                 showModalBottomSheet(
-                    context: context,
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30.0),
-                          topRight: Radius.circular(30.0)),
+                  context: context,
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30.0),
+                        topRight: Radius.circular(30.0)),
+                  ),
+                  isScrollControlled: true,
+                  builder: (context) => Container(
+                    height: 400.0,
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 15.0, horizontal: 10.0),
+                      child: Column(
+                        children: [
+                          topRightDismissButton(context),
+                          _checkPoints(context, false),
+                        ],
+                      ),
                     ),
-                    isScrollControlled: true,
-                    builder: (context) => SingleChildScrollView(
-                          child: Container(
-                            height: 400.0,
-                            child: SingleChildScrollView(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 15.0, horizontal: 10.0),
-                              child: Column(
-                                children: [
-                                  topRightDismissButton(context),
-                                  _checkPoints(context, false),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ));
+                  ),
+                );
               },
             ),
         ],
