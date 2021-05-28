@@ -40,7 +40,7 @@ class _InDutyRouteState extends State<InDutyRoute> {
 }
 
 // For CheckPoint button and ViewMap button
-Widget _outLinedButton(String imageAsset, String type) {
+Widget _outLinedButton(BuildContext context, String imageAsset, String type) {
   return OutlinedButton(
     child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 40.0),
@@ -63,7 +63,9 @@ Widget _outLinedButton(String imageAsset, String type) {
       ),
     ),
     onPressed: () {
-      // TODO type == 'CheckPoint' ? Navigator.pushNamed() : Navigator.pushNamed();
+      // TODO
+      if(type != 'CheckPoint')
+        Navigator.pushNamed(context, '/viewMap');
     },
   );
 }
@@ -114,10 +116,10 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // CheckPoint Button
-                _outLinedButton('images/CheckPoint_LOGO.png', 'CheckPoint'),
+                _outLinedButton(context, 'images/CheckPoint_LOGO.png', 'CheckPoint'),
                 SizedBox(width: 5.0),
                 // ViewMap Button
-                _outLinedButton('images/ViewMap_LOGO.png', 'View Map'),
+                _outLinedButton(context, 'images/ViewMap_LOGO.png', 'View Map'),
               ],
             ),
             SizedBox(height: 20.0),
@@ -133,7 +135,9 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
                     )),
                 SizedBox(width: 10.0),
                 Text(
-                  formattedDate,
+                  // 여기 왜 error나는지 확인 !!!
+                  // formattedDate,
+                  "2021-05-28",
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 13.0,

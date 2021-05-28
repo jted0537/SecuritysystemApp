@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:security_system/src/models/route.dart';
 import 'package:security_system/src/models/station.dart';
 
-final serverUrl = 'https://3774c49f6312.ngrok.io';
+final serverUrl = 'https://c2092f1ee676.ngrok.io';
 
 class WebService {
   Future<Guard> fetchGuard(String id, String number) async {

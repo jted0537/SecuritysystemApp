@@ -21,7 +21,7 @@ class _LocalAuthState extends State<LocalAuth> {
       Navigator.pushNamed(
           context,
           loginGuardViewModel.loginGuard.type == 'patrol'
-              ? '/outDutyRoute'
+              ? '/inDutyRoute'
               : '/inDutyStation');
     } else if (isAuthenticated == BioMetricLogin.NoBioMetricInfo) {
       // If device has no biometric authentication information, alert message pop
