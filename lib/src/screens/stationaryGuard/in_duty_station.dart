@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/main.dart';
+import 'package:security_system/src/viewmodels/station_view_model.dart';
+import 'package:security_system/src/models/work.dart';
+import 'package:security_system/src/models/station.dart';
 
 class InDutyStation extends StatefulWidget {
   @override
@@ -8,6 +11,13 @@ class InDutyStation extends StatefulWidget {
 }
 
 class _InDutyStationState extends State<InDutyStation> {
+  @override
+  initState() {
+    super.initState();
+    StationViewModel().fetchStation(loginId);
+    currentWorkViewModel.fetchWork(loginId);
+  }
+
   @override
   Widget build(BuildContext context) {
     // Using WillPopScope for block the return with device back button
@@ -59,44 +69,62 @@ Widget _inCornerRadiusBox(BuildContext context) {
         padding: EdgeInsets.all(15.0),
         child: Column(
           children: [
-            // Appointed Route
-            SizedBox(height: 10.0),
-            Image.asset('images/marker.png', height: 25.0, width: 25.0),
-            SizedBox(height: 10.0),
-            Text('Appointed Station',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 17.0,
-                  fontWeight: titleFontWeight,
-                )),
             SizedBox(height: 5.0),
-            // Station title
-            Text(
-              loginStationViewModel.stationTitle,
-              style: TextStyle(
-                color: Colors.grey,
-                fontWeight: defaultFontWeight,
-                decoration: TextDecoration.underline,
-              ),
-            ),
-            SizedBox(height: 20.0),
+            FutureBuilder<Station>(
+              future: loginStationViewModel.fetchStation(loginId),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    children: [
+                      // Appointed Route
+                      SizedBox(height: 10.0),
+                      Image.asset('images/marker.png',
+                          height: 25.0, width: 25.0),
+                      SizedBox(height: 10.0),
+                      Text('Appointed Station',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17.0,
+                            fontWeight: titleFontWeight,
+                          )),
+                      // Station title
+                      Text(
+                        snapshot.data.stationTitle,
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: defaultFontWeight,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
 
-            // Station Address
-            Text('Address',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 17.0,
-                  fontWeight: titleFontWeight,
-                )),
-            SizedBox(height: 5.0),
-            Text(
-              loginStationViewModel.stationAddress,
-              style: TextStyle(
-                color: Colors.grey,
-                fontWeight: defaultFontWeight,
-                decoration: TextDecoration.underline,
-              ),
+                      // Station Address
+                      Text('Address',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17.0,
+                            fontWeight: titleFontWeight,
+                          )),
+                      SizedBox(height: 5.0),
+                      Text(
+                        snapshot.data.stationAddress,
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: defaultFontWeight,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+                return CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor),
+                );
+              },
             ),
+
             SizedBox(height: 20.0),
 
             // Latest Attendance list
@@ -161,15 +189,41 @@ Widget _latestAttendance(BuildContext context, bool saButton) {
         thickness: 1.0,
         color: Colors.black,
       ),
-      for (int i = 0; i < loginGuardViewModel.workCount; i++)
-        Column(
-          children: [
-            _temp(' 12:' + (i * 10).toString() + ' am', i % 2 == 0),
-            Divider(
-              thickness: 1.0,
-            ),
-          ],
-        ),
+
+      FutureBuilder<Work>(
+        future: currentWorkViewModel.fetchWork(loginId),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              children: [
+                for (int i = 0; i < snapshot.data.alarmTimeList.length; i++)
+                  Column(
+                    children: [
+                      _temp(snapshot.data.alarmTimeList[i], true),
+                      Divider(
+                        thickness: 1.0,
+                      ),
+                    ],
+                  ),
+              ],
+            );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor),
+          );
+        },
+      ),
+      // for (int i = 0; i < loginGuardViewModel.workCount; i++)
+      //   Column(
+      //     children: [
+      //       _temp(' 12:' + (i * 10).toString() + ' am', i % 2 == 0),
+      //       Divider(
+      //         thickness: 1.0,
+      //       ),
+      //     ],
+      //   ),
     ],
   );
 }

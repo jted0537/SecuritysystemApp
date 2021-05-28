@@ -7,13 +7,18 @@ import 'package:security_system/src/screens/login/login_view.dart';
 import 'package:security_system/src/viewmodels/guard_view_model.dart';
 import 'package:security_system/src/viewmodels/route_view_model.dart';
 import 'package:security_system/src/viewmodels/station_view_model.dart';
+import 'package:security_system/src/viewmodels/work_view_model.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 final loginGuardViewModel = GuardViewModel();
 final loginRouteViewModel = RouteViewModel();
 final loginStationViewModel = StationViewModel();
+final currentWorkViewModel = WorkViewModel();
 DateTime now;
 DateTime date;
 String formattedDate;
+String loginId;
+PhoneNumber loginNumber = PhoneNumber(isoCode: 'BD');
 // Application Entry Point
 void main() => runApp(SecureApp());
 

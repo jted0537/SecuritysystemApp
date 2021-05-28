@@ -369,7 +369,9 @@ void showLoadingDialog(BuildContext context) {
             SizedBox(
               width: 30,
               height: 30,
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor),
+              ),
             ),
             SizedBox(
               height: 10.0,

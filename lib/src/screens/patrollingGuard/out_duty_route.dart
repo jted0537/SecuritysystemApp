@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/main.dart';
 import 'package:intl/intl.dart';
+import 'package:security_system/src/models/route.dart' as rt;
 
 // AppointedRouteMenu
 class OutDutyRoute extends StatefulWidget {
@@ -70,7 +71,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                               )),
                           SizedBox(height: 10.0),
                           Text(
-                            loginRouteViewModel.routeTitle,
+                            '1',
                             style: TextStyle(
                               color: Colors.grey,
                               fontWeight: defaultFontWeight,
@@ -95,7 +96,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                   SizedBox(height: 20.0),
                   _checkPoints(context, true),
                   SizedBox(height: 10.0),
-                  // EXIT Button
+                  // EXIT Button(Back to login screen)
                   exitButton(context, 2),
                 ],
               ),
@@ -155,7 +156,7 @@ Widget _checkPoints(BuildContext context, bool saButton) {
                       child: Column(
                         children: [
                           topRightDismissButton(context),
-                          _checkPoints(context, false),
+                          checkpointsBottomSheet(context),
                         ],
                       ),
                     ),
@@ -166,6 +167,65 @@ Widget _checkPoints(BuildContext context, bool saButton) {
         ],
       ),
       if (!saButton) SizedBox(height: 10.0),
+      Divider(
+        thickness: 1.0,
+        color: Colors.black,
+      ),
+      FutureBuilder<rt.Route>(
+          future: loginRouteViewModel.fetchRoute(loginId),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(
+                children: [
+                  for (int i = 0; i < snapshot.data.totalCheckpointNum; i++)
+                    Column(
+                      children: [
+                        _temp(
+                            snapshot.data.routeTitle,
+                            snapshot.data.checkpoints[i].sequenceNum,
+                            snapshot.data.checkpoints[i].frequency),
+                        Divider(
+                          thickness: 1.0,
+                        ),
+                      ],
+                    ),
+                ],
+              );
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            return CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor),
+            );
+          }),
+    ],
+  );
+}
+
+Widget checkpointsBottomSheet(BuildContext context) {
+  return Column(
+    children: [
+      // Checkpoints List
+      Row(
+        children: [
+          Text('Checkpoints',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              )),
+          SizedBox(width: 10.0),
+          Text(
+            formattedDate,
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 13.0,
+            ),
+          ),
+          Spacer(),
+        ],
+      ),
+      SizedBox(height: 10.0),
       Divider(
         thickness: 1.0,
         color: Colors.black,
@@ -182,6 +242,8 @@ Widget _checkPoints(BuildContext context, bool saButton) {
             ),
           ],
         ),
+      SizedBox(height: 10.0),
+      exitButton(context, 1),
     ],
   );
 }

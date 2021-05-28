@@ -3,8 +3,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:security_system/src/models/route.dart';
 import 'package:security_system/src/models/station.dart';
+import 'package:security_system/src/models/work.dart';
 
-final serverUrl = 'https://3774c49f6312.ngrok.io';
+final serverUrl = 'https://c2092f1ee676.ngrok.io';
 
 class WebService {
   Future<Guard> fetchGuard(String id, String number) async {
@@ -50,6 +51,20 @@ class WebService {
       print(result.substring(1, result.length - 1));
       final parsed = await json.decode(result.substring(1, result.length - 1));
       return Station.fromJson(parsed);
+    } else {
+      throw Exception("Unable to perform request!");
+    }
+  }
+
+  Future<Work> fetchWork(String id) async {
+    var url = Uri.parse('$serverUrl/app_connection/startWork/$id/');
+    var response = await http.get(url);
+    print('res : ' + response.toString());
+    if (response.statusCode == 200) {
+      var result = response.body.replaceAll('\\', '');
+      print(result.substring(1, result.length - 1));
+      final parsed = await json.decode(result.substring(1, result.length - 1));
+      return Work.fromJson(parsed);
     } else {
       throw Exception("Unable to perform request!");
     }
