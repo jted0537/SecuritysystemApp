@@ -1,6 +1,6 @@
 class Work {
   final String workId;
-  final List<int> responseCntList;
+  final List<dynamic> responseCntList;
   final List<String> alarmTimeList;
 
   Work({
@@ -10,10 +10,14 @@ class Work {
   });
 
   factory Work.fromJson(Map<String, dynamic> json) {
+    var list = json['response_cnt'] as List;
+    var list2 = json['alarmTime_list'] as List;
+    List<int> responseList = List<int>.from(list);
+    List<String> alarmTimeList = List<String>.from(list2);
     return Work(
       workId: json['work_id'],
-      responseCntList: json['response_cnt'],
-      alarmTimeList: json['alarm_time_list'] ? json['alarm_time_list'] : null,
+      responseCntList: responseList,
+      alarmTimeList: alarmTimeList,
     );
   }
 }

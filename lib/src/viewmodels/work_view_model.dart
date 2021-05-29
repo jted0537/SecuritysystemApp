@@ -13,4 +13,16 @@ class WorkViewModel {
       print(e);
     }
   }
+
+  String get workID {
+    return this.currentWork.workId;
+  }
+
+  List<int> get responseCntList {
+    return this.currentWork.responseCntList;
+  }
+
+  List<String> get alarmTimeList {
+    return this.currentWork.alarmTimeList;
+  }
 }

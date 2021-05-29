@@ -4,6 +4,7 @@ import 'package:security_system/main.dart';
 import 'package:security_system/src/viewmodels/station_view_model.dart';
 import 'package:security_system/src/models/work.dart';
 import 'package:security_system/src/models/station.dart';
+import 'package:intl/intl.dart';
 
 class InDutyStation extends StatefulWidget {
   @override
@@ -14,35 +15,33 @@ class _InDutyStationState extends State<InDutyStation> {
   @override
   initState() {
     super.initState();
-    StationViewModel().fetchStation(loginId);
-    currentWorkViewModel.fetchWork(loginId);
+    now = DateTime.now();
+    date = DateTime(now.year, now.month, now.day);
+    formattedDate = DateFormat('dd.MM.yyyy').format(now);
   }
 
   @override
   Widget build(BuildContext context) {
     // Using WillPopScope for block the return with device back button
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        backgroundColor: Colors.grey[150],
-        body: SafeArea(
-          child: CustomScrollView(
-            // Using CustomScrollView and Silver for using expanded scroll view
-            slivers: [
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Column(
-                  children: [
-                    // Company Logo Images (Rokkhi, Guard name, Patrol image)
-                    patrolLogo(loginGuardViewModel.guardName,
-                        loginGuardViewModel.type),
-                    // Widgets in cornerRadiusBox
-                    _inCornerRadiusBox(context),
-                  ],
-                ),
+    return Scaffold(
+      backgroundColor: Colors.grey[150],
+      body: SafeArea(
+        child: CustomScrollView(
+          // Using CustomScrollView and Silver for using expanded scroll view
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                children: [
+                  // Company Logo Images (Rokkhi, Guard name, Patrol image)
+                  patrolLogo(
+                      loginGuardViewModel.guardName, loginGuardViewModel.type),
+                  // Widgets in cornerRadiusBox
+                  _inCornerRadiusBox(context),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -70,67 +69,109 @@ Widget _inCornerRadiusBox(BuildContext context) {
         child: Column(
           children: [
             SizedBox(height: 5.0),
-            FutureBuilder<Station>(
-              future: loginStationViewModel.fetchStation(loginId),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Column(
-                    children: [
-                      // Appointed Route
-                      SizedBox(height: 10.0),
-                      Image.asset('images/marker.png',
-                          height: 25.0, width: 25.0),
-                      SizedBox(height: 10.0),
-                      Text('Appointed Station',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 17.0,
-                            fontWeight: titleFontWeight,
-                          )),
-                      // Station title
-                      Text(
-                        snapshot.data.stationTitle,
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: defaultFontWeight,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                      SizedBox(height: 20.0),
+            Column(
+              children: [
+                // Appointed Route
+                SizedBox(height: 10.0),
+                Image.asset('images/marker.png', height: 25.0, width: 25.0),
+                SizedBox(height: 10.0),
+                Text('Appointed Station',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 17.0,
+                      fontWeight: titleFontWeight,
+                    )),
+                // Station title
+                Text(
+                  loginStationViewModel.stationTitle,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: defaultFontWeight,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+                SizedBox(height: 20.0),
 
-                      // Station Address
-                      Text('Address',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 17.0,
-                            fontWeight: titleFontWeight,
-                          )),
-                      SizedBox(height: 5.0),
-                      Text(
-                        snapshot.data.stationAddress,
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: defaultFontWeight,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ],
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-                return CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor),
-                );
-              },
+                // Station Address
+                Text('Address',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 17.0,
+                      fontWeight: titleFontWeight,
+                    )),
+                SizedBox(height: 5.0),
+                Text(
+                  loginStationViewModel.stationAddress,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: defaultFontWeight,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ],
             ),
 
             SizedBox(height: 20.0),
 
             // Latest Attendance list
-            _latestAttendance(context, true),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Text('Latest Attendance',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    Spacer(),
+                    TextButton(
+                      child: Text(
+                        'See All',
+                        style: TextStyle(color: rokkhiColor),
+                      ),
+                      onPressed: () {
+                        // Show checkpoints list with bottomsheet
+                        checkpointsBottomSheet(context);
+                      },
+                    ),
+                  ],
+                ),
+                Divider(
+                  thickness: 1.0,
+                  color: Colors.black,
+                ),
+                FutureBuilder<Work>(
+                  future: currentWorkViewModel.fetchWork(loginId),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(
+                        children: [
+                          for (int i = 0;
+                              i < snapshot.data.alarmTimeList.length;
+                              i++)
+                            Column(
+                              children: [
+                                _temp(snapshot.data.alarmTimeList[i], true),
+                                Divider(
+                                  thickness: 1.0,
+                                ),
+                              ],
+                            ),
+                        ],
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    return CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor),
+                    );
+                  },
+                ),
+              ],
+            ),
             // EXIT button
-            exitButton(context, 2),
+            exitButton(context, 1),
           ],
         ),
       ),
@@ -138,120 +179,74 @@ Widget _inCornerRadiusBox(BuildContext context) {
   );
 }
 
-// Widget for Latest Attendance list(with or not See all button)
-Widget _latestAttendance(BuildContext context, bool saButton) {
-  return Column(
-    children: [
-      Row(
-        children: [
-          Text('Latest Attendance',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              )),
-          Spacer(),
-          if (saButton)
-            TextButton(
-              child: Text(
-                'See All',
-                style: TextStyle(color: rokkhiColor),
-              ),
-              onPressed: () {
-                // Show checkpoints list with bottomsheet
-                showModalBottomSheet(
-                  context: context,
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30.0),
-                        topRight: Radius.circular(30.0)),
-                  ),
-                  isScrollControlled: true,
-                  builder: (context) => Container(
-                    height: 400.0,
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.all(15.0),
-                      child: Column(
-                        children: [
-                          topRightDismissButton(context),
-                          _latestAttendance(context, false),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
+void checkpointsBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    backgroundColor: Colors.white,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0)),
+    ),
+    isScrollControlled: true,
+    builder: (context) => Container(
+      height: 400.0,
+      child: SingleChildScrollView(
+        padding: EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            topRightDismissButton(context),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Latest Attendance',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
-        ],
-      ),
-      Divider(
-        thickness: 1.0,
-        color: Colors.black,
-      ),
-
-      FutureBuilder<Work>(
-        future: currentWorkViewModel.fetchWork(loginId),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Column(
-              children: [
-                for (int i = 0; i < snapshot.data.alarmTimeList.length; i++)
-                  Column(
-                    children: [
-                      _temp(snapshot.data.alarmTimeList[i], true),
-                      Divider(
-                        thickness: 1.0,
-                      ),
-                    ],
+            Divider(
+              thickness: 1.0,
+              color: Colors.black,
+            ),
+            for (int i = 0; i < currentWorkViewModel.alarmTimeList.length; i++)
+              Column(
+                children: [
+                  _temp(currentWorkViewModel.alarmTimeList[i], true),
+                  Divider(
+                    thickness: 1.0,
                   ),
-              ],
-            );
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
-          return CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor),
-          );
-        },
+                ],
+              ),
+            exitButton(context, 1),
+          ],
+        ),
       ),
-      // for (int i = 0; i < loginGuardViewModel.workCount; i++)
-      //   Column(
-      //     children: [
-      //       _temp(' 12:' + (i * 10).toString() + ' am', i % 2 == 0),
-      //       Divider(
-      //         thickness: 1.0,
-      //       ),
-      //     ],
-      //   ),
-    ],
+    ),
   );
 }
 
 // For each attendance
 Widget _temp(String time, bool isComplete) {
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 5.0),
     child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          children: [
-            Text(time,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                )),
-            Text(
-              formattedDate,
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(time,
               style: TextStyle(
-                color: Colors.grey,
-                fontSize: 13.0,
-              ),
+                color: Colors.black,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              )),
+          Text(
+            formattedDate,
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 13.0,
             ),
-          ],
-        ),
-        Spacer(),
+          ),
+        ]),
         Image.asset(
           isComplete
               ? 'images/complete_LOGO.png'

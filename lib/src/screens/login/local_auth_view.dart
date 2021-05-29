@@ -22,7 +22,7 @@ class _LocalAuthState extends State<LocalAuth> {
           context,
           loginGuardViewModel.loginGuard.type == 'patrol'
               ? '/outDutyRoute'
-              : '/inDutyStation');
+              : '/outDutyStation');
     } else if (isAuthenticated == BioMetricLogin.NoBioMetricInfo) {
       // If device has no biometric authentication information, alert message pop
       noBioMetricInfoDialog(context);
