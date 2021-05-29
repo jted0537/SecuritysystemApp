@@ -147,29 +147,7 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
                   ),
                   onPressed: () {
                     // Show checkpoints list with bottomsheet
-                    showModalBottomSheet(
-                        context: context,
-                        backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30.0),
-                              topRight: Radius.circular(30.0)),
-                        ),
-                        isScrollControlled: true,
-                        builder: (context) => SingleChildScrollView(
-                              child: Container(
-                                height: 400.0,
-                                child: SingleChildScrollView(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 15.0, horizontal: 10.0),
-                                  child: Column(
-                                    children: [
-                                      topRightDismissButton(context),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ));
+                    checkpointsBottomSheet(context);
                   },
                 ),
               ],
@@ -192,4 +170,28 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
       ),
     ),
   );
+}
+
+void checkpointsBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0)),
+      ),
+      isScrollControlled: true,
+      builder: (context) => SingleChildScrollView(
+            child: Container(
+              height: 400.0,
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                child: Column(
+                  children: [
+                    topRightDismissButton(context),
+                  ],
+                ),
+              ),
+            ),
+          ));
 }

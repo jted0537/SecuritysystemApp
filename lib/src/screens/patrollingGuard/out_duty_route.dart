@@ -92,6 +92,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                         strokeWidth: 2.0,
                         gap: 3.0,
                         isDutyTime: this.isDutyTime,
+                        navigation: '/inDutyRoute',
                       )),
                   SizedBox(height: 20.0),
                   _checkPoints(context, true),

@@ -36,7 +36,6 @@ class SecureApp extends StatelessWidget {
         '/outDutyRoute': (context) => OutDutyRoute(),
         '/inDutyStation': (context) => InDutyStation(),
         '/outDutyStation': (context) => OutDutyStation(),
-        // TODO '/outDutyStation': (context) => OutDutyStation(),
       },
       title: 'CVGM',
       debugShowCheckedModeBanner: false,

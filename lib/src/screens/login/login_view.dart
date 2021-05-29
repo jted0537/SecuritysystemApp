@@ -123,22 +123,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (await loginGuardViewModel.fetchGuard(
                                 idController.text, number.toString())) {
                               // if id, number is in server
-                              // if (loginGuardViewModel.type == 'patrol') {
-                              //   // patrolling guard
-                              //   await loginRouteViewModel
-                              //       .fetchRoute(idController.text);
-                              //   // Success to fetch route
-                              //   hideLoadingDialog(context);
-                              //   Navigator.pushNamed(context, '/localAuth');
-                              // } else if (loginGuardViewModel.type ==
-                              //     'stationary') {
-                              //   // stationary guard
-                              //   await loginStationViewModel
-                              //       .fetchStation(idController.text);
-                              //   // Success to fetch station
-                              //   hideLoadingDialog(context);
-                              //   Navigator.pushNamed(context, '/localAuth');
-                              // }
                               hideLoadingDialog(context);
                               Navigator.pushNamed(context, '/localAuth');
                             } else {

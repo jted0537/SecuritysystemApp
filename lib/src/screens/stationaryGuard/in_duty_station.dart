@@ -132,7 +132,7 @@ Widget _inCornerRadiusBox(BuildContext context) {
                       ),
                       onPressed: () {
                         // Show checkpoints list with bottomsheet
-                        checkpointsBottomSheet(context);
+                        attendanceBottomSheet(context);
                       },
                     ),
                   ],
@@ -179,7 +179,7 @@ Widget _inCornerRadiusBox(BuildContext context) {
   );
 }
 
-void checkpointsBottomSheet(BuildContext context) {
+void attendanceBottomSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     backgroundColor: Colors.white,
@@ -228,7 +228,7 @@ void checkpointsBottomSheet(BuildContext context) {
 // For each attendance
 Widget _temp(String time, bool isComplete) {
   return Padding(
-    padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 5.0),
+    padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
