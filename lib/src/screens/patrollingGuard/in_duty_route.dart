@@ -147,7 +147,7 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
                   ),
                   onPressed: () {
                     // Show checkpoints list with bottomsheet
-                    checkpointsBottomSheet(context);
+                    _checkpointsBottomSheet(context);
                   },
                 ),
               ],
@@ -172,7 +172,7 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
   );
 }
 
-void checkpointsBottomSheet(BuildContext context) {
+void _checkpointsBottomSheet(BuildContext context) {
   showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,

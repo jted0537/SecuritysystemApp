@@ -132,7 +132,7 @@ Widget _inCornerRadiusBox(BuildContext context) {
                       ),
                       onPressed: () {
                         // Show checkpoints list with bottomsheet
-                        attendanceBottomSheet(context);
+                        _attendanceBottomSheet(context);
                       },
                     ),
                   ],
@@ -152,7 +152,11 @@ Widget _inCornerRadiusBox(BuildContext context) {
                               i++)
                             Column(
                               children: [
-                                _temp(snapshot.data.alarmTimeList[i], true),
+                                _attendance(
+                                    snapshot.data.alarmTimeList[i],
+                                    snapshot.data.responseCntList[i] == 1
+                                        ? true
+                                        : false),
                                 Divider(
                                   thickness: 1.0,
                                 ),
@@ -170,6 +174,7 @@ Widget _inCornerRadiusBox(BuildContext context) {
                 ),
               ],
             ),
+            SizedBox(height: 20.0),
             // EXIT button
             exitButton(context, 1),
           ],
@@ -179,7 +184,7 @@ Widget _inCornerRadiusBox(BuildContext context) {
   );
 }
 
-void attendanceBottomSheet(BuildContext context) {
+void _attendanceBottomSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     backgroundColor: Colors.white,
@@ -211,12 +216,17 @@ void attendanceBottomSheet(BuildContext context) {
             for (int i = 0; i < currentWorkViewModel.alarmTimeList.length; i++)
               Column(
                 children: [
-                  _temp(currentWorkViewModel.alarmTimeList[i], true),
+                  _attendance(
+                      currentWorkViewModel.alarmTimeList[i],
+                      currentWorkViewModel.responseCntList[i] == 0
+                          ? false
+                          : true),
                   Divider(
                     thickness: 1.0,
                   ),
                 ],
               ),
+            SizedBox(height: 20.0),
             exitButton(context, 1),
           ],
         ),
@@ -226,7 +236,7 @@ void attendanceBottomSheet(BuildContext context) {
 }
 
 // For each attendance
-Widget _temp(String time, bool isComplete) {
+Widget _attendance(String time, bool isComplete) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
     child: Row(
