@@ -8,7 +8,6 @@ import 'package:security_system/src/viewmodels/guard_view_model.dart';
 import 'package:security_system/src/viewmodels/route_view_model.dart';
 import 'package:security_system/src/viewmodels/station_view_model.dart';
 
-import 'src/screens/login/login_view.dart';
 import 'src/screens/viewMap/viewMap.dart';
 
 final loginGuardViewModel = GuardViewModel();
@@ -27,7 +26,7 @@ class SecureApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         // For Navigator
-        '/': (context) => ViewMap(),
+        '/': (context) => LoginScreen(),
         '/localAuth': (context) => LocalAuth(),
         '/inDutyRoute': (context) => InDutyRoute(),
         '/outDutyRoute': (context) => OutDutyRoute(),

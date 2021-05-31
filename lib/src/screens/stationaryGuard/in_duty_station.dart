@@ -189,7 +189,8 @@ Widget _temp(String time, bool isComplete) {
                   fontWeight: FontWeight.bold,
                 )),
             Text(
-              formattedDate,
+              //formattedDate,
+              '2021-05-29',
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 13.0,
