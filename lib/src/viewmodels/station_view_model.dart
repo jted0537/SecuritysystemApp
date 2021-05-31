@@ -4,13 +4,13 @@ import 'package:security_system/src/services/web_service.dart';
 class StationViewModel {
   Station loginStation = Station();
 
-  Future<bool> fetchStation(String id) async {
+  Future<Station> fetchStation(String id) async {
     try {
       final results = await WebService().fetchStation(id);
       this.loginStation = results;
-      return true;
+      return results;
     } catch (e) {
-      return false;
+      print(e);
     }
   }
 

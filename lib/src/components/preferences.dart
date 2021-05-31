@@ -193,19 +193,32 @@ class DashedRect extends StatelessWidget {
   final double strokeWidth;
   final double gap;
   final bool isDutyTime;
+  final String navigation;
 
-  Widget _dutyTimeWidget(bool isDutyTime) {
+  Widget _dutyTimeWidget(
+      BuildContext context, bool isDutyTime, String navigation) {
     if (!isDutyTime)
-      return Text('This is not your duty time.');
+      return TextButton(
+        child: Text('This is not your duty time.'),
+        onPressed: () {
+          Navigator.pushNamed(context, navigation);
+        },
+      );
     else
-      return Text('This is your duty time.');
+      return TextButton(
+        child: Text('This is your duty time.'),
+        onPressed: () {
+          Navigator.pushNamed(context, navigation);
+        },
+      );
   }
 
   DashedRect(
       {this.color = Colors.grey,
       this.strokeWidth = 1.0,
       this.gap = 5.0,
-      this.isDutyTime = false});
+      this.isDutyTime = false,
+      this.navigation = ''});
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +232,7 @@ class DashedRect extends StatelessWidget {
           child: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 30.0),
-              child: _dutyTimeWidget(this.isDutyTime),
+              child: _dutyTimeWidget(context, this.isDutyTime, this.navigation),
             ),
           ),
         ),
@@ -369,7 +382,9 @@ void showLoadingDialog(BuildContext context) {
             SizedBox(
               width: 30,
               height: 30,
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor),
+              ),
             ),
             SizedBox(
               height: 10.0,

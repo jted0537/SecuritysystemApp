@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/main.dart';
 import 'package:intl/intl.dart';
+import 'package:security_system/src/models/route.dart' as rt;
 
 // AppointedRouteMenu
 class OutDutyRoute extends StatefulWidget {
@@ -70,7 +71,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                               )),
                           SizedBox(height: 10.0),
                           Text(
-                            loginRouteViewModel.routeTitle,
+                            '1',
                             style: TextStyle(
                               color: Colors.grey,
                               fontWeight: defaultFontWeight,
@@ -91,11 +92,12 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                         strokeWidth: 2.0,
                         gap: 3.0,
                         isDutyTime: this.isDutyTime,
+                        navigation: '/inDutyRoute',
                       )),
                   SizedBox(height: 20.0),
-                  _checkPoints(context, true),
+                  _checkPointsList(context, true),
                   SizedBox(height: 10.0),
-                  // EXIT Button
+                  // EXIT Button(Back to login screen)
                   exitButton(context, 2),
                 ],
               ),
@@ -108,7 +110,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
 }
 
 // Widget for CheckPoints list(with or not 'See all' button)
-Widget _checkPoints(BuildContext context, bool saButton) {
+Widget _checkPointsList(BuildContext context, bool saButton) {
   return Column(
     children: [
       // Checkpoints List
@@ -155,7 +157,7 @@ Widget _checkPoints(BuildContext context, bool saButton) {
                       child: Column(
                         children: [
                           topRightDismissButton(context),
-                          _checkPoints(context, false),
+                          _checkpointsBottomSheet(context),
                         ],
                       ),
                     ),
@@ -170,10 +172,69 @@ Widget _checkPoints(BuildContext context, bool saButton) {
         thickness: 1.0,
         color: Colors.black,
       ),
+      FutureBuilder<rt.Route>(
+          future: loginRouteViewModel.fetchRoute(loginId),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(
+                children: [
+                  for (int i = 0; i < snapshot.data.totalCheckpointNum; i++)
+                    Column(
+                      children: [
+                        _checkpoint(
+                            snapshot.data.routeTitle,
+                            snapshot.data.checkpoints[i].sequenceNum,
+                            snapshot.data.checkpoints[i].frequency),
+                        Divider(
+                          thickness: 1.0,
+                        ),
+                      ],
+                    ),
+                ],
+              );
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            return CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor),
+            );
+          }),
+    ],
+  );
+}
+
+Widget _checkpointsBottomSheet(BuildContext context) {
+  return Column(
+    children: [
+      // Checkpoints List
+      Row(
+        children: [
+          Text('Checkpoints',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              )),
+          SizedBox(width: 10.0),
+          Text(
+            formattedDate,
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 13.0,
+            ),
+          ),
+          Spacer(),
+        ],
+      ),
+      SizedBox(height: 10.0),
+      Divider(
+        thickness: 1.0,
+        color: Colors.black,
+      ),
       for (int i = 0; i < loginRouteViewModel.totalCheckPointNum; i++)
         Column(
           children: [
-            _temp(
+            _checkpoint(
                 loginRouteViewModel.routeTitle,
                 loginRouteViewModel.loginRoute.checkpoints[i].sequenceNum,
                 loginRouteViewModel.loginRoute.checkpoints[i].frequency),
@@ -182,14 +243,16 @@ Widget _checkPoints(BuildContext context, bool saButton) {
             ),
           ],
         ),
+      SizedBox(height: 10.0),
+      exitButton(context, 1),
     ],
   );
 }
 
 // For each attendance
-Widget _temp(String routeTitle, int sequenceNum, int frequency) {
+Widget _checkpoint(String routeTitle, int sequenceNum, int frequency) {
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 13.0),
+    padding: EdgeInsets.symmetric(vertical: 13.0),
     child: Row(
       children: [
         Text(routeTitle + ' ' + sequenceNum.toString(),

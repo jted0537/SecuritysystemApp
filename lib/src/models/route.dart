@@ -15,7 +15,6 @@ class Route {
 
   factory Route.fromJson(Map<String, dynamic> json) {
     var list = json['checkpoints'] as List;
-    print(list);
     List<CheckPoint> checkPointList =
         list.map((i) => CheckPoint.fromJson(i)).toList();
     return Route(

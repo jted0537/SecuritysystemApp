@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:security_system/src/models/route.dart';
 import 'package:security_system/src/models/station.dart';
+import 'package:security_system/src/models/work.dart';
 
 final serverUrl = 'http://158.247.211.173/';
 
@@ -47,9 +48,22 @@ class WebService {
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var result = response.body.replaceAll('\\', '');
-      print(result.substring(1, result.length - 1));
+      print(result);
       final parsed = await json.decode(result.substring(1, result.length - 1));
       return Station.fromJson(parsed);
+    } else {
+      throw Exception("Unable to perform request!");
+    }
+  }
+
+  Future<Work> fetchWork(String id) async {
+    var url = Uri.parse('$serverUrl/app_connection/startWork/$id/');
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      var result = response.body.replaceAll('\\', '');
+      print(result);
+      final parsed = await json.decode(result.substring(1, result.length - 1));
+      return Work.fromJson(parsed);
     } else {
       throw Exception("Unable to perform request!");
     }
