@@ -173,7 +173,7 @@ Widget _checkPointsList(BuildContext context, bool saButton) {
         color: Colors.black,
       ),
       FutureBuilder<rt.Route>(
-          future: loginRouteViewModel.fetchRoute(loginId),
+          future: loginRouteViewModel.fetchRoute(loginGuardViewModel.id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Column(

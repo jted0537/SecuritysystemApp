@@ -14,6 +14,10 @@ class GuardViewModel {
     }
   }
 
+  String get id {
+    return this.loginGuard.id;
+  }
+
   String get guardName {
     return this.loginGuard.guardName;
   }

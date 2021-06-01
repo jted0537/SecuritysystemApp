@@ -18,7 +18,6 @@ final currentWorkViewModel = WorkViewModel();
 DateTime now;
 DateTime date;
 String formattedDate;
-String loginId;
 PhoneNumber loginNumber = PhoneNumber(isoCode: 'BD');
 // Application Entry Point
 void main() => runApp(SecureApp());

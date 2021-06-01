@@ -105,7 +105,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: buttonStyle(Colors.white, rokkhiColor),
                         child: Text('NEXT'),
                         onPressed: () async {
-                          loginId = idController.text;
                           loginNumber = this.number;
                           connectivityResult =
                               await (Connectivity().checkConnectivity());

@@ -48,10 +48,10 @@ class _OutDutyStationState extends State<OutDutyStation> {
                   logoAppBar(
                       loginGuardViewModel.guardName, loginGuardViewModel.type),
                   SizedBox(height: 20.0),
-                  // Appointed Route Button
-
+                  // Appointed Station
                   FutureBuilder<Station>(
-                    future: loginStationViewModel.fetchStation(loginId),
+                    future: loginStationViewModel
+                        .fetchStation(loginGuardViewModel.id),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Container(
@@ -109,8 +109,12 @@ class _OutDutyStationState extends State<OutDutyStation> {
                         navigation: '/inDutyStation',
                       )),
                   SizedBox(height: 20.0),
-                  // _checkPoints(context, true),
-                  // SizedBox(height: 10.0),
+                  TextButton(
+                    child: Text('make it!'),
+                    onPressed: () => currentWorkViewModel
+                        .fetchNewWork(loginGuardViewModel.id),
+                  ),
+                  SizedBox(height: 10.0),
                   // EXIT Button(Back to login screen)
                   exitButton(context, 2),
                 ],

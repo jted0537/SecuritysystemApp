@@ -5,7 +5,7 @@ import 'package:security_system/src/models/route.dart';
 import 'package:security_system/src/models/station.dart';
 import 'package:security_system/src/models/work.dart';
 
-final serverUrl = 'http://158.247.211.173/';
+final serverUrl = 'https://064493bd9bcb.ngrok.io';
 
 class WebService {
   Future<Guard> fetchGuard(String id, String number) async {
@@ -39,7 +39,7 @@ class WebService {
       final parsed = await json.decode(result.substring(1, result.length - 1));
       return Route.fromJson(parsed);
     } else {
-      throw Exception("Unable to perform request!");
+      throw Exception("Unable to perform fetch route request!");
     }
   }
 
@@ -52,7 +52,7 @@ class WebService {
       final parsed = await json.decode(result.substring(1, result.length - 1));
       return Station.fromJson(parsed);
     } else {
-      throw Exception("Unable to perform request!");
+      throw Exception("Unable to perform fetch station request!");
     }
   }
 
@@ -65,7 +65,27 @@ class WebService {
       final parsed = await json.decode(result.substring(1, result.length - 1));
       return Work.fromJson(parsed);
     } else {
-      throw Exception("Unable to perform request!");
+      throw Exception("Unable to perform fetch work request!");
     }
+  }
+
+  Future<Work> updateWork(String id) async {
+    var url = Uri.parse('$serverUrl/app_connection/getWork/$id/');
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      var result = response.body.replaceAll('\\', '');
+      print(result);
+      final parsed = await json.decode(result.substring(1, result.length - 1));
+      return Work.fromJson(parsed);
+    } else {
+      throw Exception("Unable to perform update work request!");
+    }
+  }
+
+  Future<void> stationaryResponse(String workId) async {
+    var url =
+        Uri.parse('$serverUrl/app_connection/StationaryResponse/$workId/');
+    var response = await http.get(url);
+    print(response.statusCode);
   }
 }
