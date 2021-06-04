@@ -5,7 +5,7 @@ import 'package:security_system/src/models/route.dart';
 import 'package:security_system/src/models/station.dart';
 import 'package:security_system/src/models/work.dart';
 
-final serverUrl = 'https://bf42cf36114b.ngrok.io';
+final serverUrl = 'https://158.247.211.173';
 
 class WebService {
   Future<Guard> fetchGuard(String id, String number) async {
@@ -20,7 +20,6 @@ class WebService {
     if (response.statusCode == 200) {
       var temp = response.body.replaceAll('\\', '');
       var result = temp.split('/');
-      print(result);
       final firstParsed =
           await json.decode(result[0].substring(1, result[0].length));
       final secondParsed =
@@ -48,7 +47,6 @@ class WebService {
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var result = response.body.replaceAll('\\', '');
-      print(result);
       final parsed = await json.decode(result.substring(1, result.length - 1));
       return Station.fromJson(parsed);
     } else {
@@ -61,7 +59,6 @@ class WebService {
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var result = response.body.replaceAll('\\', '');
-      print(result);
       final parsed = await json.decode(result.substring(1, result.length - 1));
       return Work.fromJson(parsed);
     } else {
@@ -74,7 +71,6 @@ class WebService {
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var result = response.body.replaceAll('\\', '');
-      print(result);
       final parsed = await json.decode(result.substring(1, result.length - 1));
       return Work.fromJson(parsed);
     } else {
@@ -85,6 +81,12 @@ class WebService {
   Future<void> stationaryResponse(String workId) async {
     var url =
         Uri.parse('$serverUrl/app_connection/StationaryResponse/$workId/');
+    var response = await http.get(url);
+    print(response.statusCode);
+  }
+
+  Future<void> endWork(String workId) async {
+    var url = Uri.parse('$serverUrl/app_connection/endStationaryWork/$workId/');
     var response = await http.get(url);
     print(response.statusCode);
   }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/main.dart';
 import 'package:intl/intl.dart';
 import 'package:security_system/src/models/station.dart';
 
-// AppointedRouteMenu
 class OutDutyStation extends StatefulWidget {
   @override
   _OutDutyStationState createState() => _OutDutyStationState();
@@ -13,12 +13,31 @@ class OutDutyStation extends StatefulWidget {
 class _OutDutyStationState extends State<OutDutyStation> {
   bool isDutyTime;
 
+  // Check if work is done
+  void alarmExpired() async {
+    now = DateTime.now();
+    print('alarm go!');
+    if (loginGuardViewModel.endTimeHour * 60 +
+            loginGuardViewModel.endTimeMinute <=
+        now.hour * 60 + now.minute) {
+      print('alarm done');
+      await currentWorkViewModel.endWork(currentWorkViewModel.workID);
+      timer.cancel();
+      setState(() {
+        this.isDutyTime = false;
+        currentWorkViewModel.currentWork = null;
+        loginGuardViewModel.loginGuard.status = false;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     now = DateTime.now();
     date = DateTime(now.year, now.month, now.day);
     formattedDate = DateFormat('dd.MM.yyyy').format(now);
+    // Calculate current time for start work
     if (now.hour * 60 + now.minute <=
             loginGuardViewModel.endTimeHour * 60 +
                 loginGuardViewModel.endTimeMinute &&
@@ -28,10 +47,8 @@ class _OutDutyStationState extends State<OutDutyStation> {
       this.isDutyTime = true;
     else
       this.isDutyTime = false;
-    setState(() {
-      loginGuardViewModel.loginGuard.status =
-          loginGuardViewModel.loginGuard.status;
-    });
+    // Start timer
+    timer = Timer.periodic(Duration(seconds: 30), (Timer t) => alarmExpired());
   }
 
   @override

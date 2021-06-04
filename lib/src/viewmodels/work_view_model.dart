@@ -8,7 +8,6 @@ class WorkViewModel {
     try {
       final results = await WebService().fetchWork(id);
       this.currentWork = results;
-      //return results;
     } catch (e) {
       print(e);
     }
@@ -19,6 +18,14 @@ class WorkViewModel {
       final results = await WebService().updateWork(id);
       this.currentWork = results;
       return results;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> endWork(String workId) async {
+    try {
+      await WebService().endWork(workId);
     } catch (e) {
       print(e);
     }

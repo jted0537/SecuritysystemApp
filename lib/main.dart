@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:security_system/src/screens/login/local_auth_view.dart';
 import 'package:security_system/src/screens/patrollingGuard/in_duty_route.dart';
 import 'package:security_system/src/screens/patrollingGuard/out_duty_route.dart';
@@ -19,6 +20,7 @@ DateTime now;
 DateTime date;
 String formattedDate;
 PhoneNumber loginNumber = PhoneNumber(isoCode: 'BD');
+Timer timer;
 // Application Entry Point
 void main() => runApp(SecureApp());
 
