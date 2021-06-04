@@ -5,7 +5,7 @@ import 'package:security_system/src/models/route.dart';
 import 'package:security_system/src/models/station.dart';
 import 'package:security_system/src/models/work.dart';
 
-final serverUrl = 'https://064493bd9bcb.ngrok.io';
+final serverUrl = 'https://bf42cf36114b.ngrok.io';
 
 class WebService {
   Future<Guard> fetchGuard(String id, String number) async {
@@ -20,7 +20,7 @@ class WebService {
     if (response.statusCode == 200) {
       var temp = response.body.replaceAll('\\', '');
       var result = temp.split('/');
-
+      print(result);
       final firstParsed =
           await json.decode(result[0].substring(1, result[0].length));
       final secondParsed =

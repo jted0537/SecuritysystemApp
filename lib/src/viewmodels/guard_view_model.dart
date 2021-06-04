@@ -64,4 +64,8 @@ class GuardViewModel {
             this.loginGuard.frequency +
         1;
   }
+
+  bool get status {
+    return this.loginGuard.status;
+  }
 }

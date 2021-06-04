@@ -19,15 +19,19 @@ class _OutDutyStationState extends State<OutDutyStation> {
     now = DateTime.now();
     date = DateTime(now.year, now.month, now.day);
     formattedDate = DateFormat('dd.MM.yyyy').format(now);
-    if (now.hour * 60 + now.minute <
+    if (now.hour * 60 + now.minute <=
             loginGuardViewModel.endTimeHour * 60 +
                 loginGuardViewModel.endTimeMinute &&
-        now.hour * 60 + now.minute >
+        now.hour * 60 + now.minute >=
             loginGuardViewModel.startTimeHour * 60 +
                 loginGuardViewModel.startTimeMinute)
       this.isDutyTime = true;
     else
       this.isDutyTime = false;
+    setState(() {
+      loginGuardViewModel.loginGuard.status =
+          loginGuardViewModel.loginGuard.status;
+    });
   }
 
   @override
@@ -109,12 +113,6 @@ class _OutDutyStationState extends State<OutDutyStation> {
                         navigation: '/inDutyStation',
                       )),
                   SizedBox(height: 20.0),
-                  TextButton(
-                    child: Text('make it!'),
-                    onPressed: () => currentWorkViewModel
-                        .fetchNewWork(loginGuardViewModel.id),
-                  ),
-                  SizedBox(height: 10.0),
                   // EXIT Button(Back to login screen)
                   exitButton(context, 2),
                 ],

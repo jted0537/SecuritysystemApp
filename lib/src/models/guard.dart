@@ -2,21 +2,22 @@ class Guard {
   final String id;
   final String guardName;
   final String type;
+  bool status;
   final String slotTitle;
   final String startTime;
   final String endTime;
   final int frequency;
-  final bool status;
 
-  Guard(
-      {this.id,
-      this.guardName,
-      this.type,
-      this.slotTitle,
-      this.startTime,
-      this.endTime,
-      this.frequency,
-      this.status});
+  Guard({
+    this.id,
+    this.guardName,
+    this.type,
+    this.status,
+    this.slotTitle,
+    this.startTime,
+    this.endTime,
+    this.frequency,
+  });
 
   factory Guard.fromJson(
       Map<String, dynamic> json1, Map<String, dynamic> json2) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:security_system/main.dart';
 import 'dart:math' as math;
 
 //------------------------------------------------Widget
@@ -188,30 +189,72 @@ FontWeight defaultFontWeight = FontWeight.w400;
 Color rokkhiColor = Colors.red;
 
 //------------------------------------------------Dashed Box
+
+class DutyTimeWidget extends StatefulWidget {
+  final bool isDutyTime;
+  final String navigation;
+  DutyTimeWidget(this.isDutyTime, this.navigation);
+
+  @override
+  _DutyTimeWidgetState createState() => _DutyTimeWidgetState();
+}
+
+class _DutyTimeWidgetState extends State<DutyTimeWidget> {
+  // @override
+  // initState() {
+  //   super.initState();
+  // }
+  Widget build(BuildContext context) {
+    if (!widget.isDutyTime)
+      return Column(
+        children: [
+          Text('This is not your duty time.'),
+          SizedBox(height: 15.0), //Navigator.pushNamed(context, navigation)
+        ],
+      );
+    else
+      return Column(
+        children: [
+          Text('This is your duty time.'),
+          SizedBox(height: 15.0),
+          Text(
+            loginGuardViewModel.status
+                ? 'You have your work'
+                : 'You are not assigned yet.',
+            style: TextStyle(
+              color: Colors.grey,
+              fontWeight: defaultFontWeight,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+          TextButton(
+            child: Text(
+              loginGuardViewModel.status ? 'Go to work!' : 'Start work!',
+              style: TextStyle(color: rokkhiColor),
+            ),
+            onPressed: () async {
+              if (loginGuardViewModel.status == false) {
+                setState(() {
+                  loginGuardViewModel.loginGuard.status = true;
+                });
+                showLoadingDialog(context);
+                await currentWorkViewModel.fetchNewWork(loginGuardViewModel.id);
+                hideLoadingDialog(context);
+              }
+              Navigator.pushNamed(context, widget.navigation);
+            },
+          ),
+        ],
+      );
+  }
+}
+
 class DashedRect extends StatelessWidget {
   final Color color;
   final double strokeWidth;
   final double gap;
   final bool isDutyTime;
   final String navigation;
-
-  Widget _dutyTimeWidget(
-      BuildContext context, bool isDutyTime, String navigation) {
-    if (!isDutyTime)
-      return TextButton(
-        child: Text('This is not your duty time.'),
-        onPressed: () {
-          Navigator.pushNamed(context, navigation);
-        },
-      );
-    else
-      return TextButton(
-        child: Text('This is your duty time.'),
-        onPressed: () {
-          Navigator.pushNamed(context, navigation);
-        },
-      );
-  }
 
   DashedRect(
       {this.color = Colors.grey,
@@ -224,16 +267,13 @@ class DashedRect extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.grey[100],
-      child: Padding(
-        padding: EdgeInsets.all(strokeWidth / 2),
-        child: CustomPaint(
-          painter:
-              DashRectPainter(color: color, strokeWidth: strokeWidth, gap: gap),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30.0),
-              child: _dutyTimeWidget(context, this.isDutyTime, this.navigation),
-            ),
+      child: CustomPaint(
+        painter:
+            DashRectPainter(color: color, strokeWidth: strokeWidth, gap: gap),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 30.0, bottom: 10.0),
+            child: DutyTimeWidget(this.isDutyTime, this.navigation),
           ),
         ),
       ),
