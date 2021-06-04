@@ -14,7 +14,7 @@ class _OutDutyStationState extends State<OutDutyStation> {
   bool isDutyTime;
 
   // Check if work is done
-  void alarmExpired() async {
+  void checkEndWork() async {
     now = DateTime.now();
     print('alarm go!');
     if (loginGuardViewModel.endTimeHour * 60 +
@@ -48,7 +48,7 @@ class _OutDutyStationState extends State<OutDutyStation> {
     else
       this.isDutyTime = false;
     // Start timer
-    timer = Timer.periodic(Duration(seconds: 30), (Timer t) => alarmExpired());
+    timer = Timer.periodic(Duration(seconds: 180), (Timer t) => checkEndWork());
   }
 
   @override
