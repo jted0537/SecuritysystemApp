@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:security_system/main.dart';
-import 'dart:math' as math;
-import 'package:security_system/src/services/local_notification.dart';
 
 //------------------------------------------------Widget
 // Widget For Rokkhi LOGO

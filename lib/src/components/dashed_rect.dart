@@ -31,7 +31,7 @@ class DashedRect extends StatelessWidget {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.only(top: 30.0, bottom: 10.0),
-            child: DutyTimeWidget(
+            child: StationDutyTimeWidget(
                 this.isDutyTime, this.navigation, this.localNotification),
           ),
         ),
@@ -40,18 +40,19 @@ class DashedRect extends StatelessWidget {
   }
 }
 
-class DutyTimeWidget extends StatefulWidget {
+class StationDutyTimeWidget extends StatefulWidget {
   final bool isDutyTime;
   final String navigation;
   final LocalNotification localNotification;
 
-  DutyTimeWidget(this.isDutyTime, this.navigation, this.localNotification);
+  StationDutyTimeWidget(
+      this.isDutyTime, this.navigation, this.localNotification);
 
   @override
-  _DutyTimeWidgetState createState() => _DutyTimeWidgetState();
+  _StationDutyTimeWidgetState createState() => _StationDutyTimeWidgetState();
 }
 
-class _DutyTimeWidgetState extends State<DutyTimeWidget> {
+class _StationDutyTimeWidgetState extends State<StationDutyTimeWidget> {
   Widget build(BuildContext context) {
     if (!widget.isDutyTime)
       return Column(
