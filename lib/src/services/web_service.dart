@@ -5,7 +5,7 @@ import 'package:security_system/src/models/route.dart';
 import 'package:security_system/src/models/station.dart';
 import 'package:security_system/src/models/work.dart';
 
-final serverUrl = 'https://158.247.211.173';
+final serverUrl = 'http://158.247.211.173';
 
 class WebService {
   Future<Guard> fetchGuard(String id, String number) async {
