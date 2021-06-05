@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'dart:async';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/main.dart';
 import 'package:intl/intl.dart';
 import 'package:security_system/src/models/station.dart';
+import 'package:security_system/src/services/local_notification.dart';
 
 class OutDutyStation extends StatefulWidget {
   @override
@@ -12,7 +14,7 @@ class OutDutyStation extends StatefulWidget {
 
 class _OutDutyStationState extends State<OutDutyStation> {
   bool isDutyTime;
-
+  LocalNotification localNotification = LocalNotification();
   // Check if work is done
   void checkEndWork() async {
     now = DateTime.now();
@@ -29,6 +31,12 @@ class _OutDutyStationState extends State<OutDutyStation> {
         loginGuardViewModel.loginGuard.status = false;
       });
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer.cancel();
   }
 
   @override
@@ -49,6 +57,7 @@ class _OutDutyStationState extends State<OutDutyStation> {
       this.isDutyTime = false;
     // Start timer
     timer = Timer.periodic(Duration(seconds: 180), (Timer t) => checkEndWork());
+    localNotification.initialSettings();
   }
 
   @override
@@ -130,6 +139,15 @@ class _OutDutyStationState extends State<OutDutyStation> {
                         navigation: '/inDutyStation',
                       )),
                   SizedBox(height: 20.0),
+
+                  TextButton(
+                    child: Text('Notification'),
+                    onPressed: () async {
+                      await localNotification.showNotification(
+                          2021, 06, 05, 20, 07);
+                    },
+                  ),
+
                   // EXIT Button(Back to login screen)
                   exitButton(context, 2),
                 ],

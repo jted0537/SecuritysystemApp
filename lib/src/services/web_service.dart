@@ -8,6 +8,7 @@ import 'package:security_system/src/models/work.dart';
 final serverUrl = 'http://158.247.211.173';
 
 class WebService {
+  // Fetch Guard
   Future<Guard> fetchGuard(String id, String number) async {
     var url = Uri.parse('$serverUrl/app_connection/$id/');
     var response = await http.post(
@@ -30,6 +31,7 @@ class WebService {
     }
   }
 
+  // Fetch Checkpoint
   Future<Route> fetchRoute(String id) async {
     var url = Uri.parse('$serverUrl/app_connection/Route/$id/');
     var response = await http.get(url);
@@ -42,6 +44,7 @@ class WebService {
     }
   }
 
+  // Fetch Station
   Future<Station> fetchStation(String id) async {
     var url = Uri.parse('$serverUrl/app_connection/Station/$id/');
     var response = await http.get(url);
@@ -54,6 +57,7 @@ class WebService {
     }
   }
 
+  // Fetch(start) work
   Future<Work> fetchWork(String id) async {
     var url = Uri.parse('$serverUrl/app_connection/startWork/$id/');
     var response = await http.get(url);
@@ -66,6 +70,7 @@ class WebService {
     }
   }
 
+  // Go to work
   Future<Work> updateWork(String id) async {
     var url = Uri.parse('$serverUrl/app_connection/getWork/$id/');
     var response = await http.get(url);
@@ -78,6 +83,7 @@ class WebService {
     }
   }
 
+  //
   Future<void> stationaryResponse(String workId) async {
     var url =
         Uri.parse('$serverUrl/app_connection/StationaryResponse/$workId/');

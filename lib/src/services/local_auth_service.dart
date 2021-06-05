@@ -8,6 +8,7 @@ enum BioMetricLogin { Success, NoBioMetricInfo, DeviceNotProvide, Cancel }
 class LocalAuthService {
   static final _auth = LocalAuthentication();
 
+  // Check Device provides local auth function.
   static Future<bool> hasBiometrics() async {
     try {
       return await _auth.canCheckBiometrics;
@@ -17,6 +18,7 @@ class LocalAuthService {
     }
   }
 
+  // Local auth function
   static Future<BioMetricLogin> authenticate() async {
     final isAvailable = await _auth.canCheckBiometrics;
     var result;

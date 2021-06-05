@@ -22,7 +22,7 @@ String formattedDate;
 PhoneNumber loginNumber = PhoneNumber(isoCode: 'BD');
 Timer timer;
 // Application Entry Point
-void main() => runApp(SecureApp());
+void main() async => runApp(SecureApp());
 
 class SecureApp extends StatelessWidget {
   @override
