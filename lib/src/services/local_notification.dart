@@ -28,7 +28,7 @@ class LocalNotification {
   }
 
   // Show local
-  Future showNotification(
+  Future<void> showNotification(
       int year, int month, int day, int hour, int minute) async {
     var androidDetails = AndroidNotificationDetails("channelId",
         "Local Notification", "This is the description of the notification",
@@ -65,5 +65,9 @@ class LocalNotification {
           UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
     );
+  }
+
+  Future<void> cancelAllNotification() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
   }
 }

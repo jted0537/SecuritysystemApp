@@ -84,16 +84,16 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                   ),
                   SizedBox(height: 20.0),
                   // Dashed Rectangle Box
-                  Container(
-                      width: double.infinity,
-                      color: Colors.black12,
-                      child: DashedRect(
-                        color: Colors.grey[300],
-                        strokeWidth: 2.0,
-                        gap: 3.0,
-                        isDutyTime: this.isDutyTime,
-                        navigation: '/inDutyRoute',
-                      )),
+                  // Container(
+                  //     width: double.infinity,
+                  //     color: Colors.black12,
+                  //     child: DashedRect(
+                  //       color: Colors.grey[300],
+                  //       strokeWidth: 2.0,
+                  //       gap: 3.0,
+                  //       isDutyTime: this.isDutyTime,
+                  //       navigation: '/inDutyRoute',
+                  //     )),
                   SizedBox(height: 20.0),
                   _checkPointsList(context, true),
                   SizedBox(height: 10.0),
