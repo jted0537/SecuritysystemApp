@@ -8,7 +8,8 @@ class LocalNotification {
 
   // Initial Settings for using local_notification
   void initialSettings() {
-    final initSettingsAndroid = AndroidInitializationSettings('ic_launcher');
+    final initSettingsAndroid =
+        AndroidInitializationSettings('rokkhi_launcher');
     final initSettingiOS = IOSInitializationSettings();
     final initSettings = InitializationSettings(
         android: initSettingsAndroid, iOS: initSettingiOS);
