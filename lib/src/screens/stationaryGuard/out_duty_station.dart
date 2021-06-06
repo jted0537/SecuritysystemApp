@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
-import 'package:security_system/src/components/dialogs.dart';
 import 'package:security_system/src/components/dashed_rect.dart';
 import 'package:security_system/main.dart';
 import 'package:security_system/src/models/station.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
-import 'package:security_system/src/services/local_notification.dart';
+import 'package:security_system/src/services/local_notification_service.dart';
 
 class OutDutyStation extends StatefulWidget {
   @override
@@ -26,6 +25,7 @@ class _OutDutyStationState extends State<OutDutyStation> {
         now.hour * 60 + now.minute) {
       print('alarm done');
       await currentWorkViewModel.endWork(currentWorkViewModel.workID);
+      // Cancel notification, timer, delete objects
       localNotification.cancelAllNotification();
       timer.cancel();
       setState(() {
@@ -62,6 +62,7 @@ class _OutDutyStationState extends State<OutDutyStation> {
       this.isDutyTime = false;
     // Start timer
     timer = Timer.periodic(Duration(seconds: 180), (Timer t) => checkEndWork());
+    // Initial settings for local notification
     localNotification.initialSettings();
   }
 
@@ -154,72 +155,5 @@ class _OutDutyStationState extends State<OutDutyStation> {
         ),
       ),
     );
-  }
-}
-
-class DutyTimeWidget extends StatefulWidget {
-  final bool isDutyTime;
-  final String navigation;
-  final LocalNotification localNotification;
-
-  DutyTimeWidget(this.isDutyTime, this.navigation, this.localNotification);
-
-  @override
-  _DutyTimeWidgetState createState() => _DutyTimeWidgetState();
-}
-
-class _DutyTimeWidgetState extends State<DutyTimeWidget> {
-  Widget build(BuildContext context) {
-    if (!widget.isDutyTime)
-      return Column(
-        children: [
-          Text('This is not your duty time.'),
-          SizedBox(height: 15.0), //Navigator.pushNamed(context, navigation)
-        ],
-      );
-    else
-      return Column(
-        children: [
-          Text('This is your duty time.'),
-          SizedBox(height: 15.0),
-          Text(
-            loginGuardViewModel.status
-                ? 'You have your work'
-                : 'You are not assigned yet.',
-            style: TextStyle(
-              color: Colors.grey,
-              fontWeight: defaultFontWeight,
-              decoration: TextDecoration.underline,
-            ),
-          ),
-          TextButton(
-            child: Text(
-              loginGuardViewModel.status ? 'Go to work!' : 'Start work!',
-              style: TextStyle(color: rokkhiColor),
-            ),
-            onPressed: () async {
-              if (loginGuardViewModel.status == false) {
-                setState(() {
-                  loginGuardViewModel.loginGuard.status = true;
-                });
-                showLoadingDialog(context);
-                await currentWorkViewModel.fetchNewWork(loginGuardViewModel.id);
-                for (int i = 0;
-                    i < currentWorkViewModel.alarmTimeList.length;
-                    i++) {
-                  DateTime now = DateTime.now();
-                  String each = currentWorkViewModel.alarmTimeList[i];
-                  int hour = int.parse(each.split(":")[0]);
-                  int minute = int.parse(each.split(":")[1]);
-                  await widget.localNotification.showNotification(
-                      now.year, now.month, now.day, hour, minute);
-                }
-                hideLoadingDialog(context);
-              }
-              Navigator.pushNamed(context, widget.navigation);
-            },
-          ),
-        ],
-      );
   }
 }

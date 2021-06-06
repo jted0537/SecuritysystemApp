@@ -3,7 +3,7 @@ import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/src/components/dialogs.dart';
 import 'dart:math' as math;
 import 'package:security_system/main.dart';
-import 'package:security_system/src/services/local_notification.dart';
+import 'package:security_system/src/services/local_notification_service.dart';
 
 //------------------------------------------------Dashed Box
 class DashedRect extends StatelessWidget {
@@ -41,6 +41,7 @@ class DashedRect extends StatelessWidget {
   }
 }
 
+// Stationary Guard Dashed Rectangle Box
 class StationDutyTimeWidget extends StatefulWidget {
   final bool isDutyTime;
   final String navigation;
@@ -110,6 +111,7 @@ class _StationDutyTimeWidgetState extends State<StationDutyTimeWidget> {
   }
 }
 
+// For Dashed Rectangle Box
 class DashRectPainter extends CustomPainter {
   double strokeWidth;
   Color color;

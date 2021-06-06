@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
+import 'package:security_system/src/components/dialogs.dart';
 import 'package:security_system/main.dart';
 import 'package:security_system/src/services/web_service.dart';
+import 'package:security_system/src/services/local_auth_service.dart';
 import 'package:security_system/src/models/work.dart';
 import 'package:intl/intl.dart';
 
@@ -11,6 +13,23 @@ class InDutyStation extends StatefulWidget {
 }
 
 class _InDutyStationState extends State<InDutyStation> {
+  // Doing attendance authentication
+  Future<void> authentication() async {
+    final isAuthenticated = await LocalAuthService.authenticate();
+
+    if (isAuthenticated == BioMetricLogin.Success) {
+      // If Biometric authentication success
+      await WebService().stationaryResponse(currentWorkViewModel.workID);
+      setState(() {});
+    } else if (isAuthenticated == BioMetricLogin.NoBioMetricInfo) {
+      // If device has no biometric authentication information, alert message pop
+      noBioMetricInfoDialog(context);
+    } else if (isAuthenticated == BioMetricLogin.DeviceNotProvide) {
+      // If device has no biometric auth function
+      notProvideBioMetricDialog(context);
+    }
+  }
+
   @override
   initState() {
     super.initState();
@@ -24,6 +43,19 @@ class _InDutyStationState extends State<InDutyStation> {
     // Using WillPopScope for block the return with device back button
     return Scaffold(
       backgroundColor: Colors.grey[150],
+      bottomNavigationBar: BottomAppBar(
+        elevation: 11.0,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+          child: OutlinedButton(
+            style: buttonStyle(Colors.white, rokkhiColor),
+            child: Text('Attendance'),
+            onPressed: () async {
+              await authentication();
+            },
+          ),
+        ),
+      ),
       body: SafeArea(
         child: CustomScrollView(
           // Using CustomScrollView and Silver for using expanded scroll view
@@ -113,14 +145,6 @@ class _InCornerRadiusBoxState extends State<InCornerRadiusBox> {
                       decoration: TextDecoration.underline,
                     ),
                   ),
-
-                  TextButton(
-                      child: Text('Please'),
-                      onPressed: () async {
-                        await WebService()
-                            .stationaryResponse(currentWorkViewModel.workID);
-                        setState(() {});
-                      }),
                 ],
               ),
 
@@ -278,6 +302,7 @@ Widget _attendance(String time, bool isComplete) {
   );
 }
 
+// Parsing date string to AM/PM type
 String dateParse(String time) {
   int hour = int.parse(time.split(":")[0]);
   int minute = int.parse(time.split(":")[1]);

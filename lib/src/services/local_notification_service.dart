@@ -57,7 +57,7 @@ class LocalNotification {
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
       year + month + day + hour * 60 + minute,
-      'Time to check',
+      'Time to attend',
       realTime,
       _setNotiTime(year, month, day, hour, minute),
       generalNotificationDetails,
