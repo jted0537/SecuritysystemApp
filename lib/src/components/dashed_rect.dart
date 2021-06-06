@@ -88,6 +88,7 @@ class _StationDutyTimeWidgetState extends State<StationDutyTimeWidget> {
                 });
                 showLoadingDialog(context);
                 await currentWorkViewModel.fetchNewWork(loginGuardViewModel.id);
+                await widget.localNotification.cancelAllNotification();
                 for (int i = 0;
                     i < currentWorkViewModel.alarmTimeList.length;
                     i++) {
@@ -95,7 +96,6 @@ class _StationDutyTimeWidgetState extends State<StationDutyTimeWidget> {
                   String each = currentWorkViewModel.alarmTimeList[i];
                   int hour = int.parse(each.split(":")[0]);
                   int minute = int.parse(each.split(":")[1]);
-                  await widget.localNotification.cancelAllNotification();
                   await widget.localNotification.showNotification(
                       now.year, now.month, now.day, hour, minute);
                 }
