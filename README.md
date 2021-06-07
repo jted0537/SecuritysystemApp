@@ -1,7 +1,8 @@
 # security_system
 ------------------------------------------
-Google Map API_KEY와 geolocator를 이용하여 현재 사용자의 위치를
-Google Map에 표시해준다.
+Flutter Guard Management Application. </br>
+For Stationary Guard and Patrolling Guard. </br>
+Using Rest API, Google Maps. </br>
 
 ## Getting Started
 -------------------------------------------
@@ -16,11 +17,19 @@ Alright! now you can start "add google map packages & geoloactor" to your own pr
 
 ### Android
 
-1. Add packages at pubspec.yaml
+1. Using packages(Specified version)
 ~~~yaml
 dependencies:
-  geolocator: ^7.0.1
-  google_maps_flutter: ^2.0.2
+  flutter:
+    sdk: flutter
+  intl_phone_number_input: ^0.7.0+1
+  local_auth: ^1.1.5
+  intl: ^0.17.0
+  cupertino_icons: ^1.0.2
+  flutter_local_notifications: ^6.0.0
+  http: ^0.13.3
+  connectivity: ^3.0.4
+  shared_preferences: ^2.0.5
 ~~~
 </br>
 
@@ -43,39 +52,19 @@ or save file at your IDE. (It will automatically install it)
 
 4. Permission(At AndroidManifest.xml above application)
 ~~~xml
-<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
 ~~~
 </br>
 </br>
 
- ### IOS
- 1. Add packages at pubspec.yaml
-~~~yaml
-dependencies:
-  geolocator: ^7.0.1
-  google_maps_flutter: ^2.0.2
-~~~
-</br>
+ ### IOS(Developing...)
 
-2. Dependencies(At ios/Runner/AppDelegate.swift above GeneratedPluginRegistrant.register(with: self))
-~~~Swift
-GMSServices.provideAPIKEY("{Your Google Map API_KEY from Google Cloud Platform}")
-~~~
-</br>
-
-3. install (At terminal)
-~~~
-flutter pub get
-~~~
-or save file at your IDE. (It will automatically install it)
 </br>
 </br>
 
-
-## Import
---------------------------------------------
-~~~dart
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
-~~~
