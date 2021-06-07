@@ -107,6 +107,7 @@ class _OutDutyStationState extends State<OutDutyStation> {
                         gap: 3.0,
                         isDutyTime: this.isDutyTime,
                         navigation: '/inDutyStation',
+                        type: "stationary",
                       )),
                   SizedBox(height: 20.0),
                   // _checkPoints(context, true),

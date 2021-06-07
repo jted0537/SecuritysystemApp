@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/main.dart';
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as bg;
+
+import 'dart:async';
+import 'dart:isolate';
+import 'dart:ui';
+
+Timer timer;
+Timer locTimer;
+int checkPoint = 0;
 
 class InDutyRoute extends StatefulWidget {
   @override
@@ -8,6 +17,73 @@ class InDutyRoute extends StatefulWidget {
 }
 
 class _InDutyRouteState extends State<InDutyRoute> {
+  int counter = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    ////
+    // 1.  Listen to events (See docs for all 12 available events).
+    //
+
+    // Fired whenever a location is recorded
+    bg.BackgroundGeolocation.onLocation((bg.Location location) {
+      print('[location] - lat: ${location.coords.latitude} & lng: ${location.coords.longitude}');
+    });
+
+    // Fired whenever the plugin changes motion-state (stationary->moving and vice-versa)
+    // bg.BackgroundGeolocation.onMotionChange((bg.Location location) {
+    //   print('[motionchange] - $location');
+    // });
+
+    // // Fired whenever the state of location-services changes.  Always fired at boot
+    // bg.BackgroundGeolocation.onProviderChange((bg.ProviderChangeEvent event) {
+    //   print('[providerchange] - $event');
+    // });
+
+    ////
+    // 2.  Configure the plugin
+    //
+    bg.BackgroundGeolocation.ready(bg.Config(
+        desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
+        distanceFilter: 10.0,
+        stopOnTerminate: false,
+        startOnBoot: true,
+        debug: false,
+        logLevel: bg.Config.LOG_LEVEL_OFF
+    )).then((bg.State state) {
+      if (!state.enabled) {
+        ////
+        // 3.  Start the plugin.
+        //
+        bg.BackgroundGeolocation.start();
+      }
+    });
+
+    bg.BackgroundGeolocation.changePace(true);
+    timer = Timer.periodic(Duration(seconds: 10), (Timer t) => alarmExpired());
+  }
+
+  @override
+  void dispose() {
+
+    timer?.cancel();
+    super.dispose();
+  }
+
+  void alarmExpired() async {
+    counter++;
+    print("$counter: 10sec elapsed.");
+    var location = await bg.BackgroundGeolocation.getCurrentPosition();
+    print('[location] - lat: ${location.coords.latitude} & lng: ${location.coords.longitude}');
+    //WebService().postGPSReply('patrol', '000000000009', 30.0, 60.0);
+  }
+
+  void alarmExpired2() async {
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     // Using WillPopScope for block the return with device back button
@@ -28,6 +104,7 @@ class _InDutyRouteState extends State<InDutyRoute> {
                         loginGuardViewModel.type),
                     // Widgets in cornerRadiusBox
                     _inCornerRadiusBox(context, formattedDate),
+                    // RaisedButton(onPressed: ),
                   ],
                 ),
               ),

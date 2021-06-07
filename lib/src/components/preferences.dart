@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'dart:async';
 
 //------------------------------------------------Widget
 // Widget For Rokkhi LOGO
@@ -194,6 +195,7 @@ class DashedRect extends StatelessWidget {
   final double gap;
   final bool isDutyTime;
   final String navigation;
+  final String type;
 
   Widget _dutyTimeWidget(
       BuildContext context, bool isDutyTime, String navigation) {
@@ -218,7 +220,8 @@ class DashedRect extends StatelessWidget {
       this.strokeWidth = 1.0,
       this.gap = 5.0,
       this.isDutyTime = false,
-      this.navigation = ''});
+      this.navigation = '',
+      this.type = 'patrol',});
 
   @override
   Widget build(BuildContext context) {

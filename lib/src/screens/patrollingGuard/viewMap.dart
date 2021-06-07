@@ -8,6 +8,18 @@ import 'package:security_system/main.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/src/models/chckpoint.dart';
 import 'package:location_platform_interface/location_platform_interface.dart';
+import 'package:security_system/src/screens/patrollingGuard/in_duty_route.dart';
+
+//컬럼안에 높이 100주거나 앱바 사용
+//topRightDismissButton
+//그 바로 아래에는 Align Widget
+// (Align -> Row (logo, loginGuard.name)
+//그 아래는 이제
+//local_authentication_view에서 지문사진을 박스안에 넣어놨는데 그거보고 비슷하게
+//제생각에는 컨테이너 100정도 주는게 좋아보이네요
+//Column내부에 컨테이너랑 맵
+
+
 
 class ViewMap extends StatefulWidget {
   @override
@@ -210,15 +222,17 @@ class _ViewMapState extends State<ViewMap> {
                       zoom: 15.00),
                   markers: Set.of((_marker != null) ? [_marker] : []),
                   circles: _checkpointCircles,
+                 // myLocationEnabled: true,
+                  //myLocationButtonEnabled: true,
                   zoomControlsEnabled: true,
                   onMapCreated: (GoogleMapController controller) {
                     _controller = controller;
                     _getCurrentLocation();
                     _showChecklist();
                   },
-                  onCameraMove: (CameraPosition camPos) {
-                    _controller
-                        .animateCamera(CameraUpdate.newCameraPosition(camPos));
+                  onCameraMove: (CameraPosition camPos) async {
+                    await _controller.animateCamera(CameraUpdate.newCameraPosition(camPos));
+                    //print('ha');
                   },
                 ),
               ),

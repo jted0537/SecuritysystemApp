@@ -242,22 +242,8 @@ Widget _attendance(String time, bool isComplete) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-<<<<<<< HEAD
-        Column(
-          children: [
-            Text(time,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                )),
-            Text(
-              //formattedDate,
-              '2021-05-29',
-=======
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(time,
->>>>>>> a5faf5357ae72356725149f249a73361562c7918
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 18.0,

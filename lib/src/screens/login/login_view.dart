@@ -23,137 +23,138 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Container(
-            // Use Container -> SingleChildScrollView -> Column for scrollable full screen
-            height: double.infinity,
-            child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 15.0),
-                child: Column(
-                  children: [
-                    // DecoratedBox(
-                    //   decoration: BoxDecoration(
-                    //     shape: BoxShape.circle,
-                    //     border: BoxBorder.lerp(a, b, t),
-                    //     color: Colors.redAccent,
-                    //   ),
-                    //   child: Image.asset(
-                    //     'images/notification_LOGO.gif',
-                    //     width: 250.0,
-                    //   ),
-                    // ),
+    return  Scaffold(
+            backgroundColor: Colors.white,
+            body: SafeArea(
+              child: Container(
+                // Use Container -> SingleChildScrollView -> Column for scrollable full screen
+                height: double.infinity,
+                child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Column(
+                      children: [
+                        // DecoratedBox(
+                        //   decoration: BoxDecoration(
+                        //     shape: BoxShape.circle,
+                        //     border: BoxBorder.lerp(a, b, t),
+                        //     color: Colors.redAccent,
+                        //   ),
+                        //   child: Image.asset(
+                        //     'images/notification_LOGO.gif',
+                        //     width: 250.0,
+                        //   ),
+                        // ),
 
-                    SizedBox(height: 50.0),
-                    // Logo Image
-                    rokkhiLogoImage(),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Employee ID',
-                          style: TextStyle(
-                            fontWeight: defaultFontWeight,
-                          )),
-                    ),
-                    SizedBox(height: 5),
-                    TextField(
-                      controller: idController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: textfeildDesign(),
-                    ),
-                    SizedBox(height: 15),
-
-                    // Phone number textfield part
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Enter Phone Number',
-                        style: TextStyle(
-                          fontWeight: defaultFontWeight,
+                        SizedBox(height: 50.0),
+                        // Logo Image
+                        rokkhiLogoImage(),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Employee ID',
+                              style: TextStyle(
+                                fontWeight: defaultFontWeight,
+                              )),
                         ),
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Form(
-                      key: formKey,
-                      child: InternationalPhoneNumberInput(
-                        onInputChanged: (PhoneNumber number) {
-                          print(number);
-                          this.number = number;
-                        },
-                        selectorConfig: SelectorConfig(
-                          selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                          showFlags: false,
-                          trailingSpace: false,
+                        SizedBox(height: 5),
+                        TextField(
+                          controller: idController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: textfeildDesign(),
                         ),
-                        hintText: '0172345678',
-                        ignoreBlank: false,
-                        autoValidateMode: AutovalidateMode.disabled,
-                        initialValue: number,
-                        //textFieldController: numberController,
-                        formatInput: false,
-                        inputDecoration: textfeildDesign(),
-                      ),
-                    ),
-                    SizedBox(height: 20),
+                        SizedBox(height: 15),
 
-                    // NEXT BUTTON(Go to local authentication)
-                    Container(
-                      width: double.infinity,
-                      height: 55.0,
-                      child: OutlinedButton(
-                        style: buttonStyle(Colors.white, rokkhiColor),
-                        child: Text('NEXT'),
-                        onPressed: () async {
-                          loginId = idController.text;
-                          loginNumber = this.number;
-                          connectivityResult =
-                              await (Connectivity().checkConnectivity());
-                          if (connectivityResult == ConnectivityResult.none) {
-                            // Fail to connect internet
-                            internetConnectionFailedDialog(context);
-                          } else {
-                            // Success to connect internet
-                            // Show logging in dialog
-                            showLoadingDialog(context);
-                            print(idController.text);
-                            print(number.toString());
-                            print('mobile network or wifi');
+                        // Phone number textfield part
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Enter Phone Number',
+                            style: TextStyle(
+                              fontWeight: defaultFontWeight,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Form(
+                          key: formKey,
+                          child: InternationalPhoneNumberInput(
+                            onInputChanged: (PhoneNumber number) {
+                              print(number);
+                              this.number = number;
+                            },
+                            selectorConfig: SelectorConfig(
+                              selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                              showFlags: false,
+                              trailingSpace: false,
+                            ),
+                            hintText: '0172345678',
+                            ignoreBlank: false,
+                            autoValidateMode: AutovalidateMode.disabled,
+                            initialValue: number,
+                            //textFieldController: numberController,
+                            formatInput: false,
+                            inputDecoration: textfeildDesign(),
+                          ),
+                        ),
+                        SizedBox(height: 20),
 
-                            if (await loginGuardViewModel.fetchGuard(
-                                idController.text, number.toString())) {
-                              // if id, number is in server
-                              hideLoadingDialog(context);
-                              Navigator.pushNamed(context, '/localAuth');
-                            } else {
-                              // Fail to login
-                              hideLoadingDialog(context);
-                              loginFailedDialog(context);
-                            }
-                          }
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 8),
+                        // NEXT BUTTON(Go to local authentication)
+                        Container(
+                          width: double.infinity,
+                          height: 55.0,
+                          child: OutlinedButton(
+                            style: buttonStyle(Colors.white, rokkhiColor),
+                            child: Text('NEXT'),
+                            onPressed: () async {
+                              loginId = idController.text;
+                              loginNumber = this.number;
+                              connectivityResult =
+                                  await (Connectivity().checkConnectivity());
+                              if (connectivityResult ==
+                                  ConnectivityResult.none) {
+                                // Fail to connect internet
+                                internetConnectionFailedDialog(context);
+                              } else {
+                                // Success to connect internet
+                                // Show logging in dialog
+                                showLoadingDialog(context);
+                                print(idController.text);
+                                print(number.toString());
+                                print('mobile network or wifi');
 
-                    // EXIT BUTTON(Exit program)
-                    Container(
-                      width: double.infinity,
-                      height: 55.0,
-                      child: OutlinedButton(
-                        style: buttonStyle(Colors.black, Colors.white),
-                        child: Text('EXIT'),
-                        onPressed: () {
-                          // Application Exit(dispose controller and pop)
-                          this.idController.dispose();
-                          super.dispose();
-                          SystemNavigator.pop();
-                        },
-                      ),
-                    ),
-                  ],
-                )),
-          ),
-        ));
+                                if (await loginGuardViewModel.fetchGuard(
+                                    idController.text, number.toString())) {
+                                  // if id, number is in server
+                                  hideLoadingDialog(context);
+                                  Navigator.pushNamed(context, '/localAuth');
+                                } else {
+                                  // Fail to login
+                                  hideLoadingDialog(context);
+                                  loginFailedDialog(context);
+                                }
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 8),
+
+                        // EXIT BUTTON(Exit program)
+                        Container(
+                          width: double.infinity,
+                          height: 55.0,
+                          child: OutlinedButton(
+                            style: buttonStyle(Colors.black, Colors.white),
+                            child: Text('EXIT'),
+                            onPressed: () {
+                              // Application Exit(dispose controller and pop)
+                              this.idController.dispose();
+                              super.dispose();
+                              SystemNavigator.pop();
+                            },
+                          ),
+                        ),
+                      ],
+                    )),
+              ),
+            ));
   }
 }

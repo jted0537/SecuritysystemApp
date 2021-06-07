@@ -37,7 +37,14 @@ dependencies:
   connectivity: ^3.0.4
   shared_preferences: ^2.0.5
   google_maps_flutter: ^2.0.5
+  #background_locator: ^1.4.0+1
+  flutter_background_geolocation: ^1.9.0
   location: ^4.1.1
+  location_permissions: ^4.0.0
+  #geolocator: ^7.0.3
+  #carp_background_location: ^1.0.3
+  #permission_handler: ^8.0.1
+  #background_location: ^0.6.0
   # flutter_native_splash: ^1.1.8+4 이거 하고 난다음에 터미널에서 flutter pub run flutter_native_splash:create 실행
 dev_dependencies:
   flutter_test:

@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.0"
+  background_fetch:
+    dependency: transitive
+    description:
+      name: background_fetch
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -111,6 +118,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_background_geolocation:
+    dependency: "direct main"
+    description:
+      name: flutter_background_geolocation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.11.1"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -219,6 +233,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.1"
+  location_permissions:
+    dependency: "direct main"
+    description:
+      name: location_permissions
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
   location_platform_interface:
     dependency: transitive
     description:
