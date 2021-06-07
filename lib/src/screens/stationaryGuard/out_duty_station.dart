@@ -51,8 +51,7 @@ class _OutDutyStationState extends State<OutDutyStation> {
     // Calculate current time for start work (Enable to access work +/- 3 minute)
     if (now.hour * 60 + now.minute <=
             loginGuardViewModel.endTimeHour * 60 +
-                loginGuardViewModel.endTimeMinute +
-                3 &&
+                loginGuardViewModel.endTimeMinute &&
         now.hour * 60 + now.minute >=
             loginGuardViewModel.startTimeHour * 60 +
                 loginGuardViewModel.startTimeMinute -

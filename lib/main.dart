@@ -38,7 +38,7 @@ class SecureApp extends StatelessWidget {
         '/inDutyStation': (context) => InDutyStation(),
         '/outDutyStation': (context) => OutDutyStation(),
       },
-      title: 'CVGM',
+      title: 'Rokkhi',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Colors.white),
       //home: LoginScreen(),

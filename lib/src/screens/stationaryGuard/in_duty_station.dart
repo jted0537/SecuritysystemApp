@@ -44,12 +44,15 @@ class _InDutyStationState extends State<InDutyStation> {
     return Scaffold(
       backgroundColor: Colors.grey[150],
       bottomNavigationBar: BottomAppBar(
-        elevation: 11.0,
+        elevation: 15.0,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
           child: OutlinedButton(
             style: buttonStyle(Colors.white, rokkhiColor),
-            child: Text('Attendance'),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 13.0),
+              child: Text('Attendance'),
+            ),
             onPressed: () async {
               await authentication();
             },
