@@ -15,7 +15,7 @@ You can do this task at [Google cloud platform](https://console.cloud.google.com
 After make your own project at platform, Choose API & Service Menu</br>,
 and choose "Maps SDK for Android" or "Maps SDK for ios"
 
-Alright! now you can start "add google map packages & geoloactor" to your own project!
+Alright! now you can add google map packages & geoloactor to your own project!
 
 ## How to Use 
 
@@ -39,7 +39,7 @@ dependencies:
 ~~~xml
  <meta-data
       android:name="com.google.android.geo.API_KEY"
-      android:value="{Your Google Map API_KEY from Google Cloud Platform"
+      android:value="{Your Google Map API_KEY from Google Cloud Platform}"
       /> 
 ~~~
 </br>
@@ -95,7 +95,7 @@ Now, lets dive into the lib folder which has the main code for the application.
 3- screens - All of screens(UI) is in here.
 4- services - Functions, services like local_notification, local_authentication.
 5- viemodels - Viewmodels for models. All of using data functions are in here.
-8- main.dart - This is the starting point of the application. All the application level configurations are defined in this file i.e, theme, routes, title, orientation etc.
+8- main.dart - This is the starting point of the application. </br>All the navigations and viewmodels are defined in this file .
 ```
 
 ### components
@@ -159,7 +159,7 @@ services/
 
 ### Main
 
-This is the starting point of the application. All the application level configurations are defined in this file i.e, theme, routes, title, orientation etc.
+This is the starting point of the application. All the navigations and viewmodels are defined in this file.
 
 ```dart
 import 'package:flutter/material.dart';
