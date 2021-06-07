@@ -1,11 +1,13 @@
-# security_system
+# Rokkhi Limited
+## COMPUTER VISION GUARD MANAGEMENT(CVGM)
+
 ------------------------------------------
-Flutter Guard Management Application. </br>
-For Stationary Guard and Patrolling Guard. </br>
-Using Rest API, Google Maps. </br>
+Flutter Guard Management Application for Stationary Guard and Patrolling Guard. </br>
+Using Rest API, Google Maps, etc. </br>
+
 
 ## Getting Started
--------------------------------------------
+
 Before add packages, you should make API_KEY for Google map first.
 
 You can do this task at [Google cloud platform](https://console.cloud.google.com/)
@@ -15,7 +17,7 @@ and choose "Maps SDK for Android" or "Maps SDK for ios"
 
 Alright! now you can start "add google map packages & geoloactor" to your own project!
 
-### Android
+## How to Use 
 
 1. Using packages(Specified version)
 ~~~yaml
@@ -48,23 +50,169 @@ flutter pub get
 ~~~
 or save file at your IDE. (It will automatically install it)
 </br>
-</br>
 
-4. Permission(At AndroidManifest.xml above application)
-~~~xml
-<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
-~~~
-</br>
-</br>
 
- ### IOS(Developing...)
+### Libraries & Tools Used
+* [intl_phone_number_input](https://pub.dev/packages/intl_phone_number_input)
+* [local_auth](https://pub.dev/packages/local_auth)
+* [intl](https://pub.dev/packages/intl)
+* [cupertino_icons](https://pub.dev/packages/cupertino_icons)
+* [flutter_local_notifications ](https://pub.dev/packages/flutter_local_notifications)
+* [http](https://pub.dev/packages/http)
+* [connectivity](https://pub.dev/packages/connectivity)
+* [shared_preferences](https://pub.dev/packages/shared_preferences)
 
-</br>
-</br>
+### Folder Structure
+Here is the core folder structure which flutter provides.
+
+```
+flutter-app/
+|- android
+|- build
+|- images
+|- ios
+|- lib
+```
+
+Here is the folder structure we have been using in this project
+
+```
+lib/
+|- src
+    |- components/
+    |- models/
+    |- screens/
+    |- services/
+    |- viewmodels/
+|- main.dart/
+```
+
+Now, lets dive into the lib folder which has the main code for the application.
+
+```
+1- components - Directory for frequently used Widget, Dialogs, Fonts etc.
+2- models - Model class for store data. (Guard, Route, Station etc)
+3- screens - All of screens(UI) is in here.
+4- services - Functions, services like local_notification, local_authentication.
+5- viemodels - Viewmodels for models. All of using data functions are in here.
+8- main.dart - This is the starting point of the application. All the application level configurations are defined in this file i.e, theme, routes, title, orientation etc.
+```
+
+### components
+
+This directory contains a frequently used Widget, Dialogs, Fonts etc.
+
+```
+components/
+|- dashed_rect.dart
+|- dialogs.dart
+|- preferences.dart
+```
+
+### models, viewmodels
+
+All the business logic of your application will go into this directory, it represents the data layer of your application. Since each layer exists independently, that makes it easier to unit test. 
+```
+models/
+|- checkpoint.dart
+|- guard.dart
+|- route.dart
+|- station.dart
+|- work.dart
+   
+viewmodels/
+|- guard_view_model.dart
+|- route_view_model.dart
+|- station_view_model.dart
+|- work_view_model.dart
+
+```
+
+### screens
+
+This directory contains all the ui of application. Each screen is located in a separate folder making it easy to combine group of files related to that particular screen. 
+
+```
+screens/
+|- login
+   |- login_view.dart
+   |- local_auth_view.dart
+|- patrollingGuard
+   |- in_duty_route.dart
+   |- out_duty_route.dart
+|- stationaryGuard
+   |- in_duty_station.dart
+   |- out_duty_station.dart
+
+```
+
+### services
+
+Contains the functions, services for REST API, Local authentication, Local Notification.
+
+```
+services/
+|- local_auth_service.dart
+|- local_notification_service.dart
+|- web_service.dart
+```
+
+### Main
+
+This is the starting point of the application. All the application level configurations are defined in this file i.e, theme, routes, title, orientation etc.
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:security_system/src/screens/login/login_view.dart';
+import 'package:security_system/src/screens/login/local_auth_view.dart';
+import 'package:security_system/src/screens/patrollingGuard/in_duty_route.dart';
+import 'package:security_system/src/screens/patrollingGuard/out_duty_route.dart';
+import 'package:security_system/src/screens/stationaryGuard/in_duty_station.dart';
+import 'package:security_system/src/screens/stationaryGuard/out_duty_station.dart';
+import 'package:security_system/src/viewmodels/guard_view_model.dart';
+import 'package:security_system/src/viewmodels/route_view_model.dart';
+import 'package:security_system/src/viewmodels/station_view_model.dart';
+import 'package:security_system/src/viewmodels/work_view_model.dart';
+import 'dart:async';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+
+final loginGuardViewModel = GuardViewModel();
+final loginRouteViewModel = RouteViewModel();
+final loginStationViewModel = StationViewModel();
+final currentWorkViewModel = WorkViewModel();
+DateTime now;
+DateTime date;
+String formattedDate;
+PhoneNumber loginNumber = PhoneNumber(isoCode: 'BD');
+Timer timer;
+// Application Entry Point
+void main() async => runApp(SecureApp());
+
+class SecureApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      initialRoute: '/',
+      routes: {
+        // For Navigator
+        '/': (context) => LoginScreen(),
+        '/localAuth': (context) => LocalAuth(),
+        '/inDutyRoute': (context) => InDutyRoute(),
+        '/outDutyRoute': (context) => OutDutyRoute(),
+        '/inDutyStation': (context) => InDutyStation(),
+        '/outDutyStation': (context) => OutDutyStation(),
+      },
+      title: 'Rokkhi',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(primaryColor: Colors.white),
+      //home: LoginScreen(),
+    );
+  }
+}
+
+```
+
+## Wiki
+
+Checkout [Sogang wiki](http://cscp2.sogang.ac.kr/CSE4186/index.php/Rokkhi_Limited_(IoT%EB%A5%BC_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EC%8B%9C%EC%84%A4%EA%B4%80%EB%A6%AC%EC%8B%9C%EC%8A%A4%ED%85%9C)) for more info about this project
 
