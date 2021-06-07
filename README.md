@@ -95,7 +95,8 @@ Now, lets dive into the lib folder which has the main code for the application.
 3- screens - All of screens(UI) is in here.
 4- services - Functions, services like local_notification, local_authentication.
 5- viemodels - Viewmodels for models. All of using data functions are in here.
-8- main.dart - This is the starting point of the application. </br>All the navigations and viewmodels are defined in this file .
+8- main.dart - This is the starting point of the application. 
+All the navigations and viewmodels are defined in this file .
 ```
 
 ### components
