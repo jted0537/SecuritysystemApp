@@ -14,6 +14,10 @@ class GuardViewModel {
     }
   }
 
+  String get id {
+    return this.loginGuard.id;
+  }
+
   String get guardName {
     return this.loginGuard.guardName;
   }
@@ -59,5 +63,9 @@ class GuardViewModel {
                 (this.endTimeMinute - this.startTimeMinute)) ~/
             this.loginGuard.frequency +
         1;
+  }
+
+  bool get status {
+    return this.loginGuard.status;
   }
 }

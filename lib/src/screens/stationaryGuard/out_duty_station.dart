@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
+import 'package:security_system/src/components/dashed_rect.dart';
 import 'package:security_system/main.dart';
-import 'package:intl/intl.dart';
 import 'package:security_system/src/models/station.dart';
+import 'dart:async';
+import 'package:intl/intl.dart';
+import 'package:security_system/src/services/local_notification_service.dart';
 
-// AppointedRouteMenu
 class OutDutyStation extends StatefulWidget {
   @override
   _OutDutyStationState createState() => _OutDutyStationState();
@@ -12,6 +14,33 @@ class OutDutyStation extends StatefulWidget {
 
 class _OutDutyStationState extends State<OutDutyStation> {
   bool isDutyTime;
+  LocalNotification localNotification = LocalNotification();
+
+  // Check if work is done
+  void checkEndWork() async {
+    now = DateTime.now();
+    print('alarm go!');
+    if (loginGuardViewModel.endTimeHour * 60 +
+            loginGuardViewModel.endTimeMinute <=
+        now.hour * 60 + now.minute) {
+      print('alarm done');
+      await currentWorkViewModel.endWork(currentWorkViewModel.workID);
+      // Cancel notification, timer, delete objects
+      localNotification.cancelAllNotification();
+      timer.cancel();
+      setState(() {
+        this.isDutyTime = false;
+        currentWorkViewModel.currentWork = null;
+        loginGuardViewModel.loginGuard.status = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer.cancel();
+  }
 
   @override
   void initState() {
@@ -19,15 +48,21 @@ class _OutDutyStationState extends State<OutDutyStation> {
     now = DateTime.now();
     date = DateTime(now.year, now.month, now.day);
     formattedDate = DateFormat('dd.MM.yyyy').format(now);
-    if (now.hour * 60 + now.minute <
+    // Calculate current time for start work (Enable to access work +/- 3 minute)
+    if (now.hour * 60 + now.minute <=
             loginGuardViewModel.endTimeHour * 60 +
                 loginGuardViewModel.endTimeMinute &&
-        now.hour * 60 + now.minute >
+        now.hour * 60 + now.minute >=
             loginGuardViewModel.startTimeHour * 60 +
-                loginGuardViewModel.startTimeMinute)
+                loginGuardViewModel.startTimeMinute -
+                3)
       this.isDutyTime = true;
     else
       this.isDutyTime = false;
+    // Start timer
+    timer = Timer.periodic(Duration(seconds: 180), (Timer t) => checkEndWork());
+    // Initial settings for local notification
+    localNotification.initialSettings();
   }
 
   @override
@@ -48,10 +83,10 @@ class _OutDutyStationState extends State<OutDutyStation> {
                   logoAppBar(
                       loginGuardViewModel.guardName, loginGuardViewModel.type),
                   SizedBox(height: 20.0),
-                  // Appointed Route Button
-
+                  // Appointed Station
                   FutureBuilder<Station>(
-                    future: loginStationViewModel.fetchStation(loginId),
+                    future: loginStationViewModel
+                        .fetchStation(loginGuardViewModel.id),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Container(
@@ -107,11 +142,9 @@ class _OutDutyStationState extends State<OutDutyStation> {
                         gap: 3.0,
                         isDutyTime: this.isDutyTime,
                         navigation: '/inDutyStation',
-                        type: "stationary",
+                        localNotification: this.localNotification,
                       )),
                   SizedBox(height: 20.0),
-                  // _checkPoints(context, true),
-                  // SizedBox(height: 10.0),
                   // EXIT Button(Back to login screen)
                   exitButton(context, 2),
                 ],

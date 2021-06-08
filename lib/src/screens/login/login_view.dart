@@ -1,9 +1,10 @@
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:security_system/src/components/preferences.dart';
+import 'package:security_system/src/components/dialogs.dart';
+import 'package:flutter/services.dart';
 import 'package:security_system/main.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 // Login Page
 class LoginScreen extends StatefulWidget {
@@ -23,45 +24,33 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-            backgroundColor: Colors.white,
-            body: SafeArea(
-              child: Container(
-                // Use Container -> SingleChildScrollView -> Column for scrollable full screen
-                height: double.infinity,
-                child: SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Column(
-                      children: [
-                        // DecoratedBox(
-                        //   decoration: BoxDecoration(
-                        //     shape: BoxShape.circle,
-                        //     border: BoxBorder.lerp(a, b, t),
-                        //     color: Colors.redAccent,
-                        //   ),
-                        //   child: Image.asset(
-                        //     'images/notification_LOGO.gif',
-                        //     width: 250.0,
-                        //   ),
-                        // ),
-
-                        SizedBox(height: 50.0),
-                        // Logo Image
-                        rokkhiLogoImage(),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text('Employee ID',
-                              style: TextStyle(
-                                fontWeight: defaultFontWeight,
-                              )),
-                        ),
-                        SizedBox(height: 5),
-                        TextField(
-                          controller: idController,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: textfeildDesign(),
-                        ),
-                        SizedBox(height: 15),
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Container(
+            // Use Container -> SingleChildScrollView -> Column for scrollable full screen
+            height: double.infinity,
+            child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                child: Column(
+                  children: [
+                    SizedBox(height: 50.0),
+                    // Logo Image
+                    rokkhiLogoImage(),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text('Employee ID',
+                          style: TextStyle(
+                            fontWeight: defaultFontWeight,
+                          )),
+                    ),
+                    SizedBox(height: 5),
+                    TextField(
+                      controller: idController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: textfeildDesign(),
+                    ),
+                    SizedBox(height: 15),
 
                         // Phone number textfield part
                         Align(
@@ -97,29 +86,27 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(height: 20),
 
-                        // NEXT BUTTON(Go to local authentication)
-                        Container(
-                          width: double.infinity,
-                          height: 55.0,
-                          child: OutlinedButton(
-                            style: buttonStyle(Colors.white, rokkhiColor),
-                            child: Text('NEXT'),
-                            onPressed: () async {
-                              loginId = idController.text;
-                              loginNumber = this.number;
-                              connectivityResult =
-                                  await (Connectivity().checkConnectivity());
-                              if (connectivityResult ==
-                                  ConnectivityResult.none) {
-                                // Fail to connect internet
-                                internetConnectionFailedDialog(context);
-                              } else {
-                                // Success to connect internet
-                                // Show logging in dialog
-                                showLoadingDialog(context);
-                                print(idController.text);
-                                print(number.toString());
-                                print('mobile network or wifi');
+                    // NEXT BUTTON(Go to local authentication)
+                    Container(
+                      width: double.infinity,
+                      height: 55.0,
+                      child: OutlinedButton(
+                        style: buttonStyle(Colors.white, rokkhiColor),
+                        child: Text('NEXT'),
+                        onPressed: () async {
+                          loginNumber = this.number;
+                          connectivityResult =
+                              await (Connectivity().checkConnectivity());
+                          if (connectivityResult == ConnectivityResult.none) {
+                            // Fail to connect internet
+                            internetConnectionFailedDialog(context);
+                          } else {
+                            // Success to connect internet
+                            // Show logging in dialog
+                            showLoadingDialog(context);
+                            print(idController.text);
+                            print(number.toString());
+                            print('mobile network or wifi');
 
                                 if (await loginGuardViewModel.fetchGuard(
                                     idController.text, number.toString())) {

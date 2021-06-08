@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:security_system/src/components/dashed_rect.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/main.dart';
 import 'package:intl/intl.dart';
@@ -93,7 +94,6 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                         gap: 3.0,
                         isDutyTime: this.isDutyTime,
                         navigation: '/inDutyRoute',
-                        type: 'patrol',
                       )),
                   SizedBox(height: 20.0),
                   _checkPointsList(context, true),
@@ -174,7 +174,7 @@ Widget _checkPointsList(BuildContext context, bool saButton) {
         color: Colors.black,
       ),
       FutureBuilder<rt.Route>(
-          future: loginRouteViewModel.fetchRoute(loginId),
+          future: loginRouteViewModel.fetchRoute(loginGuardViewModel.id),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Column(

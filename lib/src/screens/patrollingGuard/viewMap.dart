@@ -11,7 +11,6 @@ import 'package:location_platform_interface/location_platform_interface.dart';
 import 'package:security_system/src/screens/patrollingGuard/in_duty_route.dart';
 
 //컬럼안에 높이 100주거나 앱바 사용
-//topRightDismissButton
 //그 바로 아래에는 Align Widget
 // (Align -> Row (logo, loginGuard.name)
 //그 아래는 이제
@@ -19,7 +18,8 @@ import 'package:security_system/src/screens/patrollingGuard/in_duty_route.dart';
 //제생각에는 컨테이너 100정도 주는게 좋아보이네요
 //Column내부에 컨테이너랑 맵
 
-
+int lastHour;
+int lastMinute;
 
 class ViewMap extends StatefulWidget {
   @override
@@ -132,17 +132,17 @@ class _ViewMapState extends State<ViewMap> {
           draggable: false,
           zIndex: 2,
           flat: true,
-          anchor: Offset(0.5, 0.8),
+          anchor: Offset(0.5, 0.9),
           icon: BitmapDescriptor.fromBytes(imageData));
 
       _checkpointCircles.add(Circle(
           circleId: CircleId("cur"),
           //radius: newLocalData.accuracy,
-          radius: 30,
+          radius: 40,
           zIndex: 1,
-          strokeColor: Colors.blue,
+          strokeWidth: 0,
           center: latlng,
-          fillColor: Colors.blue.withAlpha(60)));
+          fillColor: Colors.red.withAlpha(80)));
     });
   }
 
@@ -158,9 +158,9 @@ class _ViewMapState extends State<ViewMap> {
           circleId: CircleId(pointId),
           radius: radius,
           zIndex: 1,
-          strokeColor: Colors.red,
+          strokeWidth: 0,
           center: latlng,
-          fillColor: Colors.red.withAlpha(60)));
+          fillColor: Colors.red.withAlpha(80)));
     });
   }
 
@@ -194,7 +194,8 @@ class _ViewMapState extends State<ViewMap> {
                 SizedBox(
                   width: 30,
                   height: 30,
-                  child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor)),
+                  child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor)),
                 ),
                 SizedBox(
                   height: 10.0,
@@ -211,31 +212,88 @@ class _ViewMapState extends State<ViewMap> {
         : Scaffold(
             backgroundColor: Colors.white,
             body: SafeArea(
-              child: Container(
-              // Use Container -> SingleChildScrollView -> Column for scrollable full screen
-                child: GoogleMap(
-                  mapType: MapType.normal,
-                  initialCameraPosition: CameraPosition(
-                      target:
-                          LatLng(_curLocation.latitude, _curLocation.longitude),
-                      tilt: 0,
-                      zoom: 15.00),
-                  markers: Set.of((_marker != null) ? [_marker] : []),
-                  circles: _checkpointCircles,
-                 // myLocationEnabled: true,
-                  //myLocationButtonEnabled: true,
-                  zoomControlsEnabled: true,
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller = controller;
-                    _getCurrentLocation();
-                    _showChecklist();
-                  },
-                  onCameraMove: (CameraPosition camPos) async {
-                    await _controller.animateCamera(CameraUpdate.newCameraPosition(camPos));
-                    //print('ha');
-                  },
-                ),
-              ),
-            ));
+                child: SingleChildScrollView(
+                    padding: EdgeInsets.zero,
+                    child: Column(children: [
+                      Container(
+                        height: 40.0,
+                        child: topRightDismissButton(context),
+                      ),
+                      Container(
+                        height: 50.0,
+                        child: viewMapLogo(loginGuardViewModel.guardName,
+                            loginGuardViewModel.type),
+                      ),
+                      // last checkpoint widget
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 15.0),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.0),
+                              border: Border.all(
+                                color: Colors.grey[400],
+                              )),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset('images/grey_marker.png',
+                                    height: 30.0, width: 30.0),
+                                SizedBox(height: 10.0),
+                                Text('Last Checkpoint',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 17.0,
+                                      fontWeight: defaultFontWeight,
+                                    )),
+                                  ],
+                                ),
+                                SizedBox(height: 5.0),
+                                Text(
+                                  '${loginRouteViewModel.routeTitle}, at ${lastHour>12 ? lastHour-12 : lastHour}:$lastMinute ${lastHour>12 ? 'pm' : 'am'}',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: titleFontWeight,
+                                    fontSize: 21.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Google Map Container
+                      Container(
+                        height: 600.0,
+                        child: GoogleMap(
+                          mapType: MapType.normal,
+                          initialCameraPosition: CameraPosition(
+                              target: LatLng(_curLocation.latitude,
+                                  _curLocation.longitude),
+                              tilt: 0,
+                              zoom: 16.0),
+                          markers: Set.of((_marker != null) ? [_marker] : []),
+                          circles: _checkpointCircles,
+                          // myLocationEnabled: true,
+                          //myLocationButtonEnabled: true,
+                          zoomControlsEnabled: true,
+                          onMapCreated: (GoogleMapController controller) {
+                            _controller = controller;
+                            _getCurrentLocation();
+                            _showChecklist();
+                          },
+                          onCameraMove: (CameraPosition camPos) async {
+                            await _controller.animateCamera(
+                                CameraUpdate.newCameraPosition(camPos));
+                            //print('ha');
+                          },
+                        ),
+                      ),
+                    ]))));
   }
 }
