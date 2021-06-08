@@ -45,4 +45,37 @@ class LocalAuthService {
     // If user just cancel authentication
     return BioMetricLogin.Cancel;
   }
+
+  // Local periodic auth function
+  static Future<BioMetricLogin> periodicAuthenticate() async {
+    final isAvailable = await _auth.canCheckBiometrics;
+    var result;
+    if (!isAvailable) {
+      // If device has no biometric authentication function
+      return BioMetricLogin.DeviceNotProvide;
+    }
+    try {
+      result = await _auth
+          .authenticate(
+        localizedReason: 'Scan Fingerprint to Authenticate',
+        useErrorDialogs: true,
+        stickyAuth: false,
+        biometricOnly: true, // Only use biometric
+      )
+          .timeout(Duration(seconds: 10), onTimeout: () {
+        _auth.stopAuthentication();
+        return false;
+      });
+      if (result) {
+        // Authentiation success
+        return BioMetricLogin.Success;
+      }
+    } on PlatformException catch (e) {
+      // Device has biometric authentication function, but there are no registered informations
+      print(e);
+      return BioMetricLogin.NoBioMetricInfo;
+    }
+    // If user just cancel authentication
+    return BioMetricLogin.Cancel;
+  }
 }

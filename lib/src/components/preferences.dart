@@ -119,6 +119,43 @@ Widget patrolLogo(String guardName, String type) {
   );
 }
 
+// Widget For Patrol View Map
+Widget viewMapLogo(String guardName, String type) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Row(
+        children: [
+          SizedBox(
+            width: 10.0,
+          ),
+          Image.asset(
+            'images/Shield_LOGO.png',
+            height: 40,
+            width: 40,
+          ),
+          SizedBox(
+            width: 5.0,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                guardName,
+                style: TextStyle(
+                    fontSize: 23.0,
+                    fontWeight: titleFontWeight,
+                    color: Colors.grey[900]),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
 // Widget for topRight dismiss button
 Widget topRightDismissButton(BuildContext context) {
   return Row(

@@ -96,4 +96,24 @@ class WebService {
     var response = await http.get(url);
     print(response.statusCode);
   }
+
+  Future<String> postGPSReply(String guardType, int seqNum, String workId,
+      double lat, double lng, bool isCP, bool isRes) async {
+    bool isCheckPoint = true;
+    // patrol인지 stationary인지 구분
+    if (guardType == 'patrol') {
+      var url = Uri.parse('$serverUrl/app_connection/patrolGPS/$workId/');
+      var response = await http.post(url, body: {
+        "sequence_num": seqNum.toString(),
+        "latitude": lat.toString(),
+        "longitude": lng.toString(),
+        "checkpoint_flag": isCP.toString(),
+        "checkpoint_response": isRes.toString(),
+      });
+
+      if (response.statusCode == 200) {
+        print('response 200');
+      }
+    }
+  }
 }

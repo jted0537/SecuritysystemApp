@@ -3,6 +3,7 @@ import 'package:security_system/src/screens/login/login_view.dart';
 import 'package:security_system/src/screens/login/local_auth_view.dart';
 import 'package:security_system/src/screens/patrollingGuard/in_duty_route.dart';
 import 'package:security_system/src/screens/patrollingGuard/out_duty_route.dart';
+import 'package:security_system/src/screens/patrollingGuard/view_map.dart';
 import 'package:security_system/src/screens/stationaryGuard/in_duty_station.dart';
 import 'package:security_system/src/screens/stationaryGuard/out_duty_station.dart';
 import 'package:security_system/src/viewmodels/guard_view_model.dart';
@@ -39,6 +40,7 @@ class SecureApp extends StatelessWidget {
         '/outDutyRoute': (context) => OutDutyRoute(),
         '/inDutyStation': (context) => InDutyStation(),
         '/outDutyStation': (context) => OutDutyStation(),
+        '/viewMap': (context) => ViewMap(),
       },
       title: 'Rokkhi',
       debugShowCheckedModeBanner: false,

@@ -36,4 +36,8 @@ class RouteViewModel {
   int get totalCheckPointNum {
     return this.loginRoute.totalCheckpointNum;
   }
+
+  List<CheckPoint> get checkPoints {
+    return this.loginRoute.checkpoints;
+  }
 }

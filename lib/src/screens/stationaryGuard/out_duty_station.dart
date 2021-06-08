@@ -84,7 +84,7 @@ class _OutDutyStationState extends State<OutDutyStation> {
                       loginGuardViewModel.guardName, loginGuardViewModel.type),
                   SizedBox(height: 20.0),
                   // Appointed Station
-                  FutureBuilder<Station>(
+                  FutureBuilder(
                     future: loginStationViewModel
                         .fetchStation(loginGuardViewModel.id),
                     builder: (context, snapshot) {
