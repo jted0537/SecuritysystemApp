@@ -33,6 +33,10 @@ dependencies:
   connectivity: ^3.0.4
   shared_preferences: ^2.0.5
   battery: ^2.0.3
+  google_maps_flutter: ^2.0.5
+  flutter_background_geolocation: ^1.9.0
+  location: ^4.1.1
+  location_permissions: ^4.0.0
 ~~~
 </br>
 
@@ -63,6 +67,10 @@ or save file at your IDE. (It will automatically install it)
 * [connectivity](https://pub.dev/packages/connectivity)
 * [shared_preferences](https://pub.dev/packages/shared_preferences)
 * [battery](https://pub.dev/packages/battery)
+* [google_maps_flutter](https://pub.dev/packages/google_maps_flutter)
+* [flutter_background_geolocation](https://pub.dev/packages/flutter_background_geolocation)
+* [location](https://pub.dev/packages/location)
+* [location_permissions](https://pub.dev/packages/location_permissions)
 
 ### Folder Structure
 Here is the core folder structure which flutter provides.
@@ -143,6 +151,7 @@ screens/
 |- patrollingGuard
    |- in_duty_route.dart
    |- out_duty_route.dart
+   |- view_map.dart
 |- stationaryGuard
    |- in_duty_station.dart
    |- out_duty_station.dart
@@ -170,6 +179,7 @@ import 'package:security_system/src/screens/login/login_view.dart';
 import 'package:security_system/src/screens/login/local_auth_view.dart';
 import 'package:security_system/src/screens/patrollingGuard/in_duty_route.dart';
 import 'package:security_system/src/screens/patrollingGuard/out_duty_route.dart';
+import 'package:security_system/src/screens/patrollingGuard/viewMap.dart';
 import 'package:security_system/src/screens/stationaryGuard/in_duty_station.dart';
 import 'package:security_system/src/screens/stationaryGuard/out_duty_station.dart';
 import 'package:security_system/src/viewmodels/guard_view_model.dart';
@@ -206,6 +216,7 @@ class SecureApp extends StatelessWidget {
         '/outDutyRoute': (context) => OutDutyRoute(),
         '/inDutyStation': (context) => InDutyStation(),
         '/outDutyStation': (context) => OutDutyStation(),
+        '/viewMap': (context) => ViewMap(),
       },
       title: 'Rokkhi',
       debugShowCheckedModeBanner: false,
