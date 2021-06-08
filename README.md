@@ -32,6 +32,7 @@ dependencies:
   http: ^0.13.3
   connectivity: ^3.0.4
   shared_preferences: ^2.0.5
+  battery: ^2.0.3
 ~~~
 </br>
 
@@ -61,6 +62,7 @@ or save file at your IDE. (It will automatically install it)
 * [http](https://pub.dev/packages/http)
 * [connectivity](https://pub.dev/packages/connectivity)
 * [shared_preferences](https://pub.dev/packages/shared_preferences)
+* [battery](https://pub.dev/packages/battery)
 
 ### Folder Structure
 Here is the core folder structure which flutter provides.
@@ -176,6 +178,7 @@ import 'package:security_system/src/viewmodels/station_view_model.dart';
 import 'package:security_system/src/viewmodels/work_view_model.dart';
 import 'dart:async';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:battery/battery.dart';
 
 final loginGuardViewModel = GuardViewModel();
 final loginRouteViewModel = RouteViewModel();
@@ -186,6 +189,7 @@ DateTime date;
 String formattedDate;
 PhoneNumber loginNumber = PhoneNumber(isoCode: 'BD');
 Timer timer;
+var battery = Battery();
 // Application Entry Point
 void main() async => runApp(SecureApp());
 
@@ -210,7 +214,6 @@ class SecureApp extends StatelessWidget {
     );
   }
 }
-
 ```
 
 ## Wiki
