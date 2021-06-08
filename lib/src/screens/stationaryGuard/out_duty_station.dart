@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/src/components/dashed_rect.dart';
 import 'package:security_system/main.dart';
-import 'package:security_system/src/models/station.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:security_system/src/services/local_notification_service.dart';
@@ -137,13 +136,13 @@ class _OutDutyStationState extends State<OutDutyStation> {
                       width: double.infinity,
                       color: Colors.black12,
                       child: DashedRect(
-                        color: Colors.grey[300],
-                        strokeWidth: 2.0,
-                        gap: 3.0,
-                        isDutyTime: this.isDutyTime,
-                        navigation: '/inDutyStation',
-                        localNotification: this.localNotification,
-                      )),
+                          color: Colors.grey[300],
+                          strokeWidth: 2.0,
+                          gap: 3.0,
+                          isDutyTime: this.isDutyTime,
+                          navigation: '/inDutyStation',
+                          localNotification: this.localNotification,
+                          type: 'Stationary')),
                   SizedBox(height: 20.0),
                   // EXIT Button(Back to login screen)
                   exitButton(context, 2),

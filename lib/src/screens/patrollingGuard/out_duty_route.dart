@@ -3,7 +3,6 @@ import 'package:security_system/src/components/dashed_rect.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/main.dart';
 import 'package:intl/intl.dart';
-import 'package:security_system/src/models/route.dart' as rt;
 
 // AppointedRouteMenu
 class OutDutyRoute extends StatefulWidget {
@@ -69,7 +68,7 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                                 Image.asset('images/marker.png',
                                     height: 25.0, width: 25.0),
                                 SizedBox(height: 10.0),
-                                Text('Appointed Station',
+                                Text('Appointed Route',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 17.0,
@@ -102,12 +101,12 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                       width: double.infinity,
                       color: Colors.black12,
                       child: DashedRect(
-                        color: Colors.grey[300],
-                        strokeWidth: 2.0,
-                        gap: 3.0,
-                        isDutyTime: this.isDutyTime,
-                        navigation: '/inDutyRoute',
-                      )),
+                          color: Colors.grey[300],
+                          strokeWidth: 2.0,
+                          gap: 3.0,
+                          isDutyTime: this.isDutyTime,
+                          navigation: '/inDutyRoute',
+                          type: 'patrol')),
                   SizedBox(height: 20.0),
                   // EXIT Button(Back to login screen)
                   exitButton(context, 2),

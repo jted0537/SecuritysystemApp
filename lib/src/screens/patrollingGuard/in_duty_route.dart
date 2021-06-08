@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:security_system/src/services/local_auth_service.dart';
 import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
     as bg;
-import 'package:security_system/main.dart';
 import 'package:security_system/src/services/web_service.dart';
 import 'package:security_system/src/models/chckpoint.dart';
 import 'dart:async';
@@ -16,7 +15,6 @@ import 'package:vector_math/vector_math.dart' as vm;
 import 'package:security_system/src/screens/patrollingGuard/view_map.dart';
 import 'package:security_system/src/models/route.dart' as rt;
 
-Timer timer;
 int cpSeqNum = 0;
 
 class InDutyRoute extends StatefulWidget {
@@ -161,7 +159,7 @@ class _InDutyRouteState extends State<InDutyRoute> {
     });
 
     bg.BackgroundGeolocation.changePace(true);
-    //timer = Timer.periodic(Duration(seconds: 150), (Timer t) => alarmExpired());
+    timer = Timer.periodic(Duration(seconds: 150), (Timer t) => alarmExpired());
   }
 
   void alarmExpired() async {
@@ -365,6 +363,8 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
                     valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor),
                   );
                 }),
+            SizedBox(height: 20.0),
+            // EXIT button
             exitButton(context, 1),
           ],
         ),

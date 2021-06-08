@@ -131,8 +131,8 @@ Widget viewMapLogo(String guardName, String type) {
           ),
           Image.asset(
             'images/Shield_LOGO.png',
-            height: 40,
-            width: 40,
+            height: 35,
+            width: 35,
           ),
           SizedBox(
             width: 5.0,
@@ -144,7 +144,7 @@ Widget viewMapLogo(String guardName, String type) {
               Text(
                 guardName,
                 style: TextStyle(
-                    fontSize: 23.0,
+                    fontSize: 20.0,
                     fontWeight: titleFontWeight,
                     color: Colors.grey[900]),
               ),

@@ -13,6 +13,7 @@ class DashedRect extends StatelessWidget {
   final bool isDutyTime;
   final String navigation;
   final LocalNotification localNotification;
+  final String type;
 
   DashedRect(
       {this.color = Colors.grey,
@@ -20,7 +21,8 @@ class DashedRect extends StatelessWidget {
       this.gap = 5.0,
       this.isDutyTime = false,
       this.navigation = '',
-      this.localNotification});
+      this.localNotification,
+      this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +34,83 @@ class DashedRect extends StatelessWidget {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.only(top: 30.0, bottom: 10.0),
-            child: StationDutyTimeWidget(
-                this.isDutyTime, this.navigation, this.localNotification),
+            child: type == 'patrol'
+                ? PatrolDutyTimeWidget(this.isDutyTime, this.navigation)
+                : StationDutyTimeWidget(
+                    this.isDutyTime, this.navigation, this.localNotification),
           ),
         ),
       ),
     );
+  }
+}
+
+// Stationary Guard Dashed Rectangle Box
+class PatrolDutyTimeWidget extends StatefulWidget {
+  final bool isDutyTime;
+  final String navigation;
+  //inal LocalNotification localNotification;
+
+  PatrolDutyTimeWidget(this.isDutyTime, this.navigation);
+
+  @override
+  _PatrolDutyTimeWidgetState createState() => _PatrolDutyTimeWidgetState();
+}
+
+class _PatrolDutyTimeWidgetState extends State<PatrolDutyTimeWidget> {
+  Widget build(BuildContext context) {
+    if (!widget.isDutyTime)
+      return Column(
+        children: [
+          Text('This is not your duty time.'),
+          SizedBox(height: 15.0), //Navigator.pushNamed(context, navigation)
+        ],
+      );
+    else
+      return Column(
+        children: [
+          Text('This is your duty time.'),
+          SizedBox(height: 15.0),
+          Text(
+            loginGuardViewModel.status
+                ? 'You have your work.'
+                : 'You are not assigned yet.',
+            style: TextStyle(
+              color: Colors.grey,
+              fontWeight: defaultFontWeight,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+          TextButton(
+            child: Text(
+              loginGuardViewModel.status ? 'Go to work!' : 'Start work!',
+              style: TextStyle(color: rokkhiColor),
+            ),
+            onPressed: () async {
+              if (loginGuardViewModel.status == false) {
+                setState(() {
+                  loginGuardViewModel.loginGuard.status = true;
+                });
+                showLoadingDialog(context);
+                await currentWorkViewModel.fetchNewWork(loginGuardViewModel.id);
+                // await widget.localNotification.cancelAllNotification();
+                // for (int i = 0;
+                //     i < currentWorkViewModel.alarmTimeList.length;
+                //     i++) {
+                //   DateTime now = DateTime.now();
+                //   String each = currentWorkViewModel.alarmTimeList[i];
+                //   int hour = int.parse(each.split(":")[0]);
+                //   int minute = int.parse(each.split(":")[1]);
+                //   await widget.localNotification.showNotification(
+                //       now.year, now.month, now.day, hour, minute);
+                // }
+                hideLoadingDialog(context);
+              }
+              Navigator.pushNamed(context, widget.navigation);
+            },
+          ),
+        ],
+      );
   }
 }
 
