@@ -11,6 +11,7 @@ import 'package:security_system/src/viewmodels/station_view_model.dart';
 import 'package:security_system/src/viewmodels/work_view_model.dart';
 import 'dart:async';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:battery/battery.dart';
 
 final loginGuardViewModel = GuardViewModel();
 final loginRouteViewModel = RouteViewModel();
@@ -21,6 +22,7 @@ DateTime date;
 String formattedDate;
 PhoneNumber loginNumber = PhoneNumber(isoCode: 'BD');
 Timer timer;
+var battery = Battery();
 // Application Entry Point
 void main() async => runApp(SecureApp());
 

@@ -21,6 +21,7 @@ class _InDutyStationState extends State<InDutyStation> {
       // If Biometric authentication success
       await WebService().stationaryResponse(currentWorkViewModel.workID);
       setState(() {});
+      print(await battery.batteryLevel);
     } else if (isAuthenticated == BioMetricLogin.NoBioMetricInfo) {
       // If device has no biometric authentication information, alert message pop
       noBioMetricInfoDialog(context);
