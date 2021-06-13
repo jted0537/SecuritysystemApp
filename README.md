@@ -122,7 +122,7 @@ components/
 
 ### models, viewmodels
 
-All the business logic of your application will go into this directory, it represents the data layer of your application. Since each layer exists independently, that makes it easier to unit test. 
+All the business logic of application will go into this directory, it represents the data layer of application. Since each layer exists independently, that makes it easier to unit test. 
 ```
 models/
 |- checkpoint.dart
@@ -131,7 +131,7 @@ models/
 |- station.dart
 |- work.dart
    
-viewmodels/
+view_models/
 |- guard_view_model.dart
 |- route_view_model.dart
 |- station_view_model.dart
@@ -141,7 +141,7 @@ viewmodels/
 
 ### screens
 
-This directory contains all the ui of application. Each screen is located in a separate folder making it easy to combine group of files related to that particular screen. 
+This directory contains all the UI of application. Each screen is located in a separate folder making it easy to combine group of files related to that particular screen. 
 
 ```
 screens/
