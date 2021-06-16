@@ -21,7 +21,7 @@ final currentWorkViewModel = WorkViewModel();
 DateTime now;
 DateTime date;
 String formattedDate;
-PhoneNumber loginNumber = PhoneNumber(isoCode: 'BD');
+//PhoneNumber loginNumber = PhoneNumber(isoCode: 'BD');
 Timer timer;
 var battery = Battery();
 // Application Entry Point
