@@ -11,7 +11,6 @@ import 'package:security_system/src/viewmodels/route_view_model.dart';
 import 'package:security_system/src/viewmodels/station_view_model.dart';
 import 'package:security_system/src/viewmodels/work_view_model.dart';
 import 'dart:async';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:battery/battery.dart';
 
 final loginGuardViewModel = GuardViewModel();
