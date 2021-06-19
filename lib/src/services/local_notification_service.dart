@@ -22,7 +22,7 @@ class LocalNotification {
       int year, int month, int day, int hour, int minute) {
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation('Asia/Dhaka'));
-    print(tz.local.toString());
+    //print(tz.local.toString());
     //final now = tz.TZDateTime.now(await tz.FlutterNativeTimezone.getLocalTimezone());
     var scheduledDate = tz.TZDateTime(tz.local, year, month, day, hour, minute);
     return scheduledDate;

@@ -92,7 +92,7 @@ class _PatrolDutyTimeWidgetState extends State<PatrolDutyTimeWidget> {
                   loginGuardViewModel.loginGuard.status = true;
                 });
                 showLoadingDialog(context);
-                await currentWorkViewModel.fetchNewWork(loginGuardViewModel.id);
+                await currentWorkViewModel.startWork(loginGuardViewModel.id);
                 hideLoadingDialog(context);
               }
               Navigator.pushNamed(context, widget.navigation);
@@ -151,7 +151,7 @@ class _StationDutyTimeWidgetState extends State<StationDutyTimeWidget> {
                   loginGuardViewModel.loginGuard.status = true;
                 });
                 showLoadingDialog(context);
-                await currentWorkViewModel.fetchNewWork(loginGuardViewModel.id);
+                await currentWorkViewModel.startWork(loginGuardViewModel.id);
                 await widget.localNotification.cancelAllNotification();
                 for (int i = 0;
                     i < currentWorkViewModel.alarmTimeList.length;

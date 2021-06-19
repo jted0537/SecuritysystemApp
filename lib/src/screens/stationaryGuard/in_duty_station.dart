@@ -183,7 +183,7 @@ class _InCornerRadiusBoxState extends State<InCornerRadiusBox> {
                   ),
                   FutureBuilder<Work>(
                     future:
-                        currentWorkViewModel.updateWork(loginGuardViewModel.id),
+                        currentWorkViewModel.getWork(loginGuardViewModel.id),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Column(
@@ -273,7 +273,7 @@ void _attendanceBottomSheet(BuildContext context) {
 }
 
 // For each attendance
-Widget _attendance(String time, bool isComplete) {
+Widget _attendance(String time, int isComplete) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
     child: Row(
@@ -295,7 +295,7 @@ Widget _attendance(String time, bool isComplete) {
           ),
         ]),
         Image.asset(
-          isComplete
+          isComplete == 1
               ? 'images/complete_LOGO.png'
               : 'images/notComplete_LOGO.png',
           width: 45.0,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
-import 'package:security_system/src/components/dialogs.dart';
 import 'package:security_system/main.dart';
 import 'package:intl/intl.dart';
 import 'package:security_system/src/services/local_auth_service.dart';
@@ -13,9 +12,7 @@ import 'dart:ui';
 import 'dart:math';
 import 'package:vector_math/vector_math.dart' as vm;
 import 'package:security_system/src/screens/patrollingGuard/view_map.dart';
-import 'package:security_system/src/models/route.dart' as rt;
-
-int cpSeqNum = 0;
+import 'package:security_system/src/models/work.dart';
 
 class InDutyRoute extends StatefulWidget {
   @override
@@ -23,105 +20,51 @@ class InDutyRoute extends StatefulWidget {
 }
 
 class _InDutyRouteState extends State<InDutyRoute> {
-  int counter = 0;
+  int cpSeqNum = 1;
 
   Future<bool> periodicAuthentication() async {
-    final isAuthenticated = await LocalAuthService.periodicAuthenticate();
+    final isAuthenticated = await LocalAuthService.authenticate();
 
     if (isAuthenticated == BioMetricLogin.Success) {
       // If Biometric authentication success
       return true;
     } else if (isAuthenticated == BioMetricLogin.NoBioMetricInfo) {
       // If device has no biometric authentication information, alert message pop
-      noBioMetricInfoDialog(context);
+      //noBioMetricInfoDialog(context);
+      return false;
     } else if (isAuthenticated == BioMetricLogin.DeviceNotProvide) {
       // If device has no biometric auth function
-      notProvideBioMetricDialog(context);
+      //notProvideBioMetricDialog(context);
+      return false;
     } else {
       return false;
     }
   }
 
-  void updateSeqNum(double curLat, double curLng) {
-    List<CheckPoint> curCheckpoints =
-        loginRouteViewModel.loginRoute.checkpoints;
-    var nextSeqNum;
-    if (cpSeqNum >= curCheckpoints.length) {
-      nextSeqNum = 0;
-    } else
-      nextSeqNum = cpSeqNum + 1;
-
-    // approximate radius of earth in km
-    double R = 6373.0;
-    var lat1 = vm.radians(curLat);
-    var lng1 = vm.radians(curLng);
-    var lat2 = vm.radians(curCheckpoints[nextSeqNum].latitude);
-    var lng2 = vm.radians(curCheckpoints[nextSeqNum].longitude);
-
-    var dlng = lng2 - lng1;
-    var dlat = lat2 - lat1;
-
-    var a =
-        pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlng / 2), 2);
-    var c = 2 * atan2(sqrt(a), sqrt(1 - a));
-
-    var dist = R * c;
-    // change distance into meter
-    var result = dist * 1000;
-
-    // accuracy : +- 20m
-    if (result <= 20) {
-      // update check point seq num & last visit time
-      cpSeqNum++;
-      now = DateTime.now();
-      lastHour = now.hour;
-      lastMinute = now.minute;
-    }
-    return;
-  }
-
   bool isCheckPoint(double curLat, double curLng) {
     List<CheckPoint> curCheckpoints =
         loginRouteViewModel.loginRoute.checkpoints;
-    var nextSeqNum;
-    if (cpSeqNum >= curCheckpoints.length) {
-      nextSeqNum = 0;
-    } else
-      nextSeqNum = cpSeqNum + 1;
 
     // approximate radius of earth in km
     double R = 6373.0;
-    var lat1 = vm.radians(curLat);
-    var lng1 = vm.radians(curLng);
-    var lat2 = vm.radians(curCheckpoints[cpSeqNum].latitude);
-    var lng2 = vm.radians(curCheckpoints[cpSeqNum].longitude);
-    var lat3 = vm.radians(curCheckpoints[nextSeqNum].latitude);
-    var lng3 = vm.radians(curCheckpoints[nextSeqNum].longitude);
+    double lat1 = vm.radians(curLat);
+    double lng1 = vm.radians(curLng);
+    double lat2 = vm.radians(curCheckpoints[cpSeqNum - 1].latitude);
+    double lng2 = vm.radians(curCheckpoints[cpSeqNum - 1].longitude);
 
-    var dlng1 = lng2 - lng1;
-    var dlat1 = lat2 - lat1;
-    var dlng2 = lng3 - lng1;
-    var dlat2 = lat3 - lat1;
+    double dlng1 = lng2 - lng1;
+    double dlat1 = lat2 - lat1;
 
-    var a1 =
+    double a1 =
         pow(sin(dlat1 / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlng1 / 2), 2);
-    var c1 = 2 * atan2(sqrt(a1), sqrt(1 - a1));
-    var a2 =
-        pow(sin(dlat2 / 2), 2) + cos(lat1) * cos(lat3) * pow(sin(dlng2 / 2), 2);
-    var c2 = 2 * atan2(sqrt(a2), sqrt(1 - a2));
+    double c1 = 2 * atan2(sqrt(a1), sqrt(1 - a1));
 
-    var dist1 = R * c1;
-    var dist2 = R * c2;
+    double dist1 = R * c1;
     // change distance into meter
-    var result1 = dist1 * 1000;
-    var result2 = dist2 * 1000;
+    double result1 = dist1 * 1000;
 
-    // accuracy : +- 20m
-    if (result1 <= 20)
-      return true;
-    else if (result2 <= 20) {
-      // update check point seq num & last visit time
-      cpSeqNum++;
+    // accuracy : +- 30m
+    if (result1 <= 30) {
       now = DateTime.now();
       lastHour = now.hour;
       lastMinute = now.minute;
@@ -159,32 +102,59 @@ class _InDutyRouteState extends State<InDutyRoute> {
     });
 
     bg.BackgroundGeolocation.changePace(true);
-    timer = Timer.periodic(Duration(seconds: 150), (Timer t) => alarmExpired());
+    timer = Timer.periodic(Duration(seconds: 5), (Timer t) => alarmExpired());
   }
 
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   bg.BackgroundGeolocation.stop();
+  // }
+
   void alarmExpired() async {
-    counter += 150;
+    timer.cancel();
 
     var location = await bg.BackgroundGeolocation.getCurrentPosition();
-    // for every frequency, send to the web
-    if (counter % (loginGuardViewModel.frequency * 60) == 0) {
-      bool isAuth = await periodicAuthentication();
-      print("is auth: $isAuth");
-      print(
-          '[location] - lat: ${location.coords.latitude} & lng: ${location.coords.longitude}');
-      bool isCP;
-      if (isAuth == true) {
-        isCP =
-            isCheckPoint(location.coords.latitude, location.coords.longitude);
-      } else {
-        isCP = false;
+
+    bool isCP =
+        isCheckPoint(location.coords.latitude, location.coords.longitude);
+    bool isAuth = false;
+
+    if (isCP) {
+      isAuth = await periodicAuthentication();
+      await WebService().postGPSReply(
+          'patrol',
+          cpSeqNum,
+          currentWorkViewModel.workID,
+          location.coords.latitude,
+          location.coords.longitude,
+          isCP,
+          isAuth);
+      if (isAuth) {
+        if (cpSeqNum >= loginRouteViewModel.checkPoints.length)
+          cpSeqNum = 1;
+        else
+          cpSeqNum = cpSeqNum + 1;
       }
-      print("is check point: $isCP");
-      WebService().postGPSReply('patrol', cpSeqNum, currentWorkViewModel.workID,
-          location.coords.latitude, location.coords.longitude, isCP, isAuth);
+    } else {
+      await WebService().postGPSReply(
+          'patrol',
+          cpSeqNum,
+          currentWorkViewModel.workID,
+          location.coords.latitude,
+          location.coords.longitude,
+          isCP,
+          isAuth);
     }
-    // for every 2m30sec, update seqNum
-    updateSeqNum(location.coords.latitude, location.coords.longitude);
+
+    setState(() {});
+    if (now.hour * 60 + now.minute >=
+        loginGuardViewModel.endTimeHour * 60 +
+            loginGuardViewModel.endTimeMinute) {
+      bg.BackgroundGeolocation.stop();
+      return;
+    }
+    timer = Timer.periodic(Duration(seconds: 5), (Timer t) => alarmExpired());
   }
 
   @override
@@ -334,21 +304,23 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
               thickness: 1.0,
               color: Colors.black,
             ),
-            FutureBuilder<rt.Route>(
-                future: loginRouteViewModel.fetchRoute(loginGuardViewModel.id),
+            FutureBuilder<Work>(
+                future: currentWorkViewModel.getWork(loginGuardViewModel.id),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Column(
                       children: [
                         for (int i = 0;
-                            i < snapshot.data.totalCheckpointNum;
+                            i < snapshot.data.alarmTimeList.length;
                             i++)
                           Column(
                             children: [
                               _checkpoint(
-                                  snapshot.data.routeTitle,
-                                  snapshot.data.checkpoints[i].sequenceNum,
-                                  snapshot.data.checkpoints[i].frequency),
+                                  loginRouteViewModel.routeTitle,
+                                  loginRouteViewModel
+                                      .checkPoints[i].sequenceNum,
+                                  snapshot.data.responseCntList[i],
+                                  snapshot.data.alarmTimeList[i]),
                               Divider(
                                 thickness: 1.0,
                               ),
@@ -423,7 +395,8 @@ void _checkpointsBottomSheet(BuildContext context) {
                           _checkpoint(
                               loginRouteViewModel.routeTitle,
                               loginRouteViewModel.checkPoints[i].sequenceNum,
-                              loginRouteViewModel.checkPoints[i].frequency),
+                              currentWorkViewModel.responseCntList[i],
+                              currentWorkViewModel.alarmTimeList[i]),
                           Divider(
                             thickness: 1.0,
                           ),
@@ -439,7 +412,8 @@ void _checkpointsBottomSheet(BuildContext context) {
 }
 
 // For each checkpoint
-Widget _checkpoint(String routeTitle, int sequenceNum, int frequency) {
+Widget _checkpoint(String routeTitle, int sequenceNum, int curFrequency,
+    String totalFrequency) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 13.0),
     child: Row(
@@ -452,7 +426,7 @@ Widget _checkpoint(String routeTitle, int sequenceNum, int frequency) {
             )),
         Spacer(),
         Text(
-          '0' + ' / ' + frequency.toString(),
+          curFrequency.toString() + ' / ' + totalFrequency,
           style: TextStyle(
             color: Colors.grey,
             fontSize: 13.0,

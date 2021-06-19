@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:battery/battery.dart';
 
-final serverUrl = 'https://ac254b1dd86a.ngrok.io';
+final serverUrl = 'https://3128fa841319.ngrok.io';
 var battery = Battery();
 
 class WebService {
@@ -118,9 +118,10 @@ class WebService {
     print(response.statusCode);
   }
 
-  Future<String> postGPSReply(String guardType, int seqNum, String workId,
+  Future<void> postGPSReply(String guardType, int seqNum, String workId,
       double lat, double lng, bool isCP, bool isRes) async {
-    bool isCheckPoint = true;
+    print("WorkID: " + workId);
+    var curBattery = await battery.batteryLevel;
     // patrol인지 stationary인지 구분
     if (guardType == 'patrol') {
       var url = Uri.parse('$serverUrl/app_connection/patrolGPS/$workId/');
@@ -130,6 +131,7 @@ class WebService {
         "longitude": lng.toString(),
         "checkpoint_flag": isCP.toString(),
         "checkpoint_response": isRes.toString(),
+        "battery": curBattery.toString(),
       });
 
       if (response.statusCode == 200) {

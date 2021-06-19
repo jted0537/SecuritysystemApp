@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
+    as bg;
 import 'package:security_system/src/components/dashed_rect.dart';
 import 'package:security_system/src/components/preferences.dart';
+
 import 'package:security_system/main.dart';
 import 'package:intl/intl.dart';
 
@@ -19,12 +22,13 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
     now = DateTime.now();
     date = DateTime(now.year, now.month, now.day);
     formattedDate = DateFormat('dd.MM.yyyy').format(now);
-    if (now.hour * 60 + now.minute <
+    if (now.hour * 60 + now.minute <=
             loginGuardViewModel.endTimeHour * 60 +
                 loginGuardViewModel.endTimeMinute &&
-        now.hour * 60 + now.minute >
+        now.hour * 60 + now.minute >=
             loginGuardViewModel.startTimeHour * 60 +
-                loginGuardViewModel.startTimeMinute)
+                loginGuardViewModel.startTimeMinute -
+                10)
       this.isDutyTime = true;
     else
       this.isDutyTime = false;
@@ -109,7 +113,17 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                           type: 'patrol')),
                   SizedBox(height: 20.0),
                   // EXIT Button(Back to login screen)
-                  exitButton(context, 2),
+                  OutlinedButton(
+                      style: buttonStyle(Colors.grey, Colors.white),
+                      child: Padding(
+                          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          child: Text('Logout & Stop location tracking')),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                        bg.BackgroundGeolocation.stop();
+                        timer.cancel();
+                      }),
                 ],
               ),
             ),

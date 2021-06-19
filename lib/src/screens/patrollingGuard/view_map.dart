@@ -152,7 +152,6 @@ class _ViewMapState extends State<ViewMap> {
   }
 
   void _showChecklist() {
-    // TODO: checklist 보여주기
     List<CheckPoint> curCheckpoints =
         loginRouteViewModel.loginRoute.checkpoints;
     //List<CheckPoint> curCheckpoints = [new CheckPoint(sequenceNum: 1, latitude: 37.5763, longitude: 126.9779, radius: 30.0, frequency: 4), new CheckPoint(sequenceNum: 1, latitude: 37.5664, longitude: 126.9794, radius: 30.0, frequency: 4)];

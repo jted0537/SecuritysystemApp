@@ -4,7 +4,7 @@ import 'package:security_system/src/services/web_service.dart';
 class WorkViewModel {
   Work currentWork = Work();
 
-  Future<void> fetchNewWork(String id) async {
+  Future<void> startWork(String id) async {
     try {
       final results = await WebService().startWork(id);
       this.currentWork = results;
@@ -13,7 +13,7 @@ class WorkViewModel {
     }
   }
 
-  Future<Work> updateWork(String id) async {
+  Future<Work> getWork(String id) async {
     try {
       final results = await WebService().getWork(id);
       this.currentWork = results;
@@ -35,7 +35,7 @@ class WorkViewModel {
     return this.currentWork.workId;
   }
 
-  List<bool> get responseCntList {
+  List<int> get responseCntList {
     return this.currentWork.responseCntList;
   }
 
