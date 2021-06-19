@@ -93,17 +93,6 @@ class _PatrolDutyTimeWidgetState extends State<PatrolDutyTimeWidget> {
                 });
                 showLoadingDialog(context);
                 await currentWorkViewModel.fetchNewWork(loginGuardViewModel.id);
-                // await widget.localNotification.cancelAllNotification();
-                // for (int i = 0;
-                //     i < currentWorkViewModel.alarmTimeList.length;
-                //     i++) {
-                //   DateTime now = DateTime.now();
-                //   String each = currentWorkViewModel.alarmTimeList[i];
-                //   int hour = int.parse(each.split(":")[0]);
-                //   int minute = int.parse(each.split(":")[1]);
-                //   await widget.localNotification.showNotification(
-                //       now.year, now.month, now.day, hour, minute);
-                // }
                 hideLoadingDialog(context);
               }
               Navigator.pushNamed(context, widget.navigation);

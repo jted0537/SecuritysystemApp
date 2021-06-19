@@ -6,7 +6,7 @@ class WorkViewModel {
 
   Future<void> fetchNewWork(String id) async {
     try {
-      final results = await WebService().fetchWork(id);
+      final results = await WebService().startWork(id);
       this.currentWork = results;
     } catch (e) {
       print(e);
@@ -15,7 +15,7 @@ class WorkViewModel {
 
   Future<Work> updateWork(String id) async {
     try {
-      final results = await WebService().updateWork(id);
+      final results = await WebService().getWork(id);
       this.currentWork = results;
       return results;
     } catch (e) {

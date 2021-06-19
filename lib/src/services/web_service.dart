@@ -4,8 +4,10 @@ import 'package:security_system/src/models/station.dart';
 import 'package:security_system/src/models/work.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:battery/battery.dart';
 
-final serverUrl = 'http://158.247.211.173';
+final serverUrl = 'https://ac254b1dd86a.ngrok.io';
+var battery = Battery();
 
 class WebService {
   // Fetch Guard
@@ -58,9 +60,16 @@ class WebService {
   }
 
   // Fetch(start) work
-  Future<Work> fetchWork(String id) async {
+  Future<Work> startWork(String id) async {
     var url = Uri.parse('$serverUrl/app_connection/startWork/$id/');
-    var response = await http.get(url);
+    var curBattery = await battery.batteryLevel;
+    var response = await http.post(
+      url,
+      body: {
+        "battery": curBattery.toString(),
+      },
+    );
+    print(response.statusCode);
     if (response.statusCode == 200) {
       var result = response.body.replaceAll('\\', '');
       final parsed = await json.decode(result.substring(1, result.length - 1));
@@ -71,9 +80,15 @@ class WebService {
   }
 
   // Go to work
-  Future<Work> updateWork(String id) async {
+  Future<Work> getWork(String id) async {
     var url = Uri.parse('$serverUrl/app_connection/getWork/$id/');
-    var response = await http.get(url);
+    var curBattery = await battery.batteryLevel;
+    var response = await http.post(
+      url,
+      body: {
+        "battery": curBattery.toString(),
+      },
+    );
     if (response.statusCode == 200) {
       var result = response.body.replaceAll('\\', '');
       final parsed = await json.decode(result.substring(1, result.length - 1));
@@ -83,14 +98,20 @@ class WebService {
     }
   }
 
-  //
   Future<void> stationaryResponse(String workId) async {
     var url =
         Uri.parse('$serverUrl/app_connection/StationaryResponse/$workId/');
-    var response = await http.get(url);
+    var curBattery = await battery.batteryLevel;
+    var response = await http.post(
+      url,
+      body: {
+        "battery": curBattery.toString(),
+      },
+    );
     print(response.statusCode);
   }
 
+  // Finish work
   Future<void> endWork(String workId) async {
     var url = Uri.parse('$serverUrl/app_connection/endStationaryWork/$workId/');
     var response = await http.get(url);

@@ -54,7 +54,7 @@ class _OutDutyStationState extends State<OutDutyStation> {
         now.hour * 60 + now.minute >=
             loginGuardViewModel.startTimeHour * 60 +
                 loginGuardViewModel.startTimeMinute -
-                3)
+                10)
       this.isDutyTime = true;
     else
       this.isDutyTime = false;
