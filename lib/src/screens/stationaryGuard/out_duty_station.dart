@@ -145,7 +145,17 @@ class _OutDutyStationState extends State<OutDutyStation> {
                           type: 'Stationary')),
                   SizedBox(height: 20.0),
                   // EXIT Button(Back to login screen)
-                  exitButton(context, 2),
+                  OutlinedButton(
+                      style: buttonStyle(Colors.grey, Colors.white),
+                      child: Padding(
+                          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          child: Text('Logout & Clear all notifications')),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                        localNotification.cancelAllNotification();
+                        timer.cancel();
+                      }),
                 ],
               ),
             ),
