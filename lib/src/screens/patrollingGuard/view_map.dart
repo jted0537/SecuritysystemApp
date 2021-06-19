@@ -8,6 +8,7 @@ import 'package:security_system/main.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/src/models/chckpoint.dart';
 import 'package:location_platform_interface/location_platform_interface.dart';
+import 'package:security_system/src/screens/patrollingGuard/in_duty_route.dart';
 
 int lastHour;
 int lastMinute;
@@ -219,11 +220,6 @@ class _ViewMapState extends State<ViewMap> {
                     _getCurrentLocation();
                     _showChecklist();
                   },
-                  // onCameraMove: (CameraPosition camPos) async {
-                  //   await _controller.animateCamera(
-                  //       CameraUpdate.newCameraPosition(camPos));
-                  //   //print('ha');
-                  // },
                 )),
                 Container(
                   decoration: BoxDecoration(
@@ -272,7 +268,9 @@ class _ViewMapState extends State<ViewMap> {
                                     ),
                                     SizedBox(height: 5.0),
                                     Text(
-                                      '${loginRouteViewModel.routeTitle}, at ${lastHour > 12 ? lastHour - 12 : lastHour}:$lastMinute ${lastHour > 12 ? 'PM' : 'AM'}',
+                                      isStartPatrol
+                                          ? '${loginRouteViewModel.routeTitle}$cpSeqNum-1, at ${lastHour > 12 ? lastHour - 12 : lastHour}:$lastMinute ${lastHour > 12 ? 'PM' : 'AM'}'
+                                          : 'You\'ve not visited any checkpoint yet.',
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: titleFontWeight,

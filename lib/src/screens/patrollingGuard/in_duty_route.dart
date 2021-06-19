@@ -19,9 +19,10 @@ class InDutyRoute extends StatefulWidget {
   _InDutyRouteState createState() => _InDutyRouteState();
 }
 
-class _InDutyRouteState extends State<InDutyRoute> {
-  int cpSeqNum = 1;
+int cpSeqNum = 1;
+bool isStartPatrol = false;
 
+class _InDutyRouteState extends State<InDutyRoute> {
   Future<bool> periodicAuthentication() async {
     final isAuthenticated = await LocalAuthService.authenticate();
 
@@ -122,6 +123,7 @@ class _InDutyRouteState extends State<InDutyRoute> {
 
     if (isCP) {
       isAuth = await periodicAuthentication();
+      isStartPatrol = true;
       await WebService().postGPSReply(
           'patrol',
           cpSeqNum,
