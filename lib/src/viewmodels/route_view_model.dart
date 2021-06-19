@@ -12,6 +12,7 @@ class RouteViewModel {
       return results;
     } catch (e) {
       print(e);
+      return loginRoute;
     }
   }
 
@@ -22,6 +23,7 @@ class RouteViewModel {
       return loginRoute.checkpoints;
     } catch (e) {
       print(e);
+      return loginRoute.checkpoints;
     }
   }
 

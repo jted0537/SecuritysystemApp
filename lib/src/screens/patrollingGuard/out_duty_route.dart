@@ -1,11 +1,10 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
     as bg;
 import 'package:security_system/src/components/dashed_rect.dart';
 import 'package:security_system/src/components/preferences.dart';
-
 import 'package:security_system/main.dart';
-import 'package:intl/intl.dart';
 
 // AppointedRouteMenu
 class OutDutyRoute extends StatefulWidget {

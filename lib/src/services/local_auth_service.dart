@@ -1,6 +1,6 @@
-import 'package:flutter/services.dart';
 import 'dart:async';
 import 'package:local_auth/local_auth.dart';
+import 'package:flutter/services.dart';
 
 // Type of Biometric authentication result
 enum BioMetricLogin { Success, NoBioMetricInfo, DeviceNotProvide, Cancel }

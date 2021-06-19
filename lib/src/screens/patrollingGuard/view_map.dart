@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:location_platform_interface/location_platform_interface.dart';
 import 'package:security_system/main.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/src/models/chckpoint.dart';
-import 'package:location_platform_interface/location_platform_interface.dart';
 import 'package:security_system/src/screens/patrollingGuard/in_duty_route.dart';
 
 int lastHour;
@@ -269,7 +269,7 @@ class _ViewMapState extends State<ViewMap> {
                                     SizedBox(height: 5.0),
                                     Text(
                                       isStartPatrol
-                                          ? '${loginRouteViewModel.routeTitle}$cpSeqNum-1, at ${lastHour > 12 ? lastHour - 12 : lastHour}:$lastMinute ${lastHour > 12 ? 'PM' : 'AM'}'
+                                          ? '${loginRouteViewModel.routeTitle} ${cpSeqNum - 1}, at ${lastHour > 12 ? lastHour - 12 : lastHour}:$lastMinute ${lastHour > 12 ? 'PM' : 'AM'}'
                                           : 'You\'ve not visited any checkpoint yet.',
                                       style: TextStyle(
                                         color: Colors.black,

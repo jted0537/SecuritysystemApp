@@ -1,18 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:security_system/src/components/preferences.dart';
-import 'package:security_system/main.dart';
-import 'package:intl/intl.dart';
-import 'package:security_system/src/services/local_auth_service.dart';
-import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
-    as bg;
-import 'package:security_system/src/services/web_service.dart';
-import 'package:security_system/src/models/chckpoint.dart';
 import 'dart:async';
 import 'dart:ui';
 import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:vector_math/vector_math.dart' as vm;
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
+    as bg;
+import 'package:security_system/src/services/local_auth_service.dart';
+import 'package:security_system/src/services/web_service.dart';
+import 'package:security_system/src/models/chckpoint.dart';
 import 'package:security_system/src/screens/patrollingGuard/view_map.dart';
 import 'package:security_system/src/models/work.dart';
+import 'package:security_system/src/components/preferences.dart';
+import 'package:security_system/main.dart';
 
 class InDutyRoute extends StatefulWidget {
   @override
@@ -25,7 +25,6 @@ bool isStartPatrol = false;
 class _InDutyRouteState extends State<InDutyRoute> {
   Future<bool> periodicAuthentication() async {
     final isAuthenticated = await LocalAuthService.authenticate();
-
     if (isAuthenticated == BioMetricLogin.Success) {
       // If Biometric authentication success
       return true;
@@ -106,12 +105,6 @@ class _InDutyRouteState extends State<InDutyRoute> {
     timer = Timer.periodic(Duration(seconds: 5), (Timer t) => alarmExpired());
   }
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   bg.BackgroundGeolocation.stop();
-  // }
-
   void alarmExpired() async {
     timer.cancel();
 
@@ -188,35 +181,6 @@ class _InDutyRouteState extends State<InDutyRoute> {
   }
 }
 
-// For CheckPoint button and ViewMap button
-Widget _outLinedButton(BuildContext context, String imageAsset, String type) {
-  return OutlinedButton(
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 40.0),
-      child: Column(
-        children: [
-          Image.asset(
-            imageAsset,
-            height: 30.0,
-            width: 30.0,
-          ),
-          SizedBox(height: 10.0),
-          Text(
-            type,
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 13.0,
-                fontWeight: defaultFontWeight),
-          ),
-        ],
-      ),
-    ),
-    onPressed: () {
-      if (type != 'CheckPoint') Navigator.pushNamed(context, '/viewMap');
-    },
-  );
-}
-
 // Widgets in cornerRadiusBox
 Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
   return Expanded(
@@ -256,7 +220,7 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
                 decoration: TextDecoration.underline,
               ),
             ),
-            SizedBox(height: 20.0),
+            SizedBox(height: 25.0),
 
             // CheckPoint, View Map button
             Row(
@@ -264,13 +228,13 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
               children: [
                 // CheckPoint Button
                 _outLinedButton(
-                    context, 'images/CheckPoint_LOGO.png', 'CheckPoint'),
+                    context, 'images/CheckPoint_LOGO.png', 'CheckPoints'),
                 SizedBox(width: 5.0),
                 // ViewMap Button
                 _outLinedButton(context, 'images/ViewMap_LOGO.png', 'View Map'),
               ],
             ),
-            SizedBox(height: 20.0),
+            SizedBox(height: 25.0),
 
             // Checkpoints List
             Row(
@@ -281,24 +245,16 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     )),
-                SizedBox(width: 10.0),
+                SizedBox(
+                  width: 10.0,
+                  height: 40.0,
+                ),
                 Text(
                   formattedDate,
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 13.0,
                   ),
-                ),
-                Spacer(),
-                TextButton(
-                  child: Text(
-                    'See All',
-                    style: TextStyle(color: rokkhiColor),
-                  ),
-                  onPressed: () {
-                    // Show checkpoints list with bottomsheet
-                    _checkpointsBottomSheet(context);
-                  },
                 ),
               ],
             ),
@@ -344,6 +300,38 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
         ),
       ),
     ),
+  );
+}
+
+// For CheckPoint button and ViewMap button
+Widget _outLinedButton(BuildContext context, String imageAsset, String type) {
+  return OutlinedButton(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 40.0),
+      child: Column(
+        children: [
+          Image.asset(
+            imageAsset,
+            height: 30.0,
+            width: 30.0,
+          ),
+          SizedBox(height: 10.0),
+          Text(
+            type,
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 13.0,
+                fontWeight: defaultFontWeight),
+          ),
+        ],
+      ),
+    ),
+    onPressed: () {
+      if (type != 'CheckPoints')
+        Navigator.pushNamed(context, '/viewMap');
+      else
+        _checkpointsBottomSheet(context);
+    },
   );
 }
 

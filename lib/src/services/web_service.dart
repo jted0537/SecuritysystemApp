@@ -1,10 +1,10 @@
+import 'dart:convert';
+import 'package:battery/battery.dart';
+import 'package:http/http.dart' as http;
 import 'package:security_system/src/models/guard.dart';
 import 'package:security_system/src/models/route.dart';
 import 'package:security_system/src/models/station.dart';
 import 'package:security_system/src/models/work.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:battery/battery.dart';
 
 final serverUrl = 'https://3128fa841319.ngrok.io';
 var battery = Battery();

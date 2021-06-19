@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:security_system/src/screens/login/login_view.dart';
 import 'package:security_system/src/screens/login/local_auth_view.dart';
@@ -10,7 +11,6 @@ import 'package:security_system/src/viewmodels/guard_view_model.dart';
 import 'package:security_system/src/viewmodels/route_view_model.dart';
 import 'package:security_system/src/viewmodels/station_view_model.dart';
 import 'package:security_system/src/viewmodels/work_view_model.dart';
-import 'dart:async';
 
 final loginGuardViewModel = GuardViewModel();
 final loginRouteViewModel = RouteViewModel();

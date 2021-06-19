@@ -1,9 +1,9 @@
+import 'dart:async';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/src/components/dashed_rect.dart';
 import 'package:security_system/main.dart';
-import 'dart:async';
-import 'package:intl/intl.dart';
 import 'package:security_system/src/services/local_notification_service.dart';
 
 class OutDutyStation extends StatefulWidget {

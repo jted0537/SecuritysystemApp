@@ -20,6 +20,7 @@ class WorkViewModel {
       return results;
     } catch (e) {
       print(e);
+      return currentWork;
     }
   }
 

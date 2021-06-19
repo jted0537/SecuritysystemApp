@@ -11,6 +11,7 @@ class StationViewModel {
       return results;
     } catch (e) {
       print(e);
+      return loginStation;
     }
   }
 
