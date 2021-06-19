@@ -31,7 +31,6 @@ dependencies:
   flutter_local_notifications: ^6.0.0
   http: ^0.13.3
   connectivity: ^3.0.4
-  shared_preferences: ^2.0.5
   battery: ^2.0.3
   google_maps_flutter: ^2.0.5
   flutter_background_geolocation: ^1.9.0
@@ -65,7 +64,6 @@ or save file at your IDE. (It will automatically install it)
 * [flutter_local_notifications ](https://pub.dev/packages/flutter_local_notifications)
 * [http](https://pub.dev/packages/http)
 * [connectivity](https://pub.dev/packages/connectivity)
-* [shared_preferences](https://pub.dev/packages/shared_preferences)
 * [battery](https://pub.dev/packages/battery)
 * [google_maps_flutter](https://pub.dev/packages/google_maps_flutter)
 * [flutter_background_geolocation](https://pub.dev/packages/flutter_background_geolocation)
@@ -174,6 +172,7 @@ services/
 This is the starting point of the application. All the navigations and viewmodels are defined in this file.
 
 ```dart
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:security_system/src/screens/login/login_view.dart';
 import 'package:security_system/src/screens/login/local_auth_view.dart';
@@ -186,7 +185,6 @@ import 'package:security_system/src/viewmodels/guard_view_model.dart';
 import 'package:security_system/src/viewmodels/route_view_model.dart';
 import 'package:security_system/src/viewmodels/station_view_model.dart';
 import 'package:security_system/src/viewmodels/work_view_model.dart';
-import 'dart:async';
 
 final loginGuardViewModel = GuardViewModel();
 final loginRouteViewModel = RouteViewModel();
@@ -195,7 +193,6 @@ final currentWorkViewModel = WorkViewModel();
 DateTime now;
 DateTime date;
 String formattedDate;
-//PhoneNumber loginNumber = PhoneNumber(isoCode: 'BD');
 Timer timer;
 // Application Entry Point
 void main() async => runApp(SecureApp());
@@ -222,9 +219,9 @@ class SecureApp extends StatelessWidget {
     );
   }
 }
+
 ```
 
 ## Wiki
 
-Checkout [Sogang wiki](http://cscp2.sogang.ac.kr/CSE4186/index.php/Rokkhi_Limited_(IoT%EB%A5%BC_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EC%8B%9C%EC%84%A4%EA%B4%80%EB%A6%AC%EC%8B%9C%EC%8A%A4%ED%85%9C)) for more info about this project
-
+Checkout [Sogang wiki](http://cscp2.sogang.ac.kr/CSE4186/index.php/Rokkhi_Limited_(IoT%EB%A5%BC_%EC%9D%B4%EC%9A%A9%ED%95%9C_%EC%8B%9C%EC%84%A4%EA%B4%80%EB%A6%AC%EC%8B%9C%EC%8A%A4%ED%85%9C)) for more information about this project
