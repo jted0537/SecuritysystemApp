@@ -88,38 +88,55 @@ class _OutDutyStationState extends State<OutDutyStation> {
                         .fetchStation(loginGuardViewModel.id),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.0),
-                              border: Border.all(
-                                color: Colors.grey[200],
-                              )),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 25.0),
-                            child: Column(
-                              children: [
-                                Image.asset('images/marker.png',
-                                    height: 25.0, width: 25.0),
-                                SizedBox(height: 10.0),
-                                Text('Appointed Station',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 17.0,
-                                      fontWeight: titleFontWeight,
-                                    )),
-                                SizedBox(height: 10.0),
-                                Text(
-                                  snapshot.data.stationTitle,
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: defaultFontWeight,
-                                    decoration: TextDecoration.underline,
-                                  ),
+                        return Column(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  border: Border.all(
+                                    color: Colors.grey[200],
+                                  )),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 25.0),
+                                child: Column(
+                                  children: [
+                                    Image.asset('images/marker.png',
+                                        height: 25.0, width: 25.0),
+                                    SizedBox(height: 10.0),
+                                    Text('Appointed Station',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 17.0,
+                                          fontWeight: titleFontWeight,
+                                        )),
+                                    SizedBox(height: 10.0),
+                                    Text(
+                                      snapshot.data.stationTitle,
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: defaultFontWeight,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
+                            SizedBox(height: 20.0),
+                            // Dashed Rectangle Box
+                            Container(
+                                width: double.infinity,
+                                color: Colors.black12,
+                                child: DashedRect(
+                                    color: Colors.grey[300],
+                                    strokeWidth: 2.0,
+                                    gap: 3.0,
+                                    isDutyTime: this.isDutyTime,
+                                    navigation: '/inDutyStation',
+                                    localNotification: this.localNotification,
+                                    type: 'Stationary')),
+                          ],
                         );
                       } else if (snapshot.hasError) {
                         return Text('${snapshot.error}');
@@ -130,19 +147,6 @@ class _OutDutyStationState extends State<OutDutyStation> {
                     },
                   ),
 
-                  SizedBox(height: 20.0),
-                  // Dashed Rectangle Box
-                  Container(
-                      width: double.infinity,
-                      color: Colors.black12,
-                      child: DashedRect(
-                          color: Colors.grey[300],
-                          strokeWidth: 2.0,
-                          gap: 3.0,
-                          isDutyTime: this.isDutyTime,
-                          navigation: '/inDutyStation',
-                          localNotification: this.localNotification,
-                          type: 'Stationary')),
                   SizedBox(height: 20.0),
                   // EXIT Button(Back to login screen)
                   OutlinedButton(

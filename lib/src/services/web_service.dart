@@ -6,7 +6,7 @@ import 'package:security_system/src/models/route.dart';
 import 'package:security_system/src/models/station.dart';
 import 'package:security_system/src/models/work.dart';
 
-final serverUrl = 'https://3128fa841319.ngrok.io';
+final serverUrl = 'http://158.247.211.173';
 var battery = Battery();
 
 class WebService {
