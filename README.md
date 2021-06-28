@@ -33,9 +33,7 @@ dependencies:
   connectivity: ^3.0.4
   battery: ^2.0.3
   google_maps_flutter: ^2.0.5
-  flutter_background_geolocation: ^1.9.0
   location: ^4.1.1
-  location_permissions: ^4.0.0
 ~~~
 </br>
 
