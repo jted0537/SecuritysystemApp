@@ -4,8 +4,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vector_math/vector_math.dart' as vm;
-import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
-    as bg;
 import 'package:security_system/src/services/local_auth_service.dart';
 import 'package:security_system/src/services/web_service.dart';
 import 'package:security_system/src/models/chckpoint.dart';
@@ -87,31 +85,16 @@ class _InDutyRouteState extends State<InDutyRoute> {
     lastHour = now.hour;
     lastMinute = now.minute;
 
-    bg.BackgroundGeolocation.ready(bg.Config(
-            desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
-            distanceFilter: 10.0,
-            stopOnTerminate: false,
-            startOnBoot: true,
-            debug: false,
-            logLevel: bg.Config.LOG_LEVEL_OFF))
-        .then((bg.State state) {
-      if (!state.enabled) {
-        // start background geolocation
-        bg.BackgroundGeolocation.start();
-      }
-    });
-
-    bg.BackgroundGeolocation.changePace(true);
     timer = Timer.periodic(Duration(seconds: 5), (Timer t) => alarmExpired());
   }
 
   void alarmExpired() async {
     timer.cancel();
 
-    var location = await bg.BackgroundGeolocation.getCurrentPosition();
+    var curLocation = await locationTracker.getLocation();
 
     bool isCP =
-        isCheckPoint(location.coords.latitude, location.coords.longitude);
+        isCheckPoint(curLocation.latitude, curLocation.longitude);
     bool isAuth = false;
 
     if (isCP) {
@@ -121,8 +104,8 @@ class _InDutyRouteState extends State<InDutyRoute> {
           'patrol',
           cpSeqNum,
           currentWorkViewModel.workID,
-          location.coords.latitude,
-          location.coords.longitude,
+          curLocation.latitude,
+          curLocation.longitude,
           isCP,
           isAuth);
       if (isAuth) {
@@ -136,8 +119,8 @@ class _InDutyRouteState extends State<InDutyRoute> {
           'patrol',
           cpSeqNum,
           currentWorkViewModel.workID,
-          location.coords.latitude,
-          location.coords.longitude,
+          curLocation.latitude,
+          curLocation.longitude,
           isCP,
           isAuth);
     }
@@ -146,7 +129,6 @@ class _InDutyRouteState extends State<InDutyRoute> {
     if (now.hour * 60 + now.minute >=
         loginGuardViewModel.endTimeHour * 60 +
             loginGuardViewModel.endTimeMinute) {
-      bg.BackgroundGeolocation.stop();
       return;
     }
     timer = Timer.periodic(Duration(seconds: 5), (Timer t) => alarmExpired());

@@ -21,17 +21,11 @@ class ViewMap extends StatefulWidget {
 class _ViewMapState extends State<ViewMap> {
   // location
   StreamSubscription _locationSubscription;
-  Location _locationTracker;
-  LocationData _curLocation;
   GoogleMapController _controller;
   // markers & circles
   Marker _marker;
   //Circle _circle; // circle for cur position
   Set<Circle> _checkpointCircles = Set<Circle>();
-  // status
-  bool isLoading = false;
-  bool _serviceEnabled;
-  PermissionStatus _permissionGranted;
   // ids
   int _circleIdCounter = 1;
 
@@ -39,60 +33,21 @@ class _ViewMapState extends State<ViewMap> {
   @override
   void initState() {
     super.initState();
-    _locationTracker = new Location();
-    _initializeCurLocation();
-  }
-
-  void _initializeCurLocation() async {
-    setState(() {
-      isLoading = true;
-    });
-    _initialize();
-    _curLocation = await _locationTracker.getLocation();
-    if (_curLocation == null) {
-      return;
-    }
-
-    setState(() {
-      isLoading = false;
-    });
-
-    print("Initial CurrentLocation: $_curLocation");
-  }
-
-  Future<void> _initialize() async {
-    _serviceEnabled = await _locationTracker.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await _locationTracker.requestService();
-      if (!_serviceEnabled) {
-        debugPrint("Service Not Enabled");
-        return;
-      }
-    }
-
-    _permissionGranted = await _locationTracker.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await _locationTracker.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        debugPrint("Permission Denied");
-        return;
-      }
-    }
   }
 
   void _getCurrentLocation() async {
     try {
       Uint8List imageData = await _getMarker();
-      var location = await _locationTracker.getLocation();
+      curLocation = await locationTracker.getLocation();
 
-      _updateMarkerAndCircle(location, imageData);
+      _updateMarkerAndCircle(curLocation, imageData);
 
       if (_locationSubscription != null) {
         _locationSubscription.cancel();
       }
 
       _locationSubscription =
-          _locationTracker.onLocationChanged.listen((newLocalData) {
+          locationTracker.onLocationChanged.listen((newLocalData) {
         if (_controller != null) {
           _updateMarkerAndCircle(newLocalData, imageData);
         }
@@ -173,47 +128,20 @@ class _ViewMapState extends State<ViewMap> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    return (isLoading)
-        ? AlertDialog(
-            content: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor)),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text("Please wait",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                    )),
-                Text('Get Your Current Location...'),
-              ],
-            ),
-          )
-        : Scaffold(
+    return Scaffold(
             backgroundColor: Colors.white,
             body: Stack(
               children: [
                 Container(
-                    //height: MediaQuery.of(context).size.height * 0.7,
                     child: GoogleMap(
                   mapType: MapType.normal,
                   initialCameraPosition: CameraPosition(
                       target:
-                          LatLng(_curLocation.latitude, _curLocation.longitude),
+                          LatLng(curLocation.latitude, curLocation.longitude),
                       tilt: 0,
                       zoom: 16.0),
                   markers: Set.of((_marker != null) ? [_marker] : []),
                   circles: _checkpointCircles,
-                  // myLocationEnabled: true,
-                  //myLocationButtonEnabled: true,
                   zoomControlsEnabled: true,
                   onMapCreated: (GoogleMapController controller) {
                     _controller = controller;
@@ -263,13 +191,14 @@ class _ViewMapState extends State<ViewMap> {
                                               color: Colors.grey,
                                               fontSize: 13.0,
                                               fontWeight: defaultFontWeight,
-                                            )),
+                                            )
+                                          ),
                                       ],
                                     ),
                                     SizedBox(height: 5.0),
                                     Text(
                                       isStartPatrol
-                                          ? '${loginRouteViewModel.routeTitle} ${cpSeqNum - 1}, at ${lastHour > 12 ? lastHour - 12 : lastHour}:$lastMinute ${lastHour > 12 ? 'PM' : 'AM'}'
+                                          ? '${loginRouteViewModel.routeTitle} ${cpSeqNum - 1 == 0 ? loginRouteViewModel.checkPoints.length : cpSeqNum - 1}, at ${lastHour > 12 ? lastHour - 12 : lastHour}:$lastMinute ${lastHour > 12 ? 'PM' : 'AM'}'
                                           : 'You\'ve not visited any checkpoint yet.',
                                       style: TextStyle(
                                         color: Colors.black,

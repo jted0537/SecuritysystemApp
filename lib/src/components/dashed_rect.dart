@@ -4,6 +4,7 @@ import 'package:security_system/src/components/dialogs.dart';
 import 'dart:math' as math;
 import 'package:security_system/main.dart';
 import 'package:security_system/src/services/local_notification_service.dart';
+import 'package:location/location.dart';
 
 //------------------------------------------------Dashed Box
 class DashedRect extends StatelessWidget {
@@ -91,8 +92,16 @@ class _PatrolDutyTimeWidgetState extends State<PatrolDutyTimeWidget> {
                 setState(() {
                   loginGuardViewModel.loginGuard.status = true;
                 });
+                _locationPermit();
                 showLoadingDialog(context);
                 await currentWorkViewModel.startWork(loginGuardViewModel.id);
+                curLocation = await locationTracker.getLocation();
+                hideLoadingDialog(context);
+              }
+              else {
+                _locationPermit();
+                showLoadingDialog(context);
+                curLocation = await locationTracker.getLocation();
                 hideLoadingDialog(context);
               }
               Navigator.pushNamed(context, widget.navigation);
@@ -261,3 +270,26 @@ class DashRectPainter extends CustomPainter {
     return true;
   }
 }
+
+ Future<void> _locationPermit() async {
+  bool _serviceEnabled;
+  PermissionStatus _permissionGranted;
+
+  _serviceEnabled = await locationTracker.serviceEnabled();
+  if (!_serviceEnabled) {
+    _serviceEnabled = await locationTracker.requestService();
+     if (!_serviceEnabled) {
+       debugPrint("Service Not Enabled");
+      return;
+    }
+   }
+
+  _permissionGranted = await locationTracker.hasPermission();
+  if (_permissionGranted == PermissionStatus.denied) {
+    _permissionGranted = await locationTracker.requestPermission();
+    if (_permissionGranted != PermissionStatus.granted) {
+      debugPrint("Permission Denied");
+      return;
+    }
+  }
+ }

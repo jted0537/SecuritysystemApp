@@ -11,6 +11,7 @@ import 'package:security_system/src/viewmodels/guard_view_model.dart';
 import 'package:security_system/src/viewmodels/route_view_model.dart';
 import 'package:security_system/src/viewmodels/station_view_model.dart';
 import 'package:security_system/src/viewmodels/work_view_model.dart';
+import 'package:location/location.dart';
 
 final loginGuardViewModel = GuardViewModel();
 final loginRouteViewModel = RouteViewModel();
@@ -20,6 +21,8 @@ DateTime now;
 DateTime date;
 String formattedDate;
 Timer timer;
+Location locationTracker = new Location();
+LocationData curLocation;
 // Application Entry Point
 void main() async => runApp(SecureApp());
 

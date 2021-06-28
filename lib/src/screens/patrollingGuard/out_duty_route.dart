@@ -1,7 +1,5 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
-    as bg;
 import 'package:security_system/src/components/dashed_rect.dart';
 import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/main.dart';
@@ -120,7 +118,6 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
                       onPressed: () {
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
-                        bg.BackgroundGeolocation.stop();
                         timer.cancel();
                       }),
                 ],

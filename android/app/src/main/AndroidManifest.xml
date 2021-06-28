@@ -69,8 +69,6 @@
 
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
-        <service android:name="com.transistorsoft.locationmanager.service.TrackingService" android:foregroundServiceType="location" /> -->
-        <service android:name="com.transistorsoft.locationmanager.service.LocationRequestService" android:foregroundServiceType="location" /> -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
