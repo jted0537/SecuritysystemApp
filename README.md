@@ -64,9 +64,7 @@ or save file at your IDE. (It will automatically install it)
 * [connectivity](https://pub.dev/packages/connectivity)
 * [battery](https://pub.dev/packages/battery)
 * [google_maps_flutter](https://pub.dev/packages/google_maps_flutter)
-* [flutter_background_geolocation](https://pub.dev/packages/flutter_background_geolocation)
 * [location](https://pub.dev/packages/location)
-* [location_permissions](https://pub.dev/packages/location_permissions)
 
 ### Folder Structure
 Here is the core folder structure which flutter provides.
