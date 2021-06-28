@@ -1,3 +1,4 @@
+// For guard information
 class Guard {
   final String id;
   final String guardName;
@@ -19,6 +20,7 @@ class Guard {
     this.frequency,
   });
 
+  // Convert json type to Guard object
   factory Guard.fromJson(
       Map<String, dynamic> json1, Map<String, dynamic> json2) {
     return Guard(

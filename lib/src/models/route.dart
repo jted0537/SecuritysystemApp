@@ -1,5 +1,6 @@
 import 'package:security_system/src/models/chckpoint.dart';
 
+// For store route info. which includes list of checkpoints
 class Route {
   final String routeId;
   final String routeTitle;
@@ -13,6 +14,7 @@ class Route {
     this.checkpoints,
   });
 
+  // Convert json type to Route object
   factory Route.fromJson(Map<String, dynamic> json) {
     var list = json['checkpoints'] as List;
     List<CheckPoint> checkPointList =

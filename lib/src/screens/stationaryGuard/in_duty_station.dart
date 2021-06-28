@@ -13,7 +13,7 @@ class InDutyStation extends StatefulWidget {
 }
 
 class _InDutyStationState extends State<InDutyStation> {
-  // Doing attendance authentication
+  // Doing authentication for attendance
   Future<void> authentication() async {
     final isAuthenticated = await LocalAuthService.authenticate();
 
@@ -30,9 +30,30 @@ class _InDutyStationState extends State<InDutyStation> {
     }
   }
 
+  // Using global botton app button for attendance
+  Widget bottomAttendanceButton() {
+    return BottomAppBar(
+      elevation: 15.0,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+        child: OutlinedButton(
+          style: buttonStyle(Colors.white, rokkhiColor),
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 13.0),
+            child: Text('Attendance'),
+          ),
+          onPressed: () async {
+            await authentication();
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   initState() {
     super.initState();
+    // Calculate current time
     now = DateTime.now();
     date = DateTime(now.year, now.month, now.day);
     formattedDate = DateFormat('dd.MM.yyyy').format(now);
@@ -43,22 +64,7 @@ class _InDutyStationState extends State<InDutyStation> {
     // Using WillPopScope for block the return with device back button
     return Scaffold(
       backgroundColor: Colors.grey[150],
-      bottomNavigationBar: BottomAppBar(
-        elevation: 15.0,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-          child: OutlinedButton(
-            style: buttonStyle(Colors.white, rokkhiColor),
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 13.0),
-              child: Text('Attendance'),
-            ),
-            onPressed: () async {
-              await authentication();
-            },
-          ),
-        ),
-      ),
+      bottomNavigationBar: bottomAttendanceButton(),
       body: SafeArea(
         child: CustomScrollView(
           // Using CustomScrollView and Silver for using expanded scroll view
@@ -87,6 +93,7 @@ class InCornerRadiusBox extends StatefulWidget {
   _InCornerRadiusBoxState createState() => _InCornerRadiusBoxState();
 }
 
+// Stateful widget in corner radius box
 class _InCornerRadiusBoxState extends State<InCornerRadiusBox> {
   @override
   Widget build(BuildContext context) {
@@ -181,12 +188,14 @@ class _InCornerRadiusBoxState extends State<InCornerRadiusBox> {
                     thickness: 1.0,
                     color: Colors.black,
                   ),
+                  // Station working list with attendance information
                   FutureBuilder<Work>(
                     future:
                         currentWorkViewModel.getWork(loginGuardViewModel.id),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Column(
+                          // List of station works
                           children: [
                             for (int i = 0;
                                 i < snapshot.data.alarmTimeList.length;
@@ -203,9 +212,11 @@ class _InCornerRadiusBoxState extends State<InCornerRadiusBox> {
                           ],
                         );
                       } else if (snapshot.hasError) {
+                        // If data fetch failed
                         return Text('${snapshot.error}');
                       }
                       return CircularProgressIndicator(
+                        // While fetching data from server
                         valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor),
                       );
                     },
@@ -223,7 +234,7 @@ class _InCornerRadiusBoxState extends State<InCornerRadiusBox> {
   }
 }
 
-// Bottom sheet for attendance list
+// Bottom sheet for attendance list(when touch 'See all' button)
 void _attendanceBottomSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
@@ -272,7 +283,7 @@ void _attendanceBottomSheet(BuildContext context) {
   );
 }
 
-// For each attendance
+// For each row of station works information
 Widget _attendance(String time, int isComplete) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),

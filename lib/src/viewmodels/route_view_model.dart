@@ -2,6 +2,7 @@ import 'package:security_system/src/models/route.dart';
 import 'package:security_system/src/models/chckpoint.dart';
 import 'package:security_system/src/services/web_service.dart';
 
+// viewmodel for Route object
 class RouteViewModel {
   Route loginRoute = Route();
 

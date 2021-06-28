@@ -1,3 +1,4 @@
+// For each Work
 class Work {
   final String workId;
   final List<int> responseCntList;
@@ -9,6 +10,7 @@ class Work {
     this.alarmTimeList,
   });
 
+  // Convert json type to Work object
   factory Work.fromJson(Map<String, dynamic> json) {
     var list = json['response_cnt'] as List;
     var list2 =

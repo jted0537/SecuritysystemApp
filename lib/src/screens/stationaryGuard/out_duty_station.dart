@@ -139,9 +139,11 @@ class _OutDutyStationState extends State<OutDutyStation> {
                           ],
                         );
                       } else if (snapshot.hasError) {
+                        // If data fetch failed
                         return Text('${snapshot.error}');
                       }
                       return CircularProgressIndicator(
+                        // While fetching data from server
                         valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor),
                       );
                     },

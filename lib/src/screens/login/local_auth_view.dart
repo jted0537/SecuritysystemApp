@@ -56,7 +56,7 @@ class _LocalAuthState extends State<LocalAuth> {
               rokkhiLogoImage(),
               SizedBox(height: 20.0),
 
-              // For 'Submit your fingerprint button
+              // For 'Submit your fingerprint' button
               OutlinedButton(
                 child: Column(
                   children: [

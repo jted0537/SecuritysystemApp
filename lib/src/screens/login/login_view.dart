@@ -70,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 50.0),
                     // Logo Image
                     rokkhiLogoImage(),
+                    // Employee ID text
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text('Employee ID',
@@ -78,6 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           )),
                     ),
                     SizedBox(height: 5),
+                    // Employee ID textfield
                     TextField(
                         controller: idController,
                         keyboardType: TextInputType.emailAddress,
@@ -89,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         }),
                     SizedBox(height: 15),
 
-                    // Phone number textfield part
+                    // Phone number text
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -100,6 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     SizedBox(height: 5),
+                    // Phone number textfield
                     Form(
                       key: formKey,
                       child: InternationalPhoneNumberInput(
@@ -116,7 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ignoreBlank: false,
                         autoValidateMode: AutovalidateMode.disabled,
                         initialValue: number,
-                        //textFieldController: numberController,
                         formatInput: false,
                         inputDecoration: textfeildDesign(),
                         onSubmit: () {

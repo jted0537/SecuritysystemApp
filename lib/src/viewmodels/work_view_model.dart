@@ -1,6 +1,7 @@
 import 'package:security_system/src/models/work.dart';
 import 'package:security_system/src/services/web_service.dart';
 
+// viewmodel for Work object
 class WorkViewModel {
   Work currentWork = Work();
 

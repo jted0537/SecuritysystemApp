@@ -98,6 +98,7 @@ class WebService {
     }
   }
 
+  // Tell server that stationary guard press the attendance button
   Future<void> stationaryResponse(String workId) async {
     var url =
         Uri.parse('$serverUrl/app_connection/StationaryResponse/$workId/');
@@ -111,18 +112,18 @@ class WebService {
     print(response.statusCode);
   }
 
-  // Finish work
+  // Tell server that work is done
   Future<void> endWork(String workId) async {
     var url = Uri.parse('$serverUrl/app_connection/endStationaryWork/$workId/');
     var response = await http.get(url);
     print(response.statusCode);
   }
 
+  // Send GPS information to server
   Future<void> postGPSReply(String guardType, int seqNum, String workId,
       double lat, double lng, bool isCP, bool isRes) async {
     print("WorkID: " + workId);
     var curBattery = await battery.batteryLevel;
-    // patrol인지 stationary인지 구분
     if (guardType == 'patrol') {
       var url = Uri.parse('$serverUrl/app_connection/patrolGPS/$workId/');
       var response = await http.post(url, body: {

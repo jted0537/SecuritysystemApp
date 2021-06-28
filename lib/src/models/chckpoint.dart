@@ -1,3 +1,4 @@
+// For each checkpoints
 class CheckPoint {
   final int sequenceNum;
   final double latitude;
@@ -12,6 +13,7 @@ class CheckPoint {
       this.radius,
       this.frequency});
 
+  // Convert json type to checkpoint object
   factory CheckPoint.fromJson(Map<String, dynamic> json) {
     return CheckPoint(
       sequenceNum: json['sequence_num'],

@@ -7,6 +7,8 @@ import 'package:security_system/src/services/local_notification_service.dart';
 import 'package:location/location.dart';
 
 //------------------------------------------------Dashed Box
+
+// class for dashed rectangle border box
 class DashedRect extends StatelessWidget {
   final Color color;
   final double strokeWidth;
@@ -46,7 +48,7 @@ class DashedRect extends StatelessWidget {
   }
 }
 
-// Stationary Guard Dashed Rectangle Box
+// Patrol Guard Dashed Rectangle Box
 class PatrolDutyTimeWidget extends StatefulWidget {
   final bool isDutyTime;
   final String navigation;
@@ -97,8 +99,7 @@ class _PatrolDutyTimeWidgetState extends State<PatrolDutyTimeWidget> {
                 await currentWorkViewModel.startWork(loginGuardViewModel.id);
                 curLocation = await locationTracker.getLocation();
                 hideLoadingDialog(context);
-              }
-              else {
+              } else {
                 _locationPermit();
                 showLoadingDialog(context);
                 curLocation = await locationTracker.getLocation();
@@ -182,7 +183,7 @@ class _StationDutyTimeWidgetState extends State<StationDutyTimeWidget> {
   }
 }
 
-// For Dashed Rectangle Box
+// For Dashed Rectangle Box painter
 class DashRectPainter extends CustomPainter {
   double strokeWidth;
   Color color;
@@ -271,18 +272,19 @@ class DashRectPainter extends CustomPainter {
   }
 }
 
- Future<void> _locationPermit() async {
+// For location permission while navigation to in_duty screens
+Future<void> _locationPermit() async {
   bool _serviceEnabled;
   PermissionStatus _permissionGranted;
 
   _serviceEnabled = await locationTracker.serviceEnabled();
   if (!_serviceEnabled) {
     _serviceEnabled = await locationTracker.requestService();
-     if (!_serviceEnabled) {
-       debugPrint("Service Not Enabled");
+    if (!_serviceEnabled) {
+      debugPrint("Service Not Enabled");
       return;
     }
-   }
+  }
 
   _permissionGranted = await locationTracker.hasPermission();
   if (_permissionGranted == PermissionStatus.denied) {
@@ -292,4 +294,4 @@ class DashRectPainter extends CustomPainter {
       return;
     }
   }
- }
+}

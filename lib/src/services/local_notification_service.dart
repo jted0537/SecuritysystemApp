@@ -22,13 +22,11 @@ class LocalNotification {
       int year, int month, int day, int hour, int minute) {
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation('Asia/Dhaka'));
-    //print(tz.local.toString());
-    //final now = tz.TZDateTime.now(await tz.FlutterNativeTimezone.getLocalTimezone());
     var scheduledDate = tz.TZDateTime(tz.local, year, month, day, hour, minute);
     return scheduledDate;
   }
 
-  // Show local
+  // Show local notification
   Future<void> showNotification(
       int year, int month, int day, int hour, int minute) async {
     var androidDetails = AndroidNotificationDetails("channelId",
@@ -37,6 +35,7 @@ class LocalNotification {
     var iOSDetails = IOSNotificationDetails();
     var generalNotificationDetails =
         NotificationDetails(android: androidDetails, iOS: iOSDetails);
+    // Parsing date
     var realTime = '';
     var realHour = hour;
     if (hour >= 12) {
@@ -47,14 +46,13 @@ class LocalNotification {
       realTime += realHour > 9 ? '$realHour:' : '0$realHour:';
       realTime += minute > 9 ? '$minute am' : '0$minute am';
     }
-    // await flutterLocalNotificationsPlugin.show(0, 'Notif Title',
-    //     'Body of the Notification', generalNotificationDetails);
 
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
         ?.deleteNotificationChannelGroup("channelId");
 
+    // Schedule local notification
     await flutterLocalNotificationsPlugin.zonedSchedule(
       year + month + day + hour * 60 + minute,
       'Time to attend',
@@ -68,6 +66,7 @@ class LocalNotification {
     );
   }
 
+  // Cancel all local notificatiohn
   Future<void> cancelAllNotification() async {
     await flutterLocalNotificationsPlugin.cancelAll();
   }

@@ -1,6 +1,7 @@
 import 'package:security_system/src/models/guard.dart';
 import 'package:security_system/src/services/web_service.dart';
 
+// viewmodel for Guard object
 class GuardViewModel {
   Guard loginGuard = Guard();
 

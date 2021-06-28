@@ -1,3 +1,4 @@
+// For each station
 class Station {
   final String stationId;
   final String stationTitle;
@@ -15,6 +16,7 @@ class Station {
     this.stationAddress,
   });
 
+  // Convert json type to Station object
   factory Station.fromJson(Map<String, dynamic> json) {
     return Station(
       stationId: json['station_id'],

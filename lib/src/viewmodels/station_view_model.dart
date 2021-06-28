@@ -1,6 +1,7 @@
 import 'package:security_system/src/models/station.dart';
 import 'package:security_system/src/services/web_service.dart';
 
+// viewmodel for Station object
 class StationViewModel {
   Station loginStation = Station();
 
