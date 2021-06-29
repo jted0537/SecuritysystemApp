@@ -10,6 +10,7 @@ import 'package:security_system/src/components/preferences.dart';
 import 'package:security_system/src/models/chckpoint.dart';
 import 'package:security_system/src/screens/patrollingGuard/in_duty_route.dart';
 
+// to save the time of the last visit checkpoint
 int lastHour;
 int lastMinute;
 
@@ -22,19 +23,19 @@ class _ViewMapState extends State<ViewMap> {
   // location
   StreamSubscription _locationSubscription;
   GoogleMapController _controller;
-  // markers & circles
+  // markers for cur position
   Marker _marker;
-  //Circle _circle; // circle for cur position
+  // circle for cur position & checkpoints
   Set<Circle> _checkpointCircles = Set<Circle>();
-  // ids
+  // circle ids
   int _circleIdCounter = 1;
 
-  // initializer
   @override
   void initState() {
     super.initState();
   }
 
+  // to get current location
   void _getCurrentLocation() async {
     try {
       Uint8List imageData = await _getMarker();
@@ -59,16 +60,18 @@ class _ViewMapState extends State<ViewMap> {
     }
   }
 
+  // to grab the marker image
   Future<Uint8List> _getMarker() async {
     ByteData byteData =
         await DefaultAssetBundle.of(context).load("images/curlocation.png");
     return byteData.buffer.asUint8List();
   }
 
+  // to display marker and circles on the map
   void _updateMarkerAndCircle(LocationData newLocalData, Uint8List imageData) {
     LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
     this.setState(() {
-      // marker size는 항상 고정 -> 줌 정도 이용해서 UI 맞추기
+      // draw marker
       _marker = Marker(
           markerId: MarkerId("guard"),
           position: latlng,
@@ -78,6 +81,7 @@ class _ViewMapState extends State<ViewMap> {
           anchor: Offset(0.5, 0.9),
           icon: BitmapDescriptor.fromBytes(imageData));
 
+      // draw circles in the circle set
       _checkpointCircles.add(Circle(
           circleId: CircleId("cur"),
           //radius: newLocalData.accuracy,
@@ -89,6 +93,7 @@ class _ViewMapState extends State<ViewMap> {
     });
   }
 
+  // to add an checkpoint in the circle set (include all the checkpoints)
   void _updateCheckMarker(double lat, double lng, double radius) {
     LatLng latlng = LatLng(lat, lng);
     final String pointId = 'checkpoint_id_$_circleIdCounter';
@@ -107,6 +112,7 @@ class _ViewMapState extends State<ViewMap> {
     });
   }
 
+  // to maintain checkpoints in the circle sets
   void _showChecklist() {
     List<CheckPoint> curCheckpoints =
         loginRouteViewModel.loginRoute.checkpoints;
@@ -119,6 +125,7 @@ class _ViewMapState extends State<ViewMap> {
 
   @override
   void dispose() {
+    // cancel the location subscription when the view is disposed
     if (_locationSubscription != null) {
       _locationSubscription.cancel();
     }
@@ -132,6 +139,7 @@ class _ViewMapState extends State<ViewMap> {
             backgroundColor: Colors.white,
             body: Stack(
               children: [
+                // display the google map
                 Container(
                     child: GoogleMap(
                   mapType: MapType.normal,
@@ -149,6 +157,7 @@ class _ViewMapState extends State<ViewMap> {
                     _showChecklist();
                   },
                 )),
+                // display the last visited checkpoint and time
                 Container(
                   decoration: BoxDecoration(
                       color: Colors.white,

@@ -16,9 +16,11 @@ class _OutDutyRouteState extends State<OutDutyRoute> {
   @override
   void initState() {
     super.initState();
+    // calculate the current date & time
     now = DateTime.now();
     date = DateTime(now.year, now.month, now.day);
     formattedDate = DateFormat('dd.MM.yyyy').format(now);
+    // check if current time is working time
     if (now.hour * 60 + now.minute <=
             loginGuardViewModel.endTimeHour * 60 +
                 loginGuardViewModel.endTimeMinute &&

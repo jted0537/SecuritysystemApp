@@ -17,10 +17,13 @@ class InDutyRoute extends StatefulWidget {
   _InDutyRouteState createState() => _InDutyRouteState();
 }
 
+// the next checkpoint to be visited
 int cpSeqNum = 1;
+// to display the message in view map
 bool isStartPatrol = false;
 
 class _InDutyRouteState extends State<InDutyRoute> {
+  // authentication if the guard is in checkpoint
   Future<bool> periodicAuthentication() async {
     final isAuthenticated = await LocalAuthService.authenticate();
     if (isAuthenticated == BioMetricLogin.Success) {
@@ -28,17 +31,16 @@ class _InDutyRouteState extends State<InDutyRoute> {
       return true;
     } else if (isAuthenticated == BioMetricLogin.NoBioMetricInfo) {
       // If device has no biometric authentication information, alert message pop
-      //noBioMetricInfoDialog(context);
       return false;
     } else if (isAuthenticated == BioMetricLogin.DeviceNotProvide) {
       // If device has no biometric auth function
-      //notProvideBioMetricDialog(context);
       return false;
     } else {
       return false;
     }
   }
 
+  // check if the guard is in checkpoint
   bool isCheckPoint(double curLat, double curLng) {
     List<CheckPoint> curCheckpoints =
         loginRouteViewModel.loginRoute.checkpoints;
@@ -77,6 +79,7 @@ class _InDutyRouteState extends State<InDutyRoute> {
 
     print(loginGuardViewModel.frequency);
 
+    // calculate formattedDate
     now = DateTime.now();
     date = DateTime(now.year, now.month, now.day);
     formattedDate = DateFormat('dd.MM.yyyy').format(now);
@@ -85,9 +88,11 @@ class _InDutyRouteState extends State<InDutyRoute> {
     lastHour = now.hour;
     lastMinute = now.minute;
 
+    // set the 5 seconds timer
     timer = Timer.periodic(Duration(seconds: 5), (Timer t) => alarmExpired());
   }
 
+  // when the timer alarm is triggered
   void alarmExpired() async {
     timer.cancel();
 
@@ -98,8 +103,10 @@ class _InDutyRouteState extends State<InDutyRoute> {
     bool isAuth = false;
 
     if (isCP) {
+      // authenticate if in checkpoint
       isAuth = await periodicAuthentication();
       isStartPatrol = true;
+      // send gps info to the server
       await WebService().postGPSReply(
           'patrol',
           cpSeqNum,
@@ -109,12 +116,14 @@ class _InDutyRouteState extends State<InDutyRoute> {
           isCP,
           isAuth);
       if (isAuth) {
+        // if authentication is succeeded, cpSeqNum is moved to the next checkpoint
         if (cpSeqNum >= loginRouteViewModel.checkPoints.length)
           cpSeqNum = 1;
         else
           cpSeqNum = cpSeqNum + 1;
       }
     } else {
+      // send gps info to the server
       await WebService().postGPSReply(
           'patrol',
           cpSeqNum,
@@ -126,11 +135,13 @@ class _InDutyRouteState extends State<InDutyRoute> {
     }
 
     setState(() {});
+    // calculate the working finish time
     if (now.hour * 60 + now.minute >=
         loginGuardViewModel.endTimeHour * 60 +
             loginGuardViewModel.endTimeMinute) {
       return;
     }
+    // if working time is not done, reset the timer
     timer = Timer.periodic(Duration(seconds: 5), (Timer t) => alarmExpired());
   }
 
@@ -152,7 +163,6 @@ class _InDutyRouteState extends State<InDutyRoute> {
                       loginGuardViewModel.guardName, loginGuardViewModel.type),
                   // Widgets in cornerRadiusBox
                   _inCornerRadiusBox(context, formattedDate),
-                  // RaisedButton(onPressed: ),
                 ],
               ),
             ),
@@ -245,6 +255,7 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
               color: Colors.black,
             ),
             FutureBuilder<Work>(
+                // checkpoints list of the current route
                 future: currentWorkViewModel.getWork(loginGuardViewModel.id),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -271,6 +282,7 @@ Widget _inCornerRadiusBox(BuildContext context, String formattedDate) {
                   } else if (snapshot.hasError) {
                     return Text('${snapshot.error}');
                   }
+                  // during fetch, display circular progress indicator
                   return CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(rokkhiColor),
                   );
@@ -317,6 +329,7 @@ Widget _outLinedButton(BuildContext context, String imageAsset, String type) {
   );
 }
 
+// to show all the checkpoints in the separate bottom sheet
 void _checkpointsBottomSheet(BuildContext context) {
   showModalBottomSheet(
       context: context,
